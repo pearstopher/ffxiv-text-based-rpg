@@ -59,7 +59,8 @@ Dev builds only, hidden from `/xlhelp`.
 
 | Command | What it does |
 |---|---|
-| (added by later issues) | |
+| `/trpgtest` | Runs the in-game self-tests (see §7). |
+| `/trpgdebug` | Lists the debug subcommands below. |
 
 ## 7. In-game self-tests (dev builds)
 
