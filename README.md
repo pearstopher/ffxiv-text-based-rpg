@@ -6,6 +6,10 @@ Type `/trpg` and the 3D world and the whole HUD disappear. Only the chat window 
 
 > 🚧 In development. Not released yet.
 
+## Development
+
+See [DEVELOPMENT.md](DEVELOPMENT.md).
+
 ## How it works
 
 See [docs/design/research.md](docs/design/research.md).
