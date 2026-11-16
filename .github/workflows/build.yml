@@ -1,0 +1,50 @@
+name: Build and test
+
+on:
+  push:
+    branches: [ master ]
+  workflow_dispatch:
+  # Daily build against the latest Dalamud, so a Dalamud or game patch that breaks the
+  # plugin shows up as a failed run (GitHub emails the repo owner) even with no new commits.
+  schedule:
+    - cron: '23 9 * * *'
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Install .NET
+        uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Download Dalamud
+        shell: pwsh
+        run: |
+          $dalamudHome = Join-Path $env:RUNNER_TEMP "dalamud"
+          Invoke-WebRequest -Uri https://goatcorp.github.io/dalamud-distrib/latest.zip -OutFile latest.zip
+          Expand-Archive -Force latest.zip $dalamudHome
+          "DALAMUD_HOME=$dalamudHome" >> $env:GITHUB_ENV
+
+      - name: Build
+        run: dotnet build TextBasedRPG.slnx --configuration Release
+
+      - name: Test
+        run: dotnet test TextBasedRPG.slnx --configuration Release --no-build
+
+      - name: Upload plugin package
+        timeout-minutes: 1
+        uses: actions/upload-artifact@v7
+        with:
+          name: plugin
+          path: TextBasedRPG/bin/x64/Release/TextBasedRPG/latest.zip
+          if-no-files-found: error
+          retention-days: 7
