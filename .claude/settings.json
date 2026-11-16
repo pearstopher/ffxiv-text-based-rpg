@@ -1,0 +1,31 @@
+{
+  "permissions": {
+    "additionalDirectories": [
+      "C:/Users/snows/AppData/Roaming/XIVLauncher",
+      "C:/Users/snows/AppData/Local/Temp/claude"
+    ],
+    "allow": [
+      "Edit",
+      "Write",
+      "Monitor",
+      "Read(//c/Users/snows/AppData/Roaming/XIVLauncher/**)",
+      "Read(//c/Users/snows/AppData/Local/Temp/claude/**)",
+      "Bash(git:*)",
+      "Bash(gh issue:*)",
+      "Bash(gh label:*)",
+      "Bash(gh run:*)",
+      "Bash(gh repo view:*)",
+      "Bash(dotnet:*)",
+      "Bash(python:*)",
+      "PowerShell(git:*)",
+      "PowerShell(gh issue:*)",
+      "PowerShell(gh label:*)",
+      "PowerShell(gh run:*)",
+      "PowerShell(dotnet:*)"
+    ],
+    "deny": [
+      "Bash(gh pr create:*)",
+      "PowerShell(gh pr create:*)"
+    ]
+  }
+}
