@@ -1,0 +1,34 @@
+using System.Globalization;
+
+namespace TextBasedRPG.Core;
+
+/// <summary>
+/// Formats the build details the plugin logs when it loads, so a stale build
+/// (wrong configuration, or not rebuilt) is obvious in <c>/xllog</c>.
+/// </summary>
+public static class BuildInfo
+{
+    /// <summary>
+    /// Returns text like <c>Debug build, built 2026-11-16 10:36:02, from C:\...\TextBasedRPG.dll</c>.
+    /// </summary>
+    /// <param name="configuration">Build configuration, e.g. <c>Debug</c> or <c>Release</c>.</param>
+    /// <param name="builtAt">When the DLL was written, in local time.</param>
+    /// <param name="dllPath">Full path of the loaded DLL, if known.</param>
+    public static string Describe(string configuration, DateTime builtAt, string? dllPath)
+    {
+        var text = string.Create(
+            CultureInfo.InvariantCulture,
+            $"{configuration} build, built {builtAt:yyyy-MM-dd HH:mm:ss}");
+
+        return string.IsNullOrWhiteSpace(dllPath) ? text : $"{text}, from {dllPath}";
+    }
+
+    /// <summary>
+    /// Reads the DLL's last write time fresh from disk, in local time.
+    /// </summary>
+    /// <remarks>
+    /// Don't use a reused <see cref="FileInfo"/> (such as Dalamud's <c>AssemblyLocation</c>):
+    /// it caches timestamps, so after a hot reload it reports the previous build's time.
+    /// </remarks>
+    public static DateTime ReadBuildTime(string dllPath) => File.GetLastWriteTime(dllPath);
+}

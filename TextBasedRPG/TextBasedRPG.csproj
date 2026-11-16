@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The Dalamud.NET.Sdk version is pinned in global.json (msbuild-sdks). -->
+<Project Sdk="Dalamud.NET.Sdk">
+  <ItemGroup>
+    <ProjectReference Include="..\TextBasedRPG.Core\TextBasedRPG.Core.csproj" />
+  </ItemGroup>
+  <PropertyGroup>
+    <AssemblyName>TextBasedRPG</AssemblyName>
+    <RootNamespace>TextBasedRPG</RootNamespace>
+    <!-- The plugin version. Bump it in the release commit; release.yml fails if the tag doesn't match (v1.2.3 -> 1.2.3.0). -->
+    <Version>0.1.0.0</Version>
+    <!-- Manifest fields (see https://github.com/goatcorp/DalamudPackager) -->
+    <Author>Ane Mora</Author>
+    <Name>Text-Based RPG</Name>
+    <Punchline>Turn off the graphics, keep the chat. A low-CPU chat-only mode.</Punchline>
+    <Description>Turns FFXIV into a text-based RPG: one command turns off 3D rendering and the HUD, keeps the chat window, and lowers the frame rate, so the game barely uses your CPU while you're only chatting.</Description>
+  </PropertyGroup>
+</Project>

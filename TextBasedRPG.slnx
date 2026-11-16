@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="TextBasedRPG.Core/TextBasedRPG.Core.csproj" />
+  <Project Path="TextBasedRPG.Tests/TextBasedRPG.Tests.csproj" />
+  <Project Path="TextBasedRPG/TextBasedRPG.csproj">
+    <Platform Project="x64" />
+  </Project>
+</Solution>
