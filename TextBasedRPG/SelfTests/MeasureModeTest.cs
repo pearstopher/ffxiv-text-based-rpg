@@ -16,6 +16,10 @@ internal sealed class MeasureModeTest : MeasureTestBase
 
     protected override string TestName => "text-only mode";
 
+    protected override string TableTitle => "Text-only mode";
+
+    protected override string TableColumn => "Mode";
+
     protected override TimeSpan TestFor => TimeSpan.FromSeconds(15);
 
     protected override string? SkipReason()

@@ -78,18 +78,4 @@ public class MeasurementTests
     {
         Assert.Equal(new PhaseResult(1, 2, 3), new PhaseResult(1, 2).WithGpu(3));
     }
-
-    [Fact]
-    public void Summary_shows_cpu_gpu_and_fps_changes()
-    {
-        var text = MeasurementText.Summary(new PhaseResult(4.4, 30, 11), "text-only mode", new PhaseResult(1.6, 10, 1));
-        Assert.Equal("text-only mode: CPU 4.4% → 1.6% (−64%), GPU 11% → 1% (−91%), 30 → 10 FPS", text);
-    }
-
-    [Fact]
-    public void Summary_leaves_out_gpu_when_it_was_not_measured()
-    {
-        var text = MeasurementText.Summary(new PhaseResult(5, 30, 11), "3D off", new PhaseResult(5, 30));
-        Assert.Equal("3D off: CPU 5.0% → 5.0% (+0%), 30 → 30 FPS", text);
-    }
 }
