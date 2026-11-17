@@ -23,13 +23,19 @@ internal abstract class MeasureTestBase : GameSelfTest
     /// <summary>Length of each measured period.</summary>
     protected virtual TimeSpan MeasureFor => TimeSpan.FromSeconds(10);
 
+    /// <summary>Length of the measured period with the change applied (defaults to <see cref="MeasureFor"/>).</summary>
+    protected virtual TimeSpan TestFor => this.MeasureFor;
+
     /// <summary>Wait after applying the change before measuring.</summary>
     protected virtual TimeSpan SettleFor => TimeSpan.FromSeconds(3);
 
     /// <summary>Short name of the measured state, e.g. "3D off".</summary>
     protected abstract string TestName { get; }
 
-    public override int TimeoutMs => (int)(this.MeasureFor.TotalMilliseconds * 2 + this.SettleFor.TotalMilliseconds) + 20_000;
+    public override int TimeoutMs => (int)(this.MeasureFor.TotalMilliseconds + this.TestFor.TotalMilliseconds + this.SettleFor.TotalMilliseconds) + 20_000;
+
+    /// <summary>A reason to skip the measurement (passes with that detail), or null to run it.</summary>
+    protected virtual string? SkipReason() => null;
 
     /// <summary>Applies the change being measured. Return false (and set Detail) if it can't be applied.</summary>
     protected abstract bool Apply();
@@ -48,6 +54,9 @@ internal abstract class MeasureTestBase : GameSelfTest
                     this.Detail = "Waiting for a logged-in character outside zone loads and cutscenes.";
                     return SelfTestStepResult.Waiting;
                 }
+
+                if (this.SkipReason() is { } reason)
+                    return this.Pass(reason);
 
                 this.process = Process.GetCurrentProcess();
                 this.clock.Restart();
@@ -74,7 +83,7 @@ internal abstract class MeasureTestBase : GameSelfTest
                 return SelfTestStepResult.Waiting;
 
             case Phase.Test:
-                if (this.meter.Elapsed(this.clock.Elapsed) < this.MeasureFor)
+                if (this.meter.Elapsed(this.clock.Elapsed) < this.TestFor)
                     return SelfTestStepResult.Waiting;
 
                 var test = this.StopPhase();
