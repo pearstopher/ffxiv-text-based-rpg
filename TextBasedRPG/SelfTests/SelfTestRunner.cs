@@ -17,9 +17,13 @@ internal sealed class SelfTestRunner : IDisposable
 {
     internal const string ResultsFileName = "selftest-results.json";
 
+    /// <summary>Shown when a run starts and next to the run button: the measurements need a focused, idle game.</summary>
+    internal const string StartNote = " Keep the game window focused and don't type or move until they finish; the screen will go blank a few times.";
+
     private readonly Plugin plugin;
     private readonly Stopwatch clock = Stopwatch.StartNew();
     private readonly List<SelfTestResult> results = [];
+    private readonly List<string> savings = [];
     private List<GameSelfTest> steps = [];
     private int index;
     private StepClock? stepClock;
@@ -45,12 +49,14 @@ internal sealed class SelfTestRunner : IDisposable
 
         this.steps = SelfTestCatalog.Create(this.plugin);
         this.results.Clear();
+        this.savings.Clear();
         this.index = 0;
         this.stepClock = null;
         this.startedAt = DateTimeOffset.Now;
         this.IsRunning = true;
         Service.Framework.Update += this.OnUpdate;
         Service.Log.Information($"Self-tests started ({this.steps.Count} steps)");
+        Service.ChatGui.Print($"Text-Only Mode self-tests started (about 1½ minutes).{StartNote}");
         return true;
     }
 
@@ -90,6 +96,8 @@ internal sealed class SelfTestRunner : IDisposable
             step.Detail = $"No result within {step.TimeoutMs} ms";
 
         this.results.Add(new SelfTestResult(step.Id, status.Value, step.Detail, this.stepClock.Elapsed(now)));
+        if (status == SelfTestStatus.Pass && step is MeasureTestBase { Summary: { } saving })
+            this.savings.Add(saving);
         CleanUpSafely(step);
         this.index++;
         this.stepClock = null;
@@ -117,14 +125,22 @@ internal sealed class SelfTestRunner : IDisposable
         if (report.AllPassed)
         {
             Service.ChatGui.Print(summary);
-            return;
+        }
+        else
+        {
+            Service.ChatGui.PrintError(summary);
+            foreach (var r in report.Results)
+            {
+                if (r.Status != SelfTestStatus.Pass)
+                    Service.ChatGui.PrintError($"  ✗ {r.Id}: {r.Detail}");
+            }
         }
 
-        Service.ChatGui.PrintError(summary);
-        foreach (var r in report.Results)
+        if (this.savings.Count > 0)
         {
-            if (r.Status != SelfTestStatus.Pass)
-                Service.ChatGui.PrintError($"  ✗ {r.Id}: {r.Detail}");
+            Service.ChatGui.Print("Measured savings (the game's own CPU and GPU use, normal → changed):");
+            foreach (var line in this.savings)
+                Service.ChatGui.Print($"  {line}");
         }
     }
 

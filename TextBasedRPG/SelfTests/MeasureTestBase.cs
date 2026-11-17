@@ -1,6 +1,7 @@
 using System;
 using System.Diagnostics;
 using Dalamud.Plugin.SelfTest;
+using FFXIVClientStructs.FFXIV.Client.System.Framework;
 using TextBasedRPG.Core;
 
 namespace TextBasedRPG.SelfTests;
@@ -9,7 +10,11 @@ namespace TextBasedRPG.SelfTests;
 /// Measures CPU, GPU and FPS for a baseline period, applies a change, waits for it to settle, measures again, and undoes
 /// the change. Passes whenever it completes: the numbers are information, written to the step's detail.
 /// </summary>
-internal abstract class MeasureTestBase : GameSelfTest
+/// <remarks>
+/// When the game window isn't focused, the game applies its own background frame limit, so the baseline is already
+/// low and the saving looks smaller than it is. The test notes it if that happened in either measured period.
+/// </remarks>
+internal abstract unsafe class MeasureTestBase : GameSelfTest
 {
     private enum Phase { WaitForSafe, Baseline, Settle, Test, Restore }
 
@@ -21,6 +26,13 @@ internal abstract class MeasureTestBase : GameSelfTest
     private Phase phase;
     private PhaseResult baseline;
     private bool applied;
+    private bool inBackground;
+
+    /// <summary>Appended to the descriptions of the measurement tests.</summary>
+    protected const string FocusNote = " Keep the game window focused and don't type or move while it runs.";
+
+    /// <summary>One-line result for the chat summary once the measurement finished, else null.</summary>
+    internal string? Summary { get; private set; }
 
     /// <summary>Length of each measured period.</summary>
     protected virtual TimeSpan MeasureFor => TimeSpan.FromSeconds(10);
@@ -48,6 +60,8 @@ internal abstract class MeasureTestBase : GameSelfTest
     public override SelfTestStepResult RunStep()
     {
         this.meter.Frame();
+        if (this.phase is Phase.Baseline or Phase.Test && Framework.Instance()->WindowInactive)
+            this.inBackground = true;
         switch (this.phase)
         {
             case Phase.WaitForSafe:
@@ -91,8 +105,12 @@ internal abstract class MeasureTestBase : GameSelfTest
 
                 var test = this.StopPhase();
                 this.phase = Phase.Restore;
+                const string backgroundNote = " The game window wasn't focused, so the game's own background frame limit applied and the saving looks smaller than it is.";
                 this.Detail = MeasurementText.Compare(this.baseline, this.TestName, test)
-                    + (this.gpuError is { } why ? $" ({why})" : string.Empty);
+                    + (this.gpuError is { } why ? $" ({why})" : string.Empty)
+                    + (this.inBackground ? backgroundNote : string.Empty);
+                this.Summary = MeasurementText.Summary(this.baseline, this.TestName, test)
+                    + (this.inBackground ? " (game not focused: not reliable)" : string.Empty);
                 return SelfTestStepResult.Waiting;
 
             default:
@@ -109,6 +127,8 @@ internal abstract class MeasureTestBase : GameSelfTest
         if (this.applied)
             this.Undo();
         this.applied = false;
+        this.inBackground = false;
+        this.Summary = null;
         this.phase = Phase.WaitForSafe;
         this.meter = new PhaseMeter(Environment.ProcessorCount);
         this.process?.Dispose();

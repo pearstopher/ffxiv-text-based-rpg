@@ -12,7 +12,7 @@ internal sealed class MeasureModeTest : MeasureTestBase
 
     public override string Id => "measure-mode";
 
-    public override string Description => "CPU, GPU and FPS: normal vs text-only mode (10 s / 15 s)";
+    public override string Description => "CPU, GPU and FPS: normal vs text-only mode (10 s / 15 s)" + FocusNote;
 
     protected override string TestName => "text-only mode";
 
