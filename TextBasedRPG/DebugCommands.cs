@@ -11,6 +11,9 @@ internal sealed class DebugCommands : IDisposable
     private readonly Plugin plugin;
     private readonly bool registered;
 
+    // True while 3D is hidden by `/trpgdebug 3d off`, so unloading the plugin shows it again.
+    private bool hid3D;
+
     internal DebugCommands(Plugin plugin)
     {
         this.plugin = plugin;
@@ -32,6 +35,12 @@ internal sealed class DebugCommands : IDisposable
             case DebugAction.Cpu:
                 Service.ChatGui.Print(this.plugin.Cpu.Describe());
                 break;
+            case DebugAction.Hide3D:
+                this.Set3DHidden(true);
+                break;
+            case DebugAction.Show3D:
+                this.Set3DHidden(false);
+                break;
             case DebugAction.Unknown:
                 Service.ChatGui.PrintError($"Unknown debug option \"{args.Trim()}\".");
                 PrintUsage();
@@ -45,6 +54,27 @@ internal sealed class DebugCommands : IDisposable
         }
     }
 
+    private void Set3DHidden(bool hidden)
+    {
+        if (GameState.InTransition)
+        {
+            Service.ChatGui.PrintError("Not now: the game is loading a zone or playing a cutscene. Try again in a few seconds.");
+            return;
+        }
+
+        if (!RenderFlag.Set3DDisabled(hidden))
+        {
+            Service.ChatGui.PrintError("The game's render manager isn't available.");
+            return;
+        }
+
+        this.hid3D = hidden;
+        Service.Log.Information($"Debug: 3D rendering {(hidden ? "off" : "on")} (render flag set directly)");
+        Service.ChatGui.Print(hidden
+            ? $"3D world hidden. {Commands.Debug} 3d on to show it again."
+            : "3D world shown.");
+    }
+
     private static void PrintUsage()
     {
         foreach (var line in DebugCommandParser.Usage)
@@ -53,6 +83,9 @@ internal sealed class DebugCommands : IDisposable
 
     public void Dispose()
     {
+        if (this.hid3D && RenderFlag.Is3DDisabled == true)
+            RenderFlag.Set3DDisabled(false);
+
         if (this.registered)
             Service.CommandManager.RemoveHandler(Commands.Debug);
     }
