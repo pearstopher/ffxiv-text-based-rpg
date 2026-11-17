@@ -24,7 +24,7 @@ Each lands in its own issue; this table is updated as they're added.
 | `RenderFlag`, `GameState`, `UiAddons` | Small read helpers: the render flag (debug/self-tests), "zone load or cutscene in progress", loaded UI addons. |
 | `FrameLimiter` | `TargetFps` (0 = off). Sleeps at the end of each `IFramework.Update` for `FramePacer.SleepMs` (Core) to cap the frame rate (ChillFrames technique, no busy-wait). |
 | `HudHider` | While active, hides the root node of every drawn addon that `HudVisibilityPolicy` (Core) says to hide (all but the chat), re-scanning every 250 ms; when turned off, shows exactly the nodes it hid that are still loaded under the same name. |
-| `ModeController` (planned) | Switches the three parts together; turns everything off on logout and unload. |
+| `ModeController` | Switches the three parts together (on: 3D off, FPS cap, HUD hidden; off: in reverse order) after `ModeState` (Core) allows the request; resets the CPU average on each switch. |
 | `CpuMonitor` | Counts frames and samples process CPU % once per second (`CpuSampler` in Core). |
 | Self-tests (planned) | `ISelfTestStep`s registered with Dalamud's `ISelfTestRegistry`, plus a dev runner that writes the results file. |
 
