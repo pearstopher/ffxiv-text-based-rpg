@@ -20,6 +20,8 @@ public sealed class Plugin : IDalamudPlugin
 
     internal SelfTestRunner SelfTests { get; }
 
+    internal CpuMonitor Cpu { get; }
+
     private readonly SelfTestTriggers selfTestTriggers;
     private readonly PluginCommands commands;
 
@@ -27,6 +29,7 @@ public sealed class Plugin : IDalamudPlugin
     {
         Service.Initialize(pluginInterface);
         this.Config = Configuration.Load();
+        this.Cpu = new CpuMonitor();
 
         // In-game checks: Dalamud's Self-Test window gets its own step instances; the dev runner builds fresh ones per run.
         // Dalamud unregisters them when the plugin unloads.
@@ -51,6 +54,7 @@ public sealed class Plugin : IDalamudPlugin
         DisposeSafely(this.commands, "commands");
         DisposeSafely(this.selfTestTriggers, "self-test triggers");
         DisposeSafely(this.SelfTests, "self-test runner");
+        DisposeSafely(this.Cpu, "CPU monitor");
         Service.Log.Information($"{Service.PluginInterface.Manifest.Name} unloaded");
     }
 
