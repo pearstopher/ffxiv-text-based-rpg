@@ -23,7 +23,7 @@ internal sealed class SelfTestRunner : IDisposable
     private readonly Plugin plugin;
     private readonly Stopwatch clock = Stopwatch.StartNew();
     private readonly List<SelfTestResult> results = [];
-    private readonly List<string> savings = [];
+    private readonly List<IReadOnlyList<string>> savings = [];
     private List<GameSelfTest> steps = [];
     private int index;
     private StepClock? stepClock;
@@ -96,7 +96,7 @@ internal sealed class SelfTestRunner : IDisposable
             step.Detail = $"No result within {step.TimeoutMs} ms";
 
         this.results.Add(new SelfTestResult(step.Id, status.Value, step.Detail, this.stepClock.Elapsed(now)));
-        if (status == SelfTestStatus.Pass && step is MeasureTestBase { Summary: { } saving })
+        if (status == SelfTestStatus.Pass && step is MeasureTestBase { SummaryLines: { } saving })
             this.savings.Add(saving);
         CleanUpSafely(step);
         this.index++;
@@ -138,9 +138,12 @@ internal sealed class SelfTestRunner : IDisposable
 
         if (this.savings.Count > 0)
         {
-            Service.ChatGui.Print("Measured savings (the game's own CPU and GPU use, normal → changed):");
-            foreach (var line in this.savings)
-                Service.ChatGui.Print($"  {line}");
+            Service.ChatGui.Print("Measured savings (the game's own CPU and GPU use):");
+            foreach (var table in this.savings)
+            {
+                foreach (var line in table)
+                    Service.ChatGui.Print(line);
+            }
         }
     }
 

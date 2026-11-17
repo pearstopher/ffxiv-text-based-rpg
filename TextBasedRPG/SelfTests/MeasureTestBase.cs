@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using Dalamud.Plugin.SelfTest;
 using FFXIVClientStructs.FFXIV.Client.System.Framework;
@@ -31,8 +32,8 @@ internal abstract unsafe class MeasureTestBase : GameSelfTest
     /// <summary>Appended to the descriptions of the measurement tests.</summary>
     protected const string FocusNote = " Keep the game window focused and don't type or move while it runs.";
 
-    /// <summary>One-line result for the chat summary once the measurement finished, else null.</summary>
-    internal string? Summary { get; private set; }
+    /// <summary>The result as a chat table (<see cref="SavingsTable"/>) once the measurement finished, else null.</summary>
+    internal IReadOnlyList<string>? SummaryLines { get; private set; }
 
     /// <summary>Length of each measured period.</summary>
     protected virtual TimeSpan MeasureFor => TimeSpan.FromSeconds(10);
@@ -45,6 +46,12 @@ internal abstract unsafe class MeasureTestBase : GameSelfTest
 
     /// <summary>Short name of the measured state, e.g. "3D off".</summary>
     protected abstract string TestName { get; }
+
+    /// <summary>Title of the chat table, e.g. "3D world off only".</summary>
+    protected abstract string TableTitle { get; }
+
+    /// <summary>Header of the chat table's changed column (at most 6 characters), e.g. "3D off".</summary>
+    protected abstract string TableColumn { get; }
 
     public override int TimeoutMs => (int)(this.MeasureFor.TotalMilliseconds + this.TestFor.TotalMilliseconds + this.SettleFor.TotalMilliseconds) + 20_000;
 
@@ -109,8 +116,8 @@ internal abstract unsafe class MeasureTestBase : GameSelfTest
                 this.Detail = MeasurementText.Compare(this.baseline, this.TestName, test)
                     + (this.gpuError is { } why ? $" ({why})" : string.Empty)
                     + (this.inBackground ? backgroundNote : string.Empty);
-                this.Summary = MeasurementText.Summary(this.baseline, this.TestName, test)
-                    + (this.inBackground ? " (game not focused: not reliable)" : string.Empty);
+                var title = this.TableTitle + (this.inBackground ? " (game not focused: not reliable)" : string.Empty);
+                this.SummaryLines = SavingsTable.Lines(title, this.TableColumn, this.baseline, test);
                 return SelfTestStepResult.Waiting;
 
             default:
@@ -128,7 +135,7 @@ internal abstract unsafe class MeasureTestBase : GameSelfTest
             this.Undo();
         this.applied = false;
         this.inBackground = false;
-        this.Summary = null;
+        this.SummaryLines = null;
         this.phase = Phase.WaitForSafe;
         this.meter = new PhaseMeter(Environment.ProcessorCount);
         this.process?.Dispose();

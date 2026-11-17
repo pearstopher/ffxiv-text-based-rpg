@@ -11,6 +11,10 @@ internal sealed class Measure3DTest : MeasureTestBase
 
     protected override string TestName => "3D off";
 
+    protected override string TableTitle => "3D world off only";
+
+    protected override string TableColumn => "3D off";
+
     protected override bool Apply()
     {
         if (RenderFlag.Is3DDisabled is not { } current)
