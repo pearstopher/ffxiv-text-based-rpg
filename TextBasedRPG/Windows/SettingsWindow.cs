@@ -25,12 +25,8 @@ internal sealed class SettingsWindow : Window
 
         if (ImGui.Button(mode.IsOn ? "Leave text-based RPG mode" : "Enter text-based RPG mode"))
         {
-            var change = mode.Request(ModeRequest.Toggle);
-            var (text, isError) = ModeMessages.For(change, mode.IsOn);
-            if (isError)
-                Service.ChatGui.PrintError(text);
-            else
-                Service.ChatGui.Print(text);
+            // Draw isn't guaranteed to run on the framework thread; the switch touches game UI memory.
+            Service.Framework.RunOnFrameworkThread(() => mode.RequestAndReport(ModeRequest.Toggle));
         }
 
         ImGui.TextWrapped($"Or type {Commands.Alias}. In the mode only the chat window stays, the 3D world and the rest of the HUD are hidden, and the frame rate is capped.");
