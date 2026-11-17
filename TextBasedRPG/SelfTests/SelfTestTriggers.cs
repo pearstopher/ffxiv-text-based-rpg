@@ -8,8 +8,8 @@ using TextBasedRPG.Core.SelfTesting;
 namespace TextBasedRPG.SelfTests;
 
 /// <summary>
-/// Dev builds only: the <c>/trpgtest</c> command, and the automatic run after each load (so `dotnet build` →
-/// Dalamud auto-reload → results file, with nobody typing anything).
+/// The <c>/trpgtest</c> command (every build), and in dev builds the automatic run after each load (so
+/// `dotnet build` → Dalamud auto-reload → results file, with nobody typing anything).
 /// </summary>
 internal sealed class SelfTestTriggers : IDisposable
 {
@@ -18,23 +18,17 @@ internal sealed class SelfTestTriggers : IDisposable
     private readonly SelfTestRunner runner;
     private readonly Stopwatch clock = Stopwatch.StartNew();
     private readonly AutoRunGate? gate;
-    private readonly bool commandRegistered;
     private long nextCheckMs;
 
     internal SelfTestTriggers(SelfTestRunner runner, Configuration config)
     {
         this.runner = runner;
-        if (!SelfTestRunner.IsDevBuild)
-            return;
-
         Service.CommandManager.AddHandler(Commands.SelfTest, new CommandInfo(this.OnCommand)
         {
-            HelpMessage = "Dev builds: run Text-Only Mode's in-game self-tests.",
-            ShowInHelp = false,
+            HelpMessage = "Run Text-Only Mode's tests and measure how much CPU and GPU the mode saves (about 1½ minutes).",
         });
-        this.commandRegistered = true;
 
-        if (config.DevRunSelfTestsOnLoad)
+        if (SelfTestRunner.IsDevBuild && config.DevRunSelfTestsOnLoad)
         {
             this.gate = new AutoRunGate(this.clock.ElapsedMilliseconds);
             Service.Framework.Update += this.OnUpdate;
@@ -70,7 +64,6 @@ internal sealed class SelfTestTriggers : IDisposable
     public void Dispose()
     {
         Service.Framework.Update -= this.OnUpdate;
-        if (this.commandRegistered)
-            Service.CommandManager.RemoveHandler(Commands.SelfTest);
+        Service.CommandManager.RemoveHandler(Commands.SelfTest);
     }
 }

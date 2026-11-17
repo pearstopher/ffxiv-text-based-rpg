@@ -33,8 +33,9 @@ public class CommandParserTests
     }
 
     [Fact]
-    public void Player_commands_are_the_main_command_and_its_alias()
+    public void Player_commands_are_the_main_command_its_alias_and_the_tests()
     {
-        Assert.Equal(["/textmode", "/trpg"], Commands.Player);
+        Assert.Equal(["/textmode", "/trpg", "/trpgtest"], Commands.Player);
+        Assert.Equal(["/trpgdebug"], Commands.Dev);
     }
 }

@@ -12,15 +12,15 @@ public static class Commands
     /// <summary>Short alias of <see cref="Main"/>.</summary>
     public const string Alias = "/trpg";
 
-    /// <summary>Dev builds only: runs the in-game self-tests.</summary>
+    /// <summary>Runs the in-game self-tests and prints the measured savings (every build).</summary>
     public const string SelfTest = "/trpgtest";
 
     /// <summary>Dev builds only: debug tools (<c>/trpgdebug &lt;subcommand&gt;</c>).</summary>
     public const string Debug = "/trpgdebug";
 
     /// <summary>Commands every player has; documented in docs/COMMANDS.md.</summary>
-    public static readonly IReadOnlyList<string> Player = [Main, Alias];
+    public static readonly IReadOnlyList<string> Player = [Main, Alias, SelfTest];
 
     /// <summary>Dev-build commands, hidden from /xlhelp; documented in DEVELOPMENT.md.</summary>
-    public static readonly IReadOnlyList<string> Dev = [SelfTest, Debug];
+    public static readonly IReadOnlyList<string> Dev = [Debug];
 }

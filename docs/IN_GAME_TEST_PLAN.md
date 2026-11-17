@@ -2,7 +2,7 @@
 
 ## 0. Self-tests
 
-Run with the **Run tests and measure savings** button in `/trpg settings` (every build), `/trpgtest` (dev builds), or let them run after each load (dev builds). **Keep the game window focused**: in the background the game limits its own frame rate and the measurements understate the saving (the measurement tests say so in their detail if it happened). Results: `%APPDATA%\XIVLauncher\pluginConfigs\TextBasedRPG\selftest-results.json`. They also appear in Dalamud's Self-Test window (`/xldev`).
+Run with `/trpgtest` or the **Run tests and measure savings** button in `/trpg settings` (every build), or let them run after each load (dev builds). With the mode already on, the tests that need normal play (`restore-on-off`, `mode-cycle`, `measure-3d`, `measure-mode`) skip themselves and chat says so. **Keep the game window focused**: in the background the game limits its own frame rate and the measurements understate the saving (the measurement tests say so in their detail if it happened). Results: `%APPDATA%\XIVLauncher\pluginConfigs\TextBasedRPG\selftest-results.json`. They also appear in Dalamud's Self-Test window (`/xldev`).
 
 <!-- self-tests:start -->
 | Id | Checks |
@@ -12,20 +12,19 @@ Run with the **Run tests and measure savings** button in `/trpg settings` (every
 | `render-flag` | Waits until no zone load or cutscene is running, sets the game's 3D render flag, checks it reads back on the next frame, and restores the original value. (The screen may flash for one frame.) |
 | `restore-on-off` | Turns the mode on for about 30 frames (at least one UI element must get hidden), then off, and checks every UI element that was drawn before is drawn again, our 3D-off request is gone and the frame-rate cap is off. Skipped (pass) if you already have the mode on. |
 | `mode-cycle` | Turns the mode on; after 2 s checks for 3 s: 3D is off, no UI element but the chat is drawn, the chat is drawn, and the frame rate is near the idle cap (≤ 1.5 × cap + 1). Then turns it off and checks our 3D-off request is gone (notes if another plugin still keeps 3D off). Skipped (pass) if you already have the mode on. Don't type during it. |
-| `measure-3d` | Measurement (~25 s): CPU %, GPU % and FPS for 10 s with 3D on, then 3 s settle and 10 s with 3D off (render flag only), then 3D back on. Passes whenever it completes; the numbers and the saving are in the detail. Fails only if 3D can't be turned back on. Don't touch the game while it runs. |
+| `measure-3d` | Measurement (~25 s): CPU %, GPU % and FPS for 10 s with 3D on, then 3 s settle and 10 s with 3D off (render flag only), then 3D back on. Passes whenever it completes; the numbers and the saving are in the detail. Fails only if 3D can't be turned back on. Skipped (pass) if 3D is already off (the mode, `/trpgdebug` or another plugin). Don't touch the game while it runs. |
 | `measure-mode` | Measurement (~30 s): CPU %, GPU % and FPS for 10 s of normal play, then the full text-only mode (3 s settle, 15 s measured), then the mode off. Passes whenever it completes; the detail shows both periods and the saving. This is the number the plugin exists for. Skipped (pass) if you already have the mode on. Don't type during it. |
 <!-- self-tests:end -->
 
-After a run, chat shows the measured savings as a small table per measurement: **Before** is normal play, **After** is with the change (the mode, or 3D off only), **Difference** is After compared with Before (worked out from the unrounded values). Values are whole numbers: there's no decimal point among the glyphs below.
+After a run, chat shows the measured savings as a small table per measurement: **Before** is normal play, **After** is with the change (the mode, or 3D off only), **Diff** is how much lower After is (worked out from the unrounded values), with **MORE** added if it went up. Values are whole numbers: there's no decimal point among the glyphs below. FPS isn't in the table (it's in the results file); GPU is left out if Windows couldn't measure it.
 
-The rows are drawn with glyphs the owner checked are all the same width in the game's chat font: Dalamud's `SeIconChar` boxed letters (A–Z) and boxed numbers (0–9), the full-width space and `%`. Full-width ASCII, the full-width full stop, the middle dot and the full-width minus are each a different width, so they're never used. In plain letters, a table reads:
+The rows are drawn with Dalamud's `SeIconChar` boxed letters (A–Z) and boxed numbers (0–9), the full-width space and `%`, which the owner checked in game: the glyphs and the space are one width, `%` is slightly different. So every row has exactly one `%` per column, like the header, and padding counts only the other characters. Full-width ASCII, the full-width full stop, the middle dot and the full-width minus are other widths again, so they're never used. In plain letters, a table reads:
 
 ```
 Text-only mode
-    BEFORE AFTER DIFFERENCE
-CPU 4%     2%    64% LESS
-GPU 11%    1%    91% LESS
-FPS 30     10    67% LESS
+    BEFORE% AFTER% DIFF%
+CPU 4%      2%     64%
+GPU 11%     1%     91%
 ```
 
 GPU % is this game's use of the GPU's 3D engine (the busiest one, as in Task Manager's GPU column), from Windows' "GPU Engine" performance counters. Where Windows doesn't provide them (e.g. Wine/Proton), the detail shows `GPU n/a` with the reason and the tests still pass.

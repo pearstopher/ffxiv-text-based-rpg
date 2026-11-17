@@ -59,7 +59,7 @@ Dev builds only, hidden from `/xlhelp`.
 
 | Command | What it does |
 |---|---|
-| `/trpgtest` | Runs the in-game self-tests (see §7). |
+| `/trpgtest` | Runs the in-game self-tests (see §7). Every build has it (player command, in docs/COMMANDS.md). |
 | `/trpgdebug` | Lists the debug subcommands below. |
 | `/trpgdebug 3d off` / `3d on` | Hides / shows the 3D world by setting the game's render flag directly (no HUD hiding, no FPS cap). Refused during zone loads and cutscenes. Unloading the plugin shows the world again. Use it to check that the chat stays visible and usable with 3D off. |
 | `/trpgdebug addons` | Writes every loaded UI addon (name, visible, root node drawn, depth layer) to `pluginConfigs\TextBasedRPG\addons.json` and prints how many. Claude reads it to check the HUD hiding rules. |
@@ -69,7 +69,7 @@ Dev builds only, hidden from `/xlhelp`.
 
 The plugin's in-game checks are registered with Dalamud's own self-test system (`/xldev` → **Self-Test**). Every build has a **Run tests and measure savings** button in `/trpg settings`; dev builds can also run them by themselves:
 
-- `/trpgtest` (dev builds) or the button runs them all, prints a summary and the measured CPU/GPU savings in chat, and writes **`%APPDATA%\XIVLauncher\pluginConfigs\TextBasedRPG\selftest-results.json`**. Claude reads that file, so there's nothing to copy.
+- `/trpgtest` or the button (every build) runs them all, prints a summary and the measured CPU/GPU savings in chat, and writes **`%APPDATA%\XIVLauncher\pluginConfigs\TextBasedRPG\selftest-results.json`**. Claude reads that file, so there's nothing to copy.
 - With **Run self-tests after each load** on (dev builds, default on), `dotnet build` → auto-reload → the tests run once you're logged in.
 - The tests never send anything to the game server.
 

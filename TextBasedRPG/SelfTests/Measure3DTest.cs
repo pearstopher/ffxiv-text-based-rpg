@@ -14,6 +14,11 @@ internal sealed class Measure3DTest : MeasureTestBase
     protected override string TableTitle => "3D world off only (HUD and frame rate unchanged)";
 
 
+    protected override string? SkipReason()
+        => RenderFlag.Is3DDisabled == true
+            ? "Skipped: 3D is already off (text-only mode, /trpgdebug or another plugin), so there's no baseline to compare."
+            : null;
+
     protected override bool Apply()
     {
         if (RenderFlag.Is3DDisabled is not { } current)
