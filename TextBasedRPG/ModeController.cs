@@ -28,6 +28,9 @@ internal sealed class ModeController : IDisposable
     /// <summary>True while the mode is on.</summary>
     internal bool IsOn => this.state.IsOn;
 
+    /// <summary>How many times the mode has been switched on or off (lets a part tell whether anyone else switched it).</summary>
+    internal int Changes { get; private set; }
+
     /// <summary>Applies a request (toggle/on/off) and returns what happened. Framework thread only.</summary>
     internal ModeChange Request(ModeRequest request)
         => this.Apply(this.state.Request(request, Service.ClientState.IsLoggedIn));
@@ -79,6 +82,7 @@ internal sealed class ModeController : IDisposable
                 return change;
         }
 
+        this.Changes++;
         this.cpu.ResetAverage();
         this.cpu.SetMode(this.IsOn);
         Service.Log.Information($"Text-only mode {(this.IsOn ? "on" : "off")}");

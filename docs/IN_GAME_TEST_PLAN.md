@@ -12,6 +12,7 @@ Run with `/trpgtest` or the **Run tests and measure savings** button in `/trpg s
 | `render-flag` | Waits until no zone load or cutscene is running, sets the game's 3D render flag, checks it reads back on the next frame, and restores the original value. (The screen may flash for one frame.) |
 | `restore-on-off` | Turns the mode on for about 30 frames (at least one UI element must get hidden), then off, and checks every UI element that was drawn before is drawn again, our 3D-off request is gone and the frame-rate cap is off. Skipped (pass) if you already have the mode on. |
 | `mode-cycle` | Turns the mode on; after 2 s checks for 3 s: 3D is off, no UI element but the chat is drawn, the chat is drawn, and the frame rate is near the idle cap (≤ 1.5 × cap + 1). Then turns it off and checks our 3D-off request is gone (notes if another plugin still keeps 3D off). Skipped (pass) if you already have the mode on. Don't type during it. |
+| `afk-auto` | The **Turn on when AFK** setting end to end: a real AFK watcher and the real mode, fed a simulated AFK status (going AFK for real would send `/afk` to the server), through 10 cases: off → AFK turns it on → back turns it off; a mode already on stays on through AFK and back; turning it off while AFK sticks until the next AFK. Also checks the player's real online status can be read. Runs whether or not the setting is ticked. Skipped (pass) if the mode is already on. |
 | `measure-3d` | Measurement (~25 s): CPU %, GPU % and FPS for 10 s with 3D on, then 3 s settle and 10 s with 3D off (render flag only), then 3D back on. Passes whenever it completes; the numbers and the saving are in the detail. Fails only if 3D can't be turned back on. Skipped (pass) if 3D is already off (the mode, `/trpgdebug` or another plugin). Don't touch the game while it runs. |
 | `measure-mode` | Measurement (~30 s): CPU %, GPU % and FPS for 10 s of normal play, then the full text-only mode (3 s settle, 15 s measured), then the mode off. Passes whenever it completes; the detail shows both periods and the saving. This is the number the plugin exists for. Skipped (pass) if you already have the mode on. Don't type during it. |
 <!-- self-tests:end -->
@@ -68,7 +69,7 @@ Tick each and note anything odd in the issue (or just tell Claude).
 - [ ] Mode on, log out: title screen normal; log back in: normal game, mode off.
 - [ ] Mode on, disable the plugin in `/xlplugins`: everything back.
 - [ ] Alt-tab away and back in the mode: nothing changes.
-- [ ] Tick **Turn on when I go AFK**, then `/afk`: the mode turns on with the "You're AFK" message. `/trpg` turns it off and it stays off while you're still AFK. Unticked (the default): `/afk` does nothing.
+- [ ] (Covered by `afk-auto` with a simulated status; this checks the real one.) Tick **Turn on when I go AFK**, then `/afk`: the mode turns on with the "You're AFK" message; `/afk` again (or move): it turns off with "You're back". Unticked (the default): `/afk` does nothing.
 - [ ] If you use AutoRetainer or Mini: both still work; turning our mode off doesn't turn 3D on while they want it off.
 
 ## 3. Reporting

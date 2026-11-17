@@ -28,6 +28,6 @@ The **TRPG** entry in the server info bar (top right of the screen) turns the mo
 - **Off:** everything comes back exactly as it was.
 - If you turn it on or off during a loading screen or cutscene, the 3D part switches a few seconds after it ends (switching during a load can crash the game). The HUD and frame rate switch right away.
 - The mode always starts off when the game or plugin starts, and turns off when you log out.
-- Optional: with **Turn on when I go AFK** (settings window, off by default) the mode turns on by itself when the game marks you AFK. It stays on until you turn it off.
+- Optional: with **Turn on when I go AFK** (settings window, off by default) the mode turns on by itself when the game marks you AFK, and off again when you're back. If it was already on, it stays on.
 
 Developer commands (dev builds only) are in [DEVELOPMENT.md](../DEVELOPMENT.md#6-debug-commands).

@@ -65,7 +65,7 @@ internal sealed class SettingsWindow : Window
             changed = true;
         }
 
-        ImGui.TextDisabled($"When the game marks you AFK, the mode turns on by itself. It stays on until you type {Commands.Alias}.");
+        ImGui.TextDisabled("When the game marks you AFK, the mode turns on, and off again when you're back. If it was already on, it stays on.");
 
         if (changed)
         {

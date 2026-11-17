@@ -16,6 +16,7 @@ internal static class SelfTestCatalog
         new RenderFlagTest(),
         new RestoreOnOffTest(plugin),
         new ModeCycleTest(plugin),
+        new AfkAutoTest(plugin),
 
         // Measurements last: they take ~25 s each.
         new Measure3DTest(),
