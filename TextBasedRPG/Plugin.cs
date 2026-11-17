@@ -1,6 +1,7 @@
 using System;
 using Dalamud.Plugin;
 using TextBasedRPG.Core;
+using TextBasedRPG.SelfTests;
 
 namespace TextBasedRPG;
 
@@ -17,10 +18,17 @@ public sealed class Plugin : IDalamudPlugin
 
     internal Configuration Config { get; }
 
+    internal SelfTestRunner SelfTests { get; }
+
     public Plugin(IDalamudPluginInterface pluginInterface)
     {
         Service.Initialize(pluginInterface);
         this.Config = Configuration.Load();
+
+        // In-game checks: Dalamud's Self-Test window gets its own step instances; the dev runner builds fresh ones per run.
+        // Dalamud unregisters them when the plugin unloads.
+        Service.SelfTestRegistry.RegisterTestSteps(SelfTestCatalog.Create());
+        this.SelfTests = new SelfTestRunner();
 
         // Logs which build is running, so a stale or wrong-configuration build is obvious in /xllog.
         Service.Log.Information($"{Service.PluginInterface.Manifest.Name} loaded ({DescribeBuild()})");
@@ -35,6 +43,7 @@ public sealed class Plugin : IDalamudPlugin
 
     public void Dispose()
     {
+        DisposeSafely(this.SelfTests, "self-test runner");
         Service.Log.Information($"{Service.PluginInterface.Manifest.Name} unloaded");
     }
 

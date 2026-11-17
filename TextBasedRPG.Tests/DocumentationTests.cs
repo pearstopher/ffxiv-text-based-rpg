@@ -43,6 +43,32 @@ public partial class DocumentationTests
         Assert.Contains("Version", SettingNames());
     }
 
+    public static TheoryData<string> SelfTestIds => new(SelfTestIdNames());
+
+    [Theory]
+    [MemberData(nameof(SelfTestIds))]
+    public void Self_test_ids_are_in_the_in_game_test_plan(string id)
+    {
+        Assert.Contains($"`{id}`", Repo.Read("docs", "IN_GAME_TEST_PLAN.md"));
+    }
+
+    [Fact]
+    public void Self_test_ids_are_found_and_unique()
+    {
+        var ids = SelfTestIdNames();
+        Assert.Contains("env-loaded", ids);
+        Assert.Equal(ids.Count, ids.Distinct().Count());
+    }
+
+    /// <summary>The <c>Id =&gt; "..."</c> of every self-test step in the plugin's SelfTests folder.</summary>
+    private static List<string> SelfTestIdNames()
+        => Directory.GetFiles(Repo.Path("TextBasedRPG", "SelfTests"), "*.cs")
+            .SelectMany(f => SelfTestId().Matches(File.ReadAllText(f)).Select(m => m.Groups[1].Value))
+            .ToList();
+
+    [GeneratedRegex(@"override\s+string\s+Id\s*=>\s*""([^""]+)""")]
+    private static partial Regex SelfTestId();
+
     /// <summary>
     /// Public settable properties of <c>Configuration</c>, read from the source file (the plugin project needs
     /// Dalamud, so the tests can't load the type itself).
