@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using Dalamud.Plugin.SelfTest;
 using FFXIVClientStructs.FFXIV.Client.System.Framework;
@@ -33,7 +32,7 @@ internal abstract unsafe class MeasureTestBase : GameSelfTest
     protected const string FocusNote = " Keep the game window focused and don't type or move while it runs.";
 
     /// <summary>The result as a chat table (<see cref="SavingsTable"/>) once the measurement finished, else null.</summary>
-    internal IReadOnlyList<string>? SummaryLines { get; private set; }
+    internal SavingsTableText? SummaryTable { get; private set; }
 
     /// <summary>Length of each measured period.</summary>
     protected virtual TimeSpan MeasureFor => TimeSpan.FromSeconds(10);
@@ -47,7 +46,7 @@ internal abstract unsafe class MeasureTestBase : GameSelfTest
     /// <summary>Short name of the measured state, e.g. "3D off".</summary>
     protected abstract string TestName { get; }
 
-    /// <summary>Plain-text title of the chat table, saying what "On" means, e.g. "Text-only mode".</summary>
+    /// <summary>Plain-text title of the chat table, saying what the change ("After") is, e.g. "Text-only mode".</summary>
     protected abstract string TableTitle { get; }
 
 
@@ -115,7 +114,7 @@ internal abstract unsafe class MeasureTestBase : GameSelfTest
                     + (this.gpuError is { } why ? $" ({why})" : string.Empty)
                     + (this.inBackground ? backgroundNote : string.Empty);
                 var title = this.TableTitle + (this.inBackground ? " (game not focused: not reliable)" : string.Empty);
-                this.SummaryLines = SavingsTable.Lines(title, off: this.baseline, on: test);
+                this.SummaryTable = SavingsTable.Create(title, before: this.baseline, after: test);
                 return SelfTestStepResult.Waiting;
 
             default:
@@ -133,7 +132,7 @@ internal abstract unsafe class MeasureTestBase : GameSelfTest
             this.Undo();
         this.applied = false;
         this.inBackground = false;
-        this.SummaryLines = null;
+        this.SummaryTable = null;
         this.phase = Phase.WaitForSafe;
         this.meter = new PhaseMeter(Environment.ProcessorCount);
         this.process?.Dispose();

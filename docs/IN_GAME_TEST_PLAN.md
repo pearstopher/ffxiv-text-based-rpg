@@ -2,7 +2,7 @@
 
 ## 0. Self-tests
 
-Run with `/trpgtest` or the **Run self-tests** button in `/trpg settings` (dev builds), or let them run after each load. **Keep the game window focused**: in the background the game limits its own frame rate and the measurements understate the saving (the measurement tests say so in their detail if it happened). Results: `%APPDATA%\XIVLauncher\pluginConfigs\TextBasedRPG\selftest-results.json`. They also appear in Dalamud's Self-Test window (`/xldev`).
+Run with the **Run tests and measure savings** button in `/trpg settings` (every build), `/trpgtest` (dev builds), or let them run after each load (dev builds). **Keep the game window focused**: in the background the game limits its own frame rate and the measurements understate the saving (the measurement tests say so in their detail if it happened). Results: `%APPDATA%\XIVLauncher\pluginConfigs\TextBasedRPG\selftest-results.json`. They also appear in Dalamud's Self-Test window (`/xldev`).
 
 <!-- self-tests:start -->
 | Id | Checks |
@@ -16,14 +16,16 @@ Run with `/trpgtest` or the **Run self-tests** button in `/trpg settings` (dev b
 | `measure-mode` | Measurement (~30 s): CPU %, GPU % and FPS for 10 s of normal play, then the full text-only mode (3 s settle, 15 s measured), then the mode off. Passes whenever it completes; the detail shows both periods and the saving. This is the number the plugin exists for. Skipped (pass) if you already have the mode on. Don't type during it. |
 <!-- self-tests:end -->
 
-After a run, chat shows the measured savings as a small table per measurement. **On** is the measured change applied (the mode, or 3D off), **Off** is normal play, **Difference** is On compared with Off. The columns are written in full-width letters and digits, which the game's chat font draws at one width, padded with the full-width full stop (．). The full-width space (U+3000), middle dot (・) and minus (－) are each a different width in the game font, so they're never used inside the columns:
+After a run, chat shows the measured savings as a small table per measurement: **Before** is normal play, **After** is with the change (the mode, or 3D off only), **Difference** is After compared with Before (worked out from the unrounded values). Values are whole numbers: there's no decimal point among the glyphs below.
+
+The rows are drawn with glyphs the owner checked are all the same width in the game's chat font: Dalamud's `SeIconChar` boxed letters (A–Z) and boxed numbers (0–9), the full-width space and `%`. Full-width ASCII, the full-width full stop, the middle dot and the full-width minus are each a different width, so they're never used. In plain letters, a table reads:
 
 ```
 Text-only mode
-．．．．Ｏｎ．．．．．Ｏｆｆ．．．．Ｄｉｆｆｅｒｅｎｃｅ
-ＣＰＵ．１．６％．．．４．４％．．．６４％　ｌｅｓｓ
-ＧＰＵ．１％．．．．．１１％．．．．９１％　ｌｅｓｓ
-ＦＰＳ．１０．．．．．３０．．．．．６７％　ｌｅｓｓ
+    BEFORE AFTER DIFFERENCE
+CPU 4%     2%    64% LESS
+GPU 11%    1%    91% LESS
+FPS 30     10    67% LESS
 ```
 
 GPU % is this game's use of the GPU's 3D engine (the busiest one, as in Task Manager's GPU column), from Windows' "GPU Engine" performance counters. Where Windows doesn't provide them (e.g. Wine/Proton), the detail shows `GPU n/a` with the reason and the tests still pass.

@@ -18,7 +18,7 @@ This plugin only changes what the client draws and how fast it runs. It never se
 | Load/unload build log line | ✅ Yes | Local log only. |
 | Text-only mode (`/trpg`): 3D off, HUD hidden except chat, FPS cap | ✅ Yes | Changes only what the client draws and how often it runs a frame (like the game's own frame-rate limit and hide-UI). Nothing is sent to the server; the AFK timer is untouched. 3D is turned off through the same shared request system AutoRetainer and Mini use. UI elements that show themselves again (job gauges) are re-hidden before drawing via Dalamud's `IAddonLifecycle` (PreDraw). |
 | Debug commands (`/trpgdebug`, dev builds) | ✅ Yes | Local only: read CPU/FPS, change what the client draws. |
-| In-game self-tests (Dalamud Self-Test window; dev runner in dev builds) | ✅ Yes | Local checks only. Never send anything to the server; restore anything they change. |
+| In-game self-tests (Dalamud Self-Test window; **Run tests and measure savings** button for everyone; auto-run and `/trpgtest` in dev builds) | ✅ Yes | Local checks only. Never send anything to the server; restore anything they change. |
 | GPU measurement in the measurement self-tests | ✅ Yes | Reads this process's GPU use from Windows performance counters (read-only, local). Doesn't touch the game. |
 
 ## Adding a feature

@@ -4,14 +4,16 @@ using System.Diagnostics;
 using System.IO;
 using Dalamud.Plugin.SelfTest;
 using Dalamud.Plugin.Services;
+using TextBasedRPG.Core;
 using TextBasedRPG.Core.SelfTesting;
 
 namespace TextBasedRPG.SelfTests;
 
 /// <summary>
-/// Dev runner: runs the same <see cref="GameSelfTest"/> steps Dalamud's Self-Test window runs, one at a time on the
-/// framework thread, then writes <c>selftest-results.json</c> to the plugin config folder (Claude reads it), logs the
-/// report and prints a chat summary.
+/// Runs the same <see cref="GameSelfTest"/> steps Dalamud's Self-Test window runs, one at a time on the framework
+/// thread, then writes <c>selftest-results.json</c> to the plugin config folder (Claude reads it), logs the report and
+/// prints a chat summary with the measured savings. Every build can start a run from the settings window; the
+/// automatic run after load and <c>/trpgtest</c> are dev-build only (<see cref="SelfTestTriggers"/>).
 /// </summary>
 internal sealed class SelfTestRunner : IDisposable
 {
@@ -23,7 +25,7 @@ internal sealed class SelfTestRunner : IDisposable
     private readonly Plugin plugin;
     private readonly Stopwatch clock = Stopwatch.StartNew();
     private readonly List<SelfTestResult> results = [];
-    private readonly List<IReadOnlyList<string>> savings = [];
+    private readonly List<SavingsTableText> savings = [];
     private List<GameSelfTest> steps = [];
     private int index;
     private StepClock? stepClock;
@@ -41,10 +43,10 @@ internal sealed class SelfTestRunner : IDisposable
     /// <summary>The last finished run, if any.</summary>
     internal SelfTestReport? LastReport { get; private set; }
 
-    /// <summary>Starts a run. Returns false if one is already running or this isn't a dev build.</summary>
+    /// <summary>Starts a run. Returns false if one is already running.</summary>
     internal bool Start()
     {
-        if (!IsDevBuild || this.IsRunning)
+        if (this.IsRunning)
             return false;
 
         this.steps = SelfTestCatalog.Create(this.plugin);
@@ -96,7 +98,7 @@ internal sealed class SelfTestRunner : IDisposable
             step.Detail = $"No result within {step.TimeoutMs} ms";
 
         this.results.Add(new SelfTestResult(step.Id, status.Value, step.Detail, this.stepClock.Elapsed(now)));
-        if (status == SelfTestStatus.Pass && step is MeasureTestBase { SummaryLines: { } saving })
+        if (status == SelfTestStatus.Pass && step is MeasureTestBase { SummaryTable: { } saving })
             this.savings.Add(saving);
         CleanUpSafely(step);
         this.index++;
@@ -141,8 +143,9 @@ internal sealed class SelfTestRunner : IDisposable
             Service.ChatGui.Print("Measured savings (the game's own CPU and GPU use):");
             foreach (var table in this.savings)
             {
-                foreach (var line in table)
-                    Service.ChatGui.Print(line);
+                Service.ChatGui.Print(table.Title);
+                foreach (var row in table.Rows)
+                    Service.ChatGui.Print(ChatGlyphs.ToGame(row));
             }
         }
     }
