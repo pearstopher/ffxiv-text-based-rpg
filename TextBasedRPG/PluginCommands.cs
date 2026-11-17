@@ -51,15 +51,7 @@ internal sealed class PluginCommands : IDisposable
         }
     }
 
-    private void Request(ModeRequest request)
-    {
-        var change = this.plugin.Mode.Request(request);
-        var (text, isError) = ModeMessages.For(change, this.plugin.Mode.IsOn);
-        if (isError)
-            Service.ChatGui.PrintError(text);
-        else
-            Service.ChatGui.Print(text);
-    }
+    private void Request(ModeRequest request) => this.plugin.Mode.RequestAndReport(request);
 
     private static void PrintUsage()
     {

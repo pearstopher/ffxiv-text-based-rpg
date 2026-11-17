@@ -32,6 +32,16 @@ internal sealed class ModeController : IDisposable
     internal ModeChange Request(ModeRequest request)
         => this.Apply(this.state.Request(request, Service.ClientState.IsLoggedIn));
 
+    /// <summary>Applies a request and tells the player in chat what happened (commands, DTR entry, settings window).</summary>
+    internal void RequestAndReport(ModeRequest request)
+    {
+        var (text, isError) = ModeMessages.For(this.Request(request), this.IsOn);
+        if (isError)
+            Service.ChatGui.PrintError(text);
+        else
+            Service.ChatGui.Print(text);
+    }
+
     /// <summary>Turns the mode off because the character logged out.</summary>
     internal ModeChange LoggedOut() => this.Apply(this.state.LoggedOut());
 

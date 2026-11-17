@@ -31,15 +31,8 @@ internal sealed class DtrEntry : IDisposable
         set => this.entry.Shown = value;
     }
 
-    private void OnClick(DtrInteractionEvent e)
-    {
-        var change = this.plugin.Mode.Request(ModeRequest.Toggle);
-        var (text, isError) = ModeMessages.For(change, this.plugin.Mode.IsOn);
-        if (isError)
-            Service.ChatGui.PrintError(text);
-        else
-            Service.ChatGui.Print(text);
-    }
+    // Server info bar clicks are handled by the game's UI on the framework thread.
+    private void OnClick(DtrInteractionEvent e) => this.plugin.Mode.RequestAndReport(ModeRequest.Toggle);
 
     public void Dispose() => this.entry.Remove();
 }
