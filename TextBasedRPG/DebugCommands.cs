@@ -1,4 +1,6 @@
 using System;
+using System.IO;
+using System.Linq;
 using Dalamud.Game.Command;
 using TextBasedRPG.Core;
 using TextBasedRPG.SelfTests;
@@ -41,6 +43,9 @@ internal sealed class DebugCommands : IDisposable
             case DebugAction.Show3D:
                 this.Set3DHidden(false);
                 break;
+            case DebugAction.Addons:
+                DumpAddons();
+                break;
             case DebugAction.Unknown:
                 Service.ChatGui.PrintError($"Unknown debug option \"{args.Trim()}\".");
                 PrintUsage();
@@ -73,6 +78,24 @@ internal sealed class DebugCommands : IDisposable
         Service.ChatGui.Print(hidden
             ? $"3D world hidden. {Commands.Debug} 3d on to show it again."
             : "3D world shown.");
+    }
+
+    private static void DumpAddons()
+    {
+        var addons = UiAddons.Snapshot();
+        var path = Path.Combine(Service.PluginInterface.GetPluginConfigDirectory(), "addons.json");
+        try
+        {
+            File.WriteAllText(path, AddonInfo.ToJson(addons, DateTimeOffset.Now, Plugin.DescribeBuild()));
+        }
+        catch (Exception ex)
+        {
+            Service.Log.Warning(ex, $"Could not write {path}");
+            Service.ChatGui.PrintError($"Could not write {path}: {ex.Message}");
+            return;
+        }
+
+        Service.ChatGui.Print($"{addons.Count} addons ({addons.Count(a => a.IsVisible && a.RootNodeVisible)} drawn) written to {path}");
     }
 
     private static void PrintUsage()
