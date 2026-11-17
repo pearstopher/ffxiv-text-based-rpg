@@ -30,7 +30,7 @@ public class ModeMessagesTests
     public void Status_lists_every_part()
     {
         var text = ModeMessages.Status(true, true, false, 10, 42, "CPU 2.0% (avg 2.1%), FPS 10");
-        Assert.Equal("Text-based RPG mode: on · 3D off · FPS cap 10 · 42 UI elements hidden · CPU 2.0% (avg 2.1%), FPS 10", text);
+        Assert.Equal("Text-only mode: on · 3D off · FPS cap 10 · 42 UI elements hidden · CPU 2.0% (avg 2.1%), FPS 10", text);
     }
 
     [Fact]

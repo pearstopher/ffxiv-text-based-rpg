@@ -29,7 +29,7 @@ internal sealed class SelfTestTriggers : IDisposable
 
         Service.CommandManager.AddHandler(Commands.SelfTest, new CommandInfo(this.OnCommand)
         {
-            HelpMessage = "Dev builds: run Text-Based RPG's in-game self-tests.",
+            HelpMessage = "Dev builds: run Text-Only Mode's in-game self-tests.",
             ShowInHelp = false,
         });
         this.commandRegistered = true;
@@ -44,7 +44,7 @@ internal sealed class SelfTestTriggers : IDisposable
     private void OnCommand(string command, string args)
     {
         if (!this.runner.Start())
-            Service.ChatGui.PrintError("Text-Based RPG self-tests are already running.");
+            Service.ChatGui.PrintError("Text-Only Mode self-tests are already running.");
     }
 
     private void OnUpdate(IFramework framework)

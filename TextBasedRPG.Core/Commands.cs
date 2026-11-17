@@ -7,7 +7,7 @@ namespace TextBasedRPG.Core;
 public static class Commands
 {
     /// <summary>Main command.</summary>
-    public const string Main = "/textrpg";
+    public const string Main = "/textmode";
 
     /// <summary>Short alias of <see cref="Main"/>.</summary>
     public const string Alias = "/trpg";

@@ -30,7 +30,7 @@ public enum ModeChange
 }
 
 /// <summary>
-/// Whether text-based RPG mode is on. Always starts off (nothing is remembered across loads), can only turn on with
+/// Whether text-only mode is on. Always starts off (nothing is remembered across loads), can only turn on with
 /// a logged-in character, and is forced off on logout.
 /// </summary>
 public sealed class ModeState

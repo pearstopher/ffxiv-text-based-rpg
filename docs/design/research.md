@@ -4,7 +4,7 @@ Researched 2026-11-16, before any code was written. Approved by the owner the sa
 
 ## Goal
 
-One toggle ("text-based RPG mode") that:
+One toggle ("text-only mode") that:
 
 - turns off all graphics except the in-game chat window,
 - cuts the game's CPU use as far as possible,

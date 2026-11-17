@@ -11,7 +11,7 @@ internal sealed class SettingsWindow : Window
     private readonly Plugin plugin;
 
     internal SettingsWindow(Plugin plugin)
-        : base("Text-Based RPG###TextBasedRPGSettings")
+        : base("Text-Only Mode###TextBasedRPGSettings")
     {
         this.plugin = plugin;
         this.Flags = ImGuiWindowFlags.NoCollapse | ImGuiWindowFlags.AlwaysAutoResize;
@@ -23,7 +23,7 @@ internal sealed class SettingsWindow : Window
         var config = this.plugin.Config;
         var mode = this.plugin.Mode;
 
-        if (ImGui.Button(mode.IsOn ? "Leave text-based RPG mode" : "Enter text-based RPG mode"))
+        if (ImGui.Button(mode.IsOn ? "Leave text-only mode" : "Enter text-only mode"))
         {
             // Draw isn't guaranteed to run on the framework thread; the switch touches game UI memory.
             Service.Framework.RunOnFrameworkThread(() => mode.RequestAndReport(ModeRequest.Toggle));

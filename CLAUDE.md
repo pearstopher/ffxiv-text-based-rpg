@@ -1,6 +1,6 @@
 # CLAUDE.md
 
-**Text-Based RPG** (`TextBasedRPG`) is a Dalamud plugin for FFXIV that turns the game into a "text-based RPG": one toggle turns off 3D rendering and hides the whole HUD except the chat window, and caps the frame rate, so the game uses very little CPU while the player is only chatting. The connection stays alive, sound keeps playing, and the chat stays fully usable. Toggle it off to play normally again.
+**Text-Only Mode for FFXIV** (internal name `TextBasedRPG`) is a Dalamud plugin that turns FFXIV into a "text-based RPG" (the joke behind `/trpg`): one toggle ("text-only mode") turns off 3D rendering and hides the whole HUD except the chat window, and caps the frame rate, so the game uses very little CPU while the player is only chatting. The connection stays alive, sound keeps playing, and the chat stays fully usable. Toggle it off to play normally again.
 
 Repo: `pearstopher/ffxiv-text-based-rpg` (owner's own project). Ships from the owner's combined custom repo `pearstopher/ffxiv-plugins`.
 
@@ -64,4 +64,4 @@ dotnet test TextBasedRPG.slnx -c Release --no-build    # all tests green
 - Commit messages: imperative summary, reference the issue `(#N)`, end with the Co-Authored-By trailer.
 - Merge with `git merge --no-ff` and a message containing `Closes #N`, then `git push origin master`. No pull requests.
 - Keep `<Version>` in the csproj unchanged unless an issue asks for a version bump (tags `vX.Y.Z` must match `X.Y.Z.0`). Patch bumps for fixes, minor for new features.
-- Plugin identity: **Text-Based RPG**, InternalName `TextBasedRPG`, commands `/textrpg` and `/trpg`. Don't change it unless the owner asks.
+- Plugin identity: **Text-Only Mode for FFXIV** (just **Text-Only Mode** inside the plugin: window title, server info bar, chat), InternalName `TextBasedRPG` (also the repo, projects, namespaces and settings folder), commands `/textmode` and `/trpg`. The mode is called "text-only mode"; the "text-based RPG" joke stays in the tagline, the plugin description and `/trpg`. Don't change it unless the owner asks.

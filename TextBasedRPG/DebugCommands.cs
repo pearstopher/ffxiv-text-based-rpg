@@ -24,7 +24,7 @@ internal sealed class DebugCommands : IDisposable
 
         Service.CommandManager.AddHandler(Commands.Debug, new CommandInfo(this.OnCommand)
         {
-            HelpMessage = "Dev builds: Text-Based RPG debug tools.",
+            HelpMessage = "Dev builds: Text-Only Mode debug tools.",
             ShowInHelp = false,
         });
         this.registered = true;

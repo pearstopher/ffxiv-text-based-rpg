@@ -1,6 +1,6 @@
 # Architecture
 
-The plugin has one job: switch **text-based RPG mode** on and off. While it's on, 3D rendering is off, every UI element except the chat is hidden, and the frame rate is capped. The design reasons are in [design/research.md](design/research.md).
+The plugin has one job: switch **text-only mode** on and off. While it's on, 3D rendering is off, every UI element except the chat is hidden, and the frame rate is capped. The design reasons are in [design/research.md](design/research.md).
 
 ## Projects
 

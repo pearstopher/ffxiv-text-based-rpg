@@ -4,7 +4,7 @@ using TextBasedRPG.Core;
 namespace TextBasedRPG;
 
 /// <summary>
-/// Switches text-based RPG mode: 3D off (<see cref="RenderController"/>), frame-rate cap (<see cref="FrameLimiter"/>)
+/// Switches text-only mode: 3D off (<see cref="RenderController"/>), frame-rate cap (<see cref="FrameLimiter"/>)
 /// and HUD hidden except the chat (<see cref="HudHider"/>), all together. <see cref="ModeState"/> (Core) decides
 /// whether a request is allowed.
 /// </summary>
@@ -48,7 +48,7 @@ internal sealed class ModeController : IDisposable
     private void OnLogout(int type, int code)
     {
         if (this.LoggedOut() == ModeChange.TurnedOff)
-            Service.Log.Information("Text-based RPG mode turned off because the character logged out");
+            Service.Log.Information("Text-only mode turned off because the character logged out");
     }
 
     /// <summary>Unload: stop listening and turn the mode off, so nothing stays hidden or capped.</summary>
@@ -81,7 +81,7 @@ internal sealed class ModeController : IDisposable
 
         this.cpu.ResetAverage();
         this.cpu.SetMode(this.IsOn);
-        Service.Log.Information($"Text-based RPG mode {(this.IsOn ? "on" : "off")}");
+        Service.Log.Information($"Text-only mode {(this.IsOn ? "on" : "off")}");
         return change;
     }
 }
