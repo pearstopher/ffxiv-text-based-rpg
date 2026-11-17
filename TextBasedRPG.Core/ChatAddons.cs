@@ -19,5 +19,8 @@ public static class ChatAddons
     public static readonly IReadOnlyList<string> AlwaysShown = [ChatLog, MainPanel];
 
     /// <summary>True for any chat addon name (ordinal, case-sensitive like the game's names).</summary>
-    public static bool IsChat(string addonName) => All.Contains(addonName, StringComparer.Ordinal);
+    public static bool IsChat(string addonName) => AllSet.Contains(addonName);
+
+    // IsChat runs for every drawn addon on each HUD scan (4 times a second): a set lookup, not a list search.
+    private static readonly HashSet<string> AllSet = new(All, StringComparer.Ordinal);
 }

@@ -53,9 +53,6 @@ internal sealed class DebugCommands : IDisposable
             case DebugAction.List:
                 PrintUsage();
                 break;
-            default:
-                Service.ChatGui.Print("Not implemented yet.");
-                break;
         }
     }
 
