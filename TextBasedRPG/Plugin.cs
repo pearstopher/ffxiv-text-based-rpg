@@ -46,8 +46,8 @@ public sealed class Plugin : IDalamudPlugin
 
         // In-game checks: Dalamud's Self-Test window gets its own step instances; the dev runner builds fresh ones per run.
         // Dalamud unregisters them when the plugin unloads.
-        Service.SelfTestRegistry.RegisterTestSteps(SelfTestCatalog.Create());
-        this.SelfTests = new SelfTestRunner();
+        Service.SelfTestRegistry.RegisterTestSteps(SelfTestCatalog.Create(this));
+        this.SelfTests = new SelfTestRunner(this);
         this.selfTestTriggers = new SelfTestTriggers(this.SelfTests, this.Config);
         this.commands = new PluginCommands(this);
         this.debugCommands = new DebugCommands(this);
@@ -79,6 +79,7 @@ public sealed class Plugin : IDalamudPlugin
         DisposeSafely(this.commands, "commands");
         DisposeSafely(this.selfTestTriggers, "self-test triggers");
         DisposeSafely(this.SelfTests, "self-test runner");
+        DisposeSafely(this.Mode, "mode"); // turns the mode off first
         DisposeSafely(this.Hud, "HUD hider");
         DisposeSafely(this.Limiter, "frame limiter");
         DisposeSafely(this.Render, "render controller");
