@@ -16,14 +16,14 @@ Run with `/trpgtest` or the **Run self-tests** button in `/trpg settings` (dev b
 | `measure-mode` | Measurement (~30 s): CPU %, GPU % and FPS for 10 s of normal play, then the full text-only mode (3 s settle, 15 s measured), then the mode off. Passes whenever it completes; the detail shows both periods and the saving. This is the number the plugin exists for. Skipped (pass) if you already have the mode on. Don't type during it. |
 <!-- self-tests:end -->
 
-After a run, chat shows the measured savings as a small table per measurement, in full-width characters so the columns line up in the game's chat font:
+After a run, chat shows the measured savings as a small table per measurement, in full-width characters so the columns line up in the game's chat font. Cells are padded with a full-width middle dot (・), because the game draws the full-width space narrower than the other full-width characters:
 
 ```
 Ｔｅｘｔ－ｏｎｌｙ　ｍｏｄｅ
-　　　　Ｎｏｒｍａｌ　Ｍｏｄｅ　　　Ｃｈａｎｇｅ
-ＣＰＵ　４．４％　　　１．６％　　　－６４％
-ＧＰＵ　１１％　　　　１％　　　　　－９１％
-ＦＰＳ　３０　　　　　１０　　　　　－６７％
+・・・・Ｎｏｒｍａｌ・Ｍｏｄｅ・・・Ｃｈａｎｇｅ
+ＣＰＵ・４．４％・・・１．６％・・・－６４％
+ＧＰＵ・１１％・・・・１％・・・・・－９１％
+ＦＰＳ・３０・・・・・１０・・・・・－６７％
 ```
 
 GPU % is this game's use of the GPU's 3D engine (the busiest one, as in Task Manager's GPU column), from Windows' "GPU Engine" performance counters. Where Windows doesn't provide them (e.g. Wine/Proton), the detail shows `GPU n/a` with the reason and the tests still pass.

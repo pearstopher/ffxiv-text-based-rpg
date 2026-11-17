@@ -50,7 +50,7 @@ internal abstract unsafe class MeasureTestBase : GameSelfTest
     /// <summary>Title of the chat table, e.g. "3D world off only".</summary>
     protected abstract string TableTitle { get; }
 
-    /// <summary>Header of the chat table's changed column (at most 6 characters), e.g. "3D off".</summary>
+    /// <summary>Header of the chat table's changed column (at most 6 characters), e.g. "3D-off".</summary>
     protected abstract string TableColumn { get; }
 
     public override int TimeoutMs => (int)(this.MeasureFor.TotalMilliseconds + this.TestFor.TotalMilliseconds + this.SettleFor.TotalMilliseconds) + 20_000;

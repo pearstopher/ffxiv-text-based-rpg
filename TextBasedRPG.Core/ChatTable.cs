@@ -4,13 +4,21 @@ using System.Text;
 namespace TextBasedRPG.Core;
 
 /// <summary>
-/// Small tables for the game's chat. Chat text is proportional, but the game font draws full-width characters
-/// (U+FF01–FF5E, and the ideographic space U+3000) all at the same width, so text made of them lines up in columns.
+/// Small tables for the game's chat. Chat text is proportional, but the game font draws the full-width forms of
+/// ASCII (U+FF01–FF5E) all at the same width, so text made of them lines up in columns.
 /// </summary>
+/// <remarks>
+/// The game font draws the full-width space (U+3000) narrower than the other full-width characters (seen in game), so
+/// table cells are padded with <see cref="Padding"/>, a full-width middle dot, instead: dot leaders that keep every
+/// column aligned. Spaces inside cells become padding too; only free text (titles) keeps U+3000.
+/// </remarks>
 public static class ChatTable
 {
-    /// <summary>Full-width space, used for padding.</summary>
+    /// <summary>Full-width (ideographic) space, used between words in free text.</summary>
     public const char Space = '\u3000';
+
+    /// <summary>Full-width middle dot (U+30FB), used to pad table cells: same width as the other full-width characters.</summary>
+    public const char Padding = '\u30FB';
 
     /// <summary>Converts printable ASCII to its full-width form (spaces to <see cref="Space"/>); other characters are kept.</summary>
     public static string FullWidth(string text)
@@ -30,18 +38,18 @@ public static class ChatTable
     }
 
     /// <summary>
-    /// One row: each cell converted to full width; every cell but the last padded with <see cref="Space"/> to its
-    /// width (in characters). Cells longer than their width are kept whole.
+    /// One row: each cell converted to full width (spaces in it become <see cref="Padding"/>); every cell but the last
+    /// padded with <see cref="Padding"/> to its width (in characters). Cells longer than their width are kept whole.
     /// </summary>
     public static string Row(IReadOnlyList<int> widths, params string[] cells)
     {
         var row = new StringBuilder();
         for (var i = 0; i < cells.Length; i++)
         {
-            var cell = FullWidth(cells[i]);
+            var cell = FullWidth(cells[i]).Replace(Space, Padding);
             row.Append(cell);
             if (i < cells.Length - 1 && i < widths.Count)
-                row.Append(Space, Math.Max(1, widths[i] - cell.Length));
+                row.Append(Padding, Math.Max(1, widths[i] - cell.Length));
         }
 
         return row.ToString();
@@ -58,10 +66,10 @@ public static class SavingsTable
     /// A title line, a header and CPU/GPU/FPS rows, e.g. (shown here in ASCII):
     /// <code>
     /// Text-only mode
-    ///     Normal Mode   Change
-    /// CPU 4.4%   1.6%   -64%
-    /// GPU 11%    1%     -91%
-    /// FPS 30     10     -67%
+    /// ....Normal.Mode...Change
+    /// CPU.4.4%...1.6%...-64%
+    /// GPU.11%....1%.....-91%
+    /// FPS.30.....10.....-67%
     /// </code>
     /// </summary>
     /// <param name="title">The table's title, e.g. "Text-only mode".</param>
@@ -69,7 +77,7 @@ public static class SavingsTable
     public static IReadOnlyList<string> Lines(string title, string column, PhaseResult before, PhaseResult after) =>
     [
         ChatTable.FullWidth(title),
-        ChatTable.Row(Widths, " ", "Normal", column, "Change"),
+        ChatTable.Row(Widths, string.Empty, "Normal", column, "Change"),
         ChatTable.Row(Widths, "CPU", Percent(before.CpuPercent, "0.0"), Percent(after.CpuPercent, "0.0"), Change(before.CpuPercent, after.CpuPercent)),
         ChatTable.Row(Widths, "GPU", Percent(before.GpuPercent, "0"), Percent(after.GpuPercent, "0"), Change(before.GpuPercent, after.GpuPercent)),
         ChatTable.Row(Widths, "FPS", Number(before.Fps), Number(after.Fps), Change(before.Fps, after.Fps)),

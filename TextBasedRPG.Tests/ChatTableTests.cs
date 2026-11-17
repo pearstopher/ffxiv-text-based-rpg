@@ -14,13 +14,21 @@ public class ChatTableTests
     [Fact]
     public void Row_pads_every_cell_but_the_last_to_its_width()
     {
-        Assert.Equal("ＣＰＵ　４％　　ｘ", ChatTable.Row([4, 4], "CPU", "4%", "x"));
+        Assert.Equal("ＣＰＵ・４％・・ｘ", ChatTable.Row([4, 4], "CPU", "4%", "x"));
     }
 
     [Fact]
     public void Row_keeps_a_gap_after_a_cell_wider_than_its_column()
     {
-        Assert.Equal("ＡＢＣＤＥ　ｘ", ChatTable.Row([3], "ABCDE", "x"));
+        Assert.Equal("ＡＢＣＤＥ・ｘ", ChatTable.Row([3], "ABCDE", "x"));
+    }
+
+    [Fact]
+    public void Row_never_uses_the_narrow_full_width_space()
+    {
+        // The game font draws U+3000 narrower than the other full-width characters, which breaks the columns.
+        Assert.Equal("ＡＢ・ＣＤ・ｘ", ChatTable.Row([6], "AB CD", "x"));
+        Assert.DoesNotContain(ChatTable.Space, ChatTable.Row([4, 4], "", "a b", "c"));
     }
 
     [Fact]
@@ -30,23 +38,24 @@ public class ChatTableTests
         Assert.Equal(
             [
                 "Ｔｅｘｔ－ｏｎｌｙ　ｍｏｄｅ",
-                "　　　　Ｎｏｒｍａｌ　Ｍｏｄｅ　　　Ｃｈａｎｇｅ",
-                "ＣＰＵ　４．４％　　　１．６％　　　－６４％",
-                "ＧＰＵ　１１％　　　　１％　　　　　－９１％",
-                "ＦＰＳ　３０　　　　　１０　　　　　－６７％",
+                "・・・・Ｎｏｒｍａｌ・Ｍｏｄｅ・・・Ｃｈａｎｇｅ",
+                "ＣＰＵ・４．４％・・・１．６％・・・－６４％",
+                "ＧＰＵ・１１％・・・・１％・・・・・－９１％",
+                "ＦＰＳ・３０・・・・・１０・・・・・－６７％",
             ],
             lines);
 
-        // Every row's change column starts at the same character position (all characters are full width).
-        var columns = lines.Skip(1).Select(l => l.Length - l.Split('\u3000', StringSplitOptions.RemoveEmptyEntries)[^1].Length).Distinct();
+        // Every row's change column starts at the same character position, and rows use only equal-width characters.
+        var columns = lines.Skip(1).Select(l => l.Length - l.Split(ChatTable.Padding, StringSplitOptions.RemoveEmptyEntries)[^1].Length).Distinct();
         Assert.Single(columns);
+        Assert.All(lines.Skip(1), l => Assert.DoesNotContain(ChatTable.Space, l));
     }
 
     [Fact]
     public void Savings_table_shows_na_without_gpu_or_baseline()
     {
-        var lines = SavingsTable.Lines("x", "3D off", new PhaseResult(0, 30), new PhaseResult(1, 30, 2));
-        Assert.Equal("ＧＰＵ　ｎ／ａ　　　　２％　　　　　ｎ／ａ", lines[3]);
+        var lines = SavingsTable.Lines("x", "3D-off", new PhaseResult(0, 30), new PhaseResult(1, 30, 2));
+        Assert.Equal("ＧＰＵ・ｎ／ａ・・・・２％・・・・・ｎ／ａ", lines[3]);
         Assert.EndsWith("ｎ／ａ", lines[2]); // zero CPU baseline: no relative change
     }
 }
