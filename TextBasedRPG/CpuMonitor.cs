@@ -20,6 +20,7 @@ internal sealed class CpuMonitor : IDisposable
     private readonly Process process = Process.GetCurrentProcess();
     private readonly Stopwatch clock = Stopwatch.StartNew();
     private readonly CpuSampler sampler = new(Environment.ProcessorCount);
+    private readonly CpuComparison comparison = new();
     private long lastSampleMs;
     private int framesSinceSample;
 
@@ -37,6 +38,12 @@ internal sealed class CpuMonitor : IDisposable
 
     /// <summary>Frames per second over the last second.</summary>
     internal double Fps { get; private set; }
+
+    /// <summary>"Normal: x% · Text mode: y% (z% less)" for this session, or null until both have data.</summary>
+    internal string? Saving => this.comparison.Describe();
+
+    /// <summary>Tells the monitor the mode switched, so samples go to the right average.</summary>
+    internal void SetMode(bool on) => this.comparison.SetMode(on);
 
     /// <summary>Starts a fresh rolling average (e.g. after the mode switches).</summary>
     internal void ResetAverage() => this.sampler.ResetAverage();
@@ -57,6 +64,8 @@ internal sealed class CpuMonitor : IDisposable
 
         this.process.Refresh();
         this.sampler.Add(this.process.TotalProcessorTime, this.clock.Elapsed);
+        if (this.sampler.Current is { } cpu)
+            this.comparison.Add(cpu);
         this.Fps = this.framesSinceSample * 1000.0 / elapsed;
         this.framesSinceSample = 0;
         this.lastSampleMs = now;

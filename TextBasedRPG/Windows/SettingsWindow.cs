@@ -68,5 +68,6 @@ internal sealed class SettingsWindow : Window
 
         ImGui.Separator();
         ImGui.TextUnformatted(this.plugin.Cpu.Describe());
+        ImGui.TextUnformatted(this.plugin.Cpu.Saving ?? "Use the mode for a few seconds to see how much CPU it saves.");
     }
 }
