@@ -24,7 +24,7 @@ Each lands in its own issue; this table is updated as they're added.
 | `FrameLimiter` (planned) | Sleeps in `IFramework.Update` to cap the frame rate (ChillFrames technique, no busy-wait). |
 | `HudHider` (planned) | Hides the root node of every non-chat addon and restores exactly what it hid. |
 | `ModeController` (planned) | Switches the three parts together; turns everything off on logout and unload. |
-| `CpuMonitor` (planned) | Samples process CPU % and FPS once per second. |
+| `CpuMonitor` | Counts frames and samples process CPU % once per second (`CpuSampler` in Core). |
 | Self-tests (planned) | `ISelfTestStep`s registered with Dalamud's `ISelfTestRegistry`, plus a dev runner that writes the results file. |
 
 ## Threading
