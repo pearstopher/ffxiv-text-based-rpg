@@ -6,7 +6,7 @@ using TextBasedRPG.Core;
 namespace TextBasedRPG.SelfTests;
 
 /// <summary>
-/// Measures CPU and FPS for a baseline period, applies a change, waits for it to settle, measures again, and undoes
+/// Measures CPU, GPU and FPS for a baseline period, applies a change, waits for it to settle, measures again, and undoes
 /// the change. Passes whenever it completes: the numbers are information, written to the step's detail.
 /// </summary>
 internal abstract class MeasureTestBase : GameSelfTest
@@ -15,6 +15,8 @@ internal abstract class MeasureTestBase : GameSelfTest
 
     private readonly Stopwatch clock = new();
     private Process? process;
+    private GpuMeter? gpu;
+    private string? gpuError;
     private PhaseMeter meter = new(Environment.ProcessorCount);
     private Phase phase;
     private PhaseResult baseline;
@@ -59,6 +61,7 @@ internal abstract class MeasureTestBase : GameSelfTest
                     return this.Pass(reason);
 
                 this.process = Process.GetCurrentProcess();
+                this.gpu = GpuMeter.TryCreate(out this.gpuError);
                 this.clock.Restart();
                 this.StartPhase(Phase.Baseline);
                 return SelfTestStepResult.Waiting;
@@ -88,7 +91,8 @@ internal abstract class MeasureTestBase : GameSelfTest
 
                 var test = this.StopPhase();
                 this.phase = Phase.Restore;
-                this.Detail = MeasurementText.Compare(this.baseline, this.TestName, test);
+                this.Detail = MeasurementText.Compare(this.baseline, this.TestName, test)
+                    + (this.gpuError is { } why ? $" ({why})" : string.Empty);
                 return SelfTestStepResult.Waiting;
 
             default:
@@ -109,18 +113,22 @@ internal abstract class MeasureTestBase : GameSelfTest
         this.meter = new PhaseMeter(Environment.ProcessorCount);
         this.process?.Dispose();
         this.process = null;
+        this.gpu?.Dispose();
+        this.gpu = null;
+        this.gpuError = null;
     }
 
     private void StartPhase(Phase next)
     {
         this.process!.Refresh();
         this.meter.Start(this.process.TotalProcessorTime, this.clock.Elapsed);
+        this.gpu?.Start();
         this.phase = next;
     }
 
     private PhaseResult StopPhase()
     {
         this.process!.Refresh();
-        return this.meter.Stop(this.process.TotalProcessorTime, this.clock.Elapsed);
+        return this.meter.Stop(this.process.TotalProcessorTime, this.clock.Elapsed).WithGpu(this.gpu?.Stop());
     }
 }

@@ -3,7 +3,7 @@ using TextBasedRPG.Core;
 
 namespace TextBasedRPG.SelfTests;
 
-/// <summary>CPU and FPS in normal play (baseline) vs text-only mode (3D off, HUD hidden, FPS capped).</summary>
+/// <summary>CPU, GPU and FPS in normal play (baseline) vs text-only mode (3D off, HUD hidden, FPS capped).</summary>
 internal sealed class MeasureModeTest : MeasureTestBase
 {
     private readonly Plugin plugin;
@@ -12,7 +12,7 @@ internal sealed class MeasureModeTest : MeasureTestBase
 
     public override string Id => "measure-mode";
 
-    public override string Description => "CPU and FPS: normal vs text-only mode (10 s / 15 s)";
+    public override string Description => "CPU, GPU and FPS: normal vs text-only mode (10 s / 15 s)";
 
     protected override string TestName => "text-only mode";
 

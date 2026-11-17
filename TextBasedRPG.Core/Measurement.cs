@@ -2,8 +2,15 @@ using System.Globalization;
 
 namespace TextBasedRPG.Core;
 
-/// <summary>Average CPU % (share of the whole machine) and frames per second over one measured period.</summary>
-public readonly record struct PhaseResult(double CpuPercent, double Fps);
+/// <summary>
+/// Averages over one measured period: CPU % (share of the whole machine), frames per second, and GPU % (the busiest
+/// GPU 3D engine's utilisation by this process; null when it couldn't be measured).
+/// </summary>
+public readonly record struct PhaseResult(double CpuPercent, double Fps, double? GpuPercent = null)
+{
+    /// <summary>This result with the given GPU %.</summary>
+    public PhaseResult WithGpu(double? gpuPercent) => this with { GpuPercent = gpuPercent };
+}
 
 /// <summary>
 /// Measures one period: call <see cref="Start"/>, count frames with <see cref="Frame"/>, then <see cref="Stop"/>.
@@ -54,17 +61,33 @@ public sealed class PhaseMeter
 public static class MeasurementText
 {
     /// <summary>
-    /// E.g. <c>baseline CPU 12.0%, 60 FPS → 3D off CPU 3.0%, 240 FPS: CPU −9.0 points (−75%)</c>.
+    /// E.g. <c>baseline CPU 12.0%, GPU 40%, 60 FPS → 3D off CPU 3.0%, GPU 2%, 240 FPS: CPU −9.0 points (−75%), GPU −38 points (−95%)</c>.
+    /// A GPU value that couldn't be measured shows as "GPU n/a", and then there's no GPU saving.
     /// </summary>
     public static string Compare(PhaseResult baseline, string testName, PhaseResult test)
     {
-        var points = test.CpuPercent - baseline.CpuPercent;
-        var percent = baseline.CpuPercent > 0 ? points / baseline.CpuPercent * 100 : 0;
-        return string.Create(
+        var text = string.Create(
             CultureInfo.InvariantCulture,
-            $"baseline CPU {baseline.CpuPercent:0.0}%, {baseline.Fps:0} FPS → {testName} CPU {test.CpuPercent:0.0}%, {test.Fps:0} FPS: CPU {Signed(points)} points ({Signed(percent, "0")}%)");
+            $"baseline {Period(baseline)} → {testName} {Period(test)}: CPU {Change(baseline.CpuPercent, test.CpuPercent, "0.0")}");
+        if (baseline.GpuPercent is { } before && test.GpuPercent is { } after)
+            text += ", GPU " + Change(before, after, "0");
+        return text;
     }
 
-    private static string Signed(double value, string format = "0.0")
+    private static string Period(PhaseResult r)
+    {
+        var gpu = r.GpuPercent is { } g ? g.ToString("0", CultureInfo.InvariantCulture) + "%" : "n/a";
+        return string.Create(CultureInfo.InvariantCulture, $"CPU {r.CpuPercent:0.0}%, GPU {gpu}, {r.Fps:0} FPS");
+    }
+
+    /// <summary>E.g. "−9.0 points (−75%)".</summary>
+    private static string Change(double before, double after, string pointsFormat)
+    {
+        var points = after - before;
+        var percent = before > 0 ? points / before * 100 : 0;
+        return $"{Signed(points, pointsFormat)} points ({Signed(percent, "0")}%)";
+    }
+
+    private static string Signed(double value, string format)
         => (value < 0 ? "−" : "+") + Math.Abs(value).ToString(format, CultureInfo.InvariantCulture);
 }

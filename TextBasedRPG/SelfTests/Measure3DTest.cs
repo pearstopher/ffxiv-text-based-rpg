@@ -1,13 +1,13 @@
 namespace TextBasedRPG.SelfTests;
 
-/// <summary>CPU and FPS with 3D on (baseline) vs 3D off (render flag only; no FPS cap or HUD hiding).</summary>
+/// <summary>CPU, GPU and FPS with 3D on (baseline) vs 3D off (render flag only; no FPS cap or HUD hiding).</summary>
 internal sealed class Measure3DTest : MeasureTestBase
 {
     private bool original;
 
     public override string Id => "measure-3d";
 
-    public override string Description => "CPU and FPS: 3D on vs 3D off (10 s each)";
+    public override string Description => "CPU, GPU and FPS: 3D on vs 3D off (10 s each)";
 
     protected override string TestName => "3D off";
 
