@@ -59,6 +59,8 @@ internal sealed class SelfTestRunner : IDisposable
         Service.Framework.Update += this.OnUpdate;
         Service.Log.Information($"Self-tests started ({this.steps.Count} steps)");
         Service.ChatGui.Print($"Text-Only Mode self-tests started (about 1½ minutes).{StartNote}");
+        if (this.plugin.Mode.IsOn)
+            Service.ChatGui.Print($"Text-only mode is on, so the tests that need normal play (and the savings measurements) are skipped. For the full run, type {Commands.Alias} off first.");
         return true;
     }
 
