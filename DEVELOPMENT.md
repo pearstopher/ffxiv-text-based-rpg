@@ -62,7 +62,7 @@ Dev builds only, hidden from `/xlhelp`.
 | `/trpgtest` | Runs the in-game self-tests (see §7). |
 | `/trpgdebug` | Lists the debug subcommands below. |
 | `/trpgdebug 3d off` / `3d on` | Hides / shows the 3D world by setting the game's render flag directly (no HUD hiding, no FPS cap). Refused during zone loads and cutscenes. Unloading the plugin shows the world again. Use it to check that the chat stays visible and usable with 3D off. |
-| `/trpgdebug addons` | Writes every loaded UI addon (name, visible, root node drawn, depth layer) to `pluginConfigs\TextBasedRPGddons.json` and prints how many. Claude reads it to check the HUD hiding rules. |
+| `/trpgdebug addons` | Writes every loaded UI addon (name, visible, root node drawn, depth layer) to `pluginConfigs\TextBasedRPG\addons.json` and prints how many. Claude reads it to check the HUD hiding rules. |
 | `/trpgdebug cpu` | Prints the game's CPU use (share of the whole machine, last second and ~10 s average) and frame rate. |
 
 ## 7. In-game self-tests (dev builds)
