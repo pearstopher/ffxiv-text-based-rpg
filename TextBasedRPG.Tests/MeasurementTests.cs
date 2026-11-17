@@ -39,7 +39,7 @@ public class MeasurementTests
     public void Compare_shows_both_periods_and_the_saving()
     {
         var text = MeasurementText.Compare(new PhaseResult(12, 60), "3D off", new PhaseResult(3, 240));
-        Assert.Equal("baseline CPU 12.0%, 60 FPS → 3D off CPU 3.0%, 240 FPS: CPU −9.0 points (−75%)", text);
+        Assert.Equal("baseline CPU 12.0%, GPU n/a, 60 FPS → 3D off CPU 3.0%, GPU n/a, 240 FPS: CPU −9.0 points (−75%)", text);
     }
 
     [Fact]
@@ -53,5 +53,29 @@ public class MeasurementTests
     public void Compare_with_a_zero_baseline_does_not_divide_by_zero()
     {
         Assert.EndsWith("(+0%)", MeasurementText.Compare(new PhaseResult(0, 0), "x", new PhaseResult(1, 1)));
+    }
+
+    [Fact]
+    public void Compare_includes_the_gpu_saving_when_both_periods_have_it()
+    {
+        var text = MeasurementText.Compare(new PhaseResult(12, 60, 40), "3D off", new PhaseResult(3, 240, 2));
+        Assert.Equal(
+            "baseline CPU 12.0%, GPU 40%, 60 FPS → 3D off CPU 3.0%, GPU 2%, 240 FPS: CPU −9.0 points (−75%), GPU −38 points (−95%)",
+            text);
+    }
+
+    [Fact]
+    public void Compare_shows_na_and_no_gpu_saving_when_one_period_lacks_gpu()
+    {
+        var text = MeasurementText.Compare(new PhaseResult(10, 30, 40), "x", new PhaseResult(5, 10));
+        Assert.Contains("GPU 40%", text);
+        Assert.Contains("GPU n/a", text);
+        Assert.EndsWith("CPU −5.0 points (−50%)", text);
+    }
+
+    [Fact]
+    public void With_gpu_keeps_cpu_and_fps()
+    {
+        Assert.Equal(new PhaseResult(1, 2, 3), new PhaseResult(1, 2).WithGpu(3));
     }
 }
