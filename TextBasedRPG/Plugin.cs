@@ -20,6 +20,8 @@ public sealed class Plugin : IDalamudPlugin
 
     internal SelfTestRunner SelfTests { get; }
 
+    private readonly SelfTestTriggers selfTestTriggers;
+
     public Plugin(IDalamudPluginInterface pluginInterface)
     {
         Service.Initialize(pluginInterface);
@@ -29,6 +31,7 @@ public sealed class Plugin : IDalamudPlugin
         // Dalamud unregisters them when the plugin unloads.
         Service.SelfTestRegistry.RegisterTestSteps(SelfTestCatalog.Create());
         this.SelfTests = new SelfTestRunner();
+        this.selfTestTriggers = new SelfTestTriggers(this.SelfTests, this.Config);
 
         // Logs which build is running, so a stale or wrong-configuration build is obvious in /xllog.
         Service.Log.Information($"{Service.PluginInterface.Manifest.Name} loaded ({DescribeBuild()})");
@@ -43,6 +46,7 @@ public sealed class Plugin : IDalamudPlugin
 
     public void Dispose()
     {
+        DisposeSafely(this.selfTestTriggers, "self-test triggers");
         DisposeSafely(this.SelfTests, "self-test runner");
         Service.Log.Information($"{Service.PluginInterface.Manifest.Name} unloaded");
     }
