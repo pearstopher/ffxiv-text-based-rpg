@@ -24,6 +24,7 @@ public sealed class Plugin : IDalamudPlugin
 
     private readonly SelfTestTriggers selfTestTriggers;
     private readonly PluginCommands commands;
+    private readonly DebugCommands debugCommands;
 
     public Plugin(IDalamudPluginInterface pluginInterface)
     {
@@ -37,6 +38,7 @@ public sealed class Plugin : IDalamudPlugin
         this.SelfTests = new SelfTestRunner();
         this.selfTestTriggers = new SelfTestTriggers(this.SelfTests, this.Config);
         this.commands = new PluginCommands();
+        this.debugCommands = new DebugCommands(this);
 
         // Logs which build is running, so a stale or wrong-configuration build is obvious in /xllog.
         Service.Log.Information($"{Service.PluginInterface.Manifest.Name} loaded ({DescribeBuild()})");
@@ -51,6 +53,7 @@ public sealed class Plugin : IDalamudPlugin
 
     public void Dispose()
     {
+        DisposeSafely(this.debugCommands, "debug commands");
         DisposeSafely(this.commands, "commands");
         DisposeSafely(this.selfTestTriggers, "self-test triggers");
         DisposeSafely(this.SelfTests, "self-test runner");

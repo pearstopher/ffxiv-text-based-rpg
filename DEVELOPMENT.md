@@ -61,6 +61,7 @@ Dev builds only, hidden from `/xlhelp`.
 |---|---|
 | `/trpgtest` | Runs the in-game self-tests (see §7). |
 | `/trpgdebug` | Lists the debug subcommands below. |
+| `/trpgdebug cpu` | Prints the game's CPU use (share of the whole machine, last second and ~10 s average) and frame rate. |
 
 ## 7. In-game self-tests (dev builds)
 
