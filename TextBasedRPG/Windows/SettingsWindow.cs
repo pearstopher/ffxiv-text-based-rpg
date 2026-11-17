@@ -68,8 +68,7 @@ internal sealed class SettingsWindow : Window
         ImGui.TextUnformatted(this.plugin.Cpu.Describe());
         ImGui.TextUnformatted(this.plugin.Cpu.Saving ?? "Use the mode for a few seconds to see how much CPU it saves.");
 
-        if (SelfTestRunner.IsDevBuild)
-            this.DrawSelfTests();
+        this.DrawSelfTests();
     }
 
     private void DrawSelfTests()
@@ -78,10 +77,10 @@ internal sealed class SettingsWindow : Window
         var runner = this.plugin.SelfTests;
         using (ImRaii.Disabled(runner.IsRunning))
         {
-            if (ImGui.Button(runner.IsRunning ? "Self-tests running..." : "Run self-tests"))
+            if (ImGui.Button(runner.IsRunning ? "Tests running..." : "Run tests and measure savings"))
                 Service.Framework.RunOnFrameworkThread(() => runner.Start());
         }
 
-        ImGui.TextWrapped($"Dev builds only. Takes about 1½ minutes and measures how much CPU and GPU the mode saves.{SelfTestRunner.StartNote}");
+        ImGui.TextWrapped($"Checks the mode works on your game and measures how much CPU and GPU it saves; the results appear in chat. Takes about 1½ minutes.{SelfTestRunner.StartNote}");
     }
 }

@@ -65,11 +65,11 @@ Dev builds only, hidden from `/xlhelp`.
 | `/trpgdebug addons` | Writes every loaded UI addon (name, visible, root node drawn, depth layer) to `pluginConfigs\TextBasedRPG\addons.json` and prints how many. Claude reads it to check the HUD hiding rules. |
 | `/trpgdebug cpu` | Prints the game's CPU use (share of the whole machine, last second and ~10 s average) and frame rate. |
 
-## 7. In-game self-tests (dev builds)
+## 7. In-game self-tests
 
-The plugin's in-game checks are registered with Dalamud's own self-test system (`/xldev` → **Self-Test**), and dev builds can also run them by themselves:
+The plugin's in-game checks are registered with Dalamud's own self-test system (`/xldev` → **Self-Test**). Every build has a **Run tests and measure savings** button in `/trpg settings`; dev builds can also run them by themselves:
 
-- `/trpgtest` (or **Run self-tests** in `/trpg settings`) runs them all, prints a summary and the measured CPU/GPU savings in chat, and writes **`%APPDATA%\XIVLauncher\pluginConfigs\TextBasedRPG\selftest-results.json`**. Claude reads that file, so there's nothing to copy.
+- `/trpgtest` (dev builds) or the button runs them all, prints a summary and the measured CPU/GPU savings in chat, and writes **`%APPDATA%\XIVLauncher\pluginConfigs\TextBasedRPG\selftest-results.json`**. Claude reads that file, so there's nothing to copy.
 - With **Run self-tests after each load** on (dev builds, default on), `dotnet build` → auto-reload → the tests run once you're logged in.
 - The tests never send anything to the game server.
 
