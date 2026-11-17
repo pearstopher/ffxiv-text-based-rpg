@@ -46,5 +46,6 @@ public class ModeMessagesTests
     {
         Assert.Contains("AFK", ModeMessages.AutoOnAfk);
         Assert.Contains(Commands.Alias, ModeMessages.AutoOnAfk);
+        Assert.Contains("back", ModeMessages.AutoOffAfk);
     }
 }
