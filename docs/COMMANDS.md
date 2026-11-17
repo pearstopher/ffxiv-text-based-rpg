@@ -17,6 +17,10 @@
 
 Anything else prints the list of commands.
 
+## Server info bar
+
+The **TRPG** entry in the server info bar (top right of the screen) turns the mode on when clicked. While the mode is on the server info bar is hidden like the rest of the HUD, so type `/trpg` to come back.
+
 ## What the mode does
 
 - **On:** the 3D world is no longer drawn, every UI element except the chat window is hidden, and the frame rate is capped low (raised while you type). You stay connected, chat works normally in every channel, and sound keeps playing. Needs a logged-in character.
