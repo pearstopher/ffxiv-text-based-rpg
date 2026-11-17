@@ -2,6 +2,7 @@ using System;
 using Dalamud.Plugin;
 using TextBasedRPG.Core;
 using TextBasedRPG.SelfTests;
+using TextBasedRPG.Windows;
 
 namespace TextBasedRPG;
 
@@ -35,6 +36,8 @@ public sealed class Plugin : IDalamudPlugin
     private readonly DebugCommands debugCommands;
     private readonly DtrEntry dtrEntry;
 
+    internal PluginUi Ui { get; }
+
     public Plugin(IDalamudPluginInterface pluginInterface)
     {
         Service.Initialize(pluginInterface);
@@ -53,6 +56,7 @@ public sealed class Plugin : IDalamudPlugin
         this.commands = new PluginCommands(this);
         this.debugCommands = new DebugCommands(this);
         this.dtrEntry = new DtrEntry(this);
+        this.Ui = new PluginUi(this);
         this.ApplySettings();
 
         // Logs which build is running, so a stale or wrong-configuration build is obvious in /xllog.
@@ -87,6 +91,7 @@ public sealed class Plugin : IDalamudPlugin
 
     public void Dispose()
     {
+        DisposeSafely(this.Ui, "windows");
         DisposeSafely(this.dtrEntry, "server info bar entry");
         DisposeSafely(this.debugCommands, "debug commands");
         DisposeSafely(this.commands, "commands");

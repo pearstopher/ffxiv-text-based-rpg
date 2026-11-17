@@ -12,7 +12,7 @@
 | `/trpg` (or `/trpg toggle`) | Turns text-based RPG mode on or off. |
 | `/trpg on` / `/trpg off` | Turns the mode on / off. |
 | `/trpg status` | Shows whether the mode is on, whether 3D is off, the frame-rate cap, how many UI elements are hidden, and CPU use and FPS. |
-| `/trpg settings` (or `config`) | Opens the settings. *(coming soon)* |
+| `/trpg settings` (or `config`) | Opens or closes the settings window (also the plugin installer's settings button). |
 | `/trpg help` (or `?`) | Lists the commands. |
 
 Anything else prints the list of commands.

@@ -45,8 +45,8 @@ internal sealed class PluginCommands : IDisposable
                 Service.ChatGui.PrintError($"Unknown option \"{args.Trim()}\".");
                 PrintUsage();
                 break;
-            default:
-                Service.ChatGui.Print("Text-Based RPG: the settings window is coming soon.");
+            case CommandAction.Settings:
+                this.plugin.Ui.ToggleSettings();
                 break;
         }
     }
