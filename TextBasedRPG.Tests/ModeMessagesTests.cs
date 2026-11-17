@@ -40,12 +40,4 @@ public class ModeMessagesTests
         Assert.Contains("3D on (changes after the loading screen)", text);
         Assert.Contains("no FPS cap", text);
     }
-
-    [Fact]
-    public void Afk_message_says_why_and_how_to_leave()
-    {
-        Assert.Contains("AFK", ModeMessages.AutoOnAfk);
-        Assert.Contains(Commands.Alias, ModeMessages.AutoOnAfk);
-        Assert.Contains("back", ModeMessages.AutoOffAfk);
-    }
 }

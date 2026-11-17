@@ -9,7 +9,7 @@ namespace TextBasedRPG;
 /// The "Turn on when AFK" setting: while the game marks the player AFK (online status "Away from Keyboard", read with
 /// Dalamud's <see cref="IObjectTable.LocalPlayer"/>), the mode is on. If the setting turned it on, it turns off again
 /// when the player is back; a mode the player turned on themselves is left alone. <see cref="AfkTrigger"/> (Core)
-/// decides.
+/// decides. It switches quietly (log only): whoever ticked the setting knows what's happening.
 /// </summary>
 /// <remarks>
 /// Only subscribed to the framework while the setting is on, and then checks once a second. It doesn't switch the
@@ -81,12 +81,10 @@ internal sealed class AfkWatcher : IDisposable
             this.trigger.TurnedOn();
             this.changesAfterOurs = this.mode.Changes;
             Service.Log.Information("Text-only mode turned on because the character went AFK");
-            Service.ChatGui.Print(ModeMessages.AutoOnAfk);
         }
         else if (action == AfkAction.TurnOff && this.mode.Request(ModeRequest.Off) == ModeChange.TurnedOff)
         {
             Service.Log.Information("Text-only mode turned off because the character is no longer AFK");
-            Service.ChatGui.Print(ModeMessages.AutoOffAfk);
         }
     }
 
