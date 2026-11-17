@@ -1,7 +1,7 @@
 namespace TextBasedRPG.Core;
 
 /// <summary>
-/// Which UI addons stay visible in text-based RPG mode: only the chat (owner decision; no pop-ups, prompts or other
+/// Which UI addons stay visible in text-only mode: only the chat (owner decision; no pop-ups, prompts or other
 /// HUD). Everything else is hidden while the mode is on.
 /// </summary>
 public static class HudVisibilityPolicy

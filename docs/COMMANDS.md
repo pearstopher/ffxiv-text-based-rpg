@@ -2,14 +2,14 @@
 
 | Command | What it does |
 |---|---|
-| `/textrpg` | Main command. See the options below. |
-| `/trpg` | Short for `/textrpg`. |
+| `/textmode` | Main command. See the options below. |
+| `/trpg` | Same as `/textmode`. |
 
 ## Options
 
 | Typed | What it does |
 |---|---|
-| `/trpg` (or `/trpg toggle`) | Turns text-based RPG mode on or off. |
+| `/trpg` (or `/trpg toggle`) | Turns text-only mode on or off. |
 | `/trpg on` / `/trpg off` | Turns the mode on / off. |
 | `/trpg status` | Shows whether the mode is on, whether 3D is off, the frame-rate cap, how many UI elements are hidden, and CPU use and FPS. |
 | `/trpg settings` (or `config`) | Opens or closes the settings window (also the plugin installer's settings button). |

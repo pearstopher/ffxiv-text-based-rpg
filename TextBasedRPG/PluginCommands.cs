@@ -4,7 +4,7 @@ using TextBasedRPG.Core;
 
 namespace TextBasedRPG;
 
-/// <summary>Registers <c>/textrpg</c> and <c>/trpg</c> with Dalamud and dispatches their subcommands.</summary>
+/// <summary>Registers <c>/textmode</c> and <c>/trpg</c> with Dalamud and dispatches their subcommands.</summary>
 internal sealed class PluginCommands : IDisposable
 {
     private readonly Plugin plugin;
@@ -14,11 +14,11 @@ internal sealed class PluginCommands : IDisposable
         this.plugin = plugin;
         Service.CommandManager.AddHandler(Commands.Main, new CommandInfo(this.OnCommand)
         {
-            HelpMessage = "Turn text-based RPG mode on or off (only the chat stays, low CPU). /textrpg help for more.",
+            HelpMessage = "Turn text-only mode on or off (only the chat stays, low CPU). /textmode help for more.",
         });
         Service.CommandManager.AddHandler(Commands.Alias, new CommandInfo(this.OnCommand)
         {
-            HelpMessage = $"Short for {Commands.Main}.",
+            HelpMessage = $"Same as {Commands.Main}.",
         });
     }
 

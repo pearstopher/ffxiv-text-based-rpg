@@ -70,7 +70,7 @@ public sealed record SelfTestReport(DateTimeOffset StartedAt, DateTimeOffset Fin
     public string ToText()
     {
         var text = new StringBuilder();
-        text.AppendLine(CultureInfo.InvariantCulture, $"Text-Based RPG self-tests: {this.Summary}");
+        text.AppendLine(CultureInfo.InvariantCulture, $"Text-Only Mode self-tests: {this.Summary}");
         text.AppendLine(CultureInfo.InvariantCulture, $"{this.Build}; started {this.StartedAt:yyyy-MM-dd HH:mm:ss zzz}");
         foreach (var r in this.Results)
             text.AppendLine(CultureInfo.InvariantCulture, $"  [{r.Status}] {r.Id} ({r.DurationMs} ms): {r.Detail}");

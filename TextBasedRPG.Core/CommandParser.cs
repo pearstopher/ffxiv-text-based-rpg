@@ -31,7 +31,7 @@ public static class CommandParser
     /// <summary>Usage text, shown by <c>help</c> and for unknown input.</summary>
     public static readonly IReadOnlyList<string> Usage =
     [
-        $"{Commands.Alias} — turn text-based RPG mode on or off",
+        $"{Commands.Alias} — turn text-only mode on or off",
         $"{Commands.Alias} on | off — turn it on / off",
         $"{Commands.Alias} status — show the mode, frame rate cap and CPU use",
         $"{Commands.Alias} settings — open the settings",

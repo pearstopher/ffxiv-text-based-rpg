@@ -11,7 +11,7 @@
     <Version>0.1.0.0</Version>
     <!-- Manifest fields (see https://github.com/goatcorp/DalamudPackager) -->
     <Author>Ane Mora</Author>
-    <Name>Text-Based RPG</Name>
+    <Name>Text-Only Mode for FFXIV</Name>
     <Punchline>Turn off the graphics, keep the chat. A low-CPU chat-only mode.</Punchline>
     <!-- &#10;&#10; puts a blank line in the plugin installer. -->
     <Description>Turns FFXIV into a text-based RPG. Type /trpg and the 3D world and the whole HUD disappear: only the chat window stays, and the frame rate drops, so the game barely uses your CPU while you're just chatting with friends.&#10;&#10;Your connection stays alive, you can keep talking in every chat channel, and sound keeps playing. Type /trpg again to go back to playing.</Description>

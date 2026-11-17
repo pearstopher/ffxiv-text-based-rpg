@@ -10,7 +10,7 @@ namespace TextBasedRPG;
 /// </summary>
 internal sealed class DtrEntry : IDisposable
 {
-    private const string Title = "Text-Based RPG";
+    private const string Title = "Text-Only Mode";
 
     private readonly Plugin plugin;
     private readonly IDtrBarEntry entry;
@@ -20,7 +20,7 @@ internal sealed class DtrEntry : IDisposable
         this.plugin = plugin;
         this.entry = Service.DtrBar.Get(Title);
         this.entry.Text = "TRPG";
-        this.entry.Tooltip = $"Text-Based RPG: click to hide everything but the chat and save CPU.\nType {Commands.Alias} to come back.";
+        this.entry.Tooltip = $"Text-Only Mode: click to hide everything but the chat and save CPU.\nType {Commands.Alias} to come back.";
         this.entry.OnClick = this.OnClick;
     }
 

@@ -113,7 +113,7 @@ internal sealed class SelfTestRunner : IDisposable
         }
 
         Service.Log.Information(report.ToText());
-        var summary = $"Text-Based RPG self-tests: {report.Summary}.";
+        var summary = $"Text-Only Mode self-tests: {report.Summary}.";
         if (report.AllPassed)
         {
             Service.ChatGui.Print(summary);
