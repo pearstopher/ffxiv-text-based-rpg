@@ -23,7 +23,7 @@ Each lands in its own issue; this table is updated as they're added.
 | `RenderDisableManager` | Adapted from ECommons (MIT): cooperative requests for `Render.Manager.Is3DRenderingDisabled`, shared through Dalamud's `GetOrCreateData` with every ECommons plugin (AutoRetainer, Mini, …). 3D is off while any plugin has a request. |
 | `RenderFlag`, `GameState`, `UiAddons` | Small read helpers: the render flag (debug/self-tests), "zone load or cutscene in progress", loaded UI addons. |
 | `FrameLimiter` | `TargetFps` (0 = off). Sleeps at the end of each `IFramework.Update` for `FramePacer.SleepMs` (Core) to cap the frame rate (ChillFrames technique, no busy-wait). |
-| `HudHider` (planned) | Hides the root node of every non-chat addon and restores exactly what it hid. |
+| `HudHider` | While active, hides the root node of every drawn addon that `HudVisibilityPolicy` (Core) says to hide (all but the chat), re-scanning every 250 ms; when turned off, shows exactly the nodes it hid that are still loaded under the same name. |
 | `ModeController` (planned) | Switches the three parts together; turns everything off on logout and unload. |
 | `CpuMonitor` | Counts frames and samples process CPU % once per second (`CpuSampler` in Core). |
 | Self-tests (planned) | `ISelfTestStep`s registered with Dalamud's `ISelfTestRegistry`, plus a dev runner that writes the results file. |
