@@ -10,18 +10,28 @@ namespace TextBasedRPG;
 /// Keyboard", read with Dalamud's <see cref="IObjectTable.LocalPlayer"/>). It never turns the mode off: chatting can
 /// clear AFK, and the mode is for chatting. <see cref="AfkTrigger"/> (Core) decides when.
 /// </summary>
-/// <remarks>Only subscribed to the framework while the setting is on, and then checks once a second.</remarks>
+/// <remarks>
+/// Only subscribed to the framework while the setting is on, and then checks once a second. Going AFK during a test
+/// run doesn't switch the mode (it would spoil the measurements); the next time you go AFK does.
+/// </remarks>
 internal sealed class AfkWatcher : IDisposable
 {
     private const long CheckIntervalMs = 1_000;
 
     private readonly ModeController mode;
+    private readonly Func<bool> paused;
     private readonly AfkTrigger trigger = new();
     private readonly Stopwatch clock = Stopwatch.StartNew();
     private long nextCheckMs;
     private bool enabled;
 
-    internal AfkWatcher(ModeController mode) => this.mode = mode;
+    /// <param name="mode">The mode to turn on.</param>
+    /// <param name="paused">True while the watcher must not switch the mode (a test run is measuring).</param>
+    internal AfkWatcher(ModeController mode, Func<bool> paused)
+    {
+        this.mode = mode;
+        this.paused = paused;
+    }
 
     /// <summary>Whether the setting is on.</summary>
     internal bool Enabled
@@ -52,7 +62,7 @@ internal sealed class AfkWatcher : IDisposable
             return;
         this.nextCheckMs = now + CheckIntervalMs;
 
-        if (!this.trigger.Update(IsAfk) || this.mode.IsOn)
+        if (!this.trigger.Update(IsAfk) || this.mode.IsOn || this.paused())
             return;
 
         if (this.mode.Request(ModeRequest.On) == ModeChange.TurnedOn)

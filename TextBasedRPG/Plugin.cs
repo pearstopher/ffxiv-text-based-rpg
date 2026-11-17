@@ -48,12 +48,12 @@ public sealed class Plugin : IDalamudPlugin
         this.Limiter = new FrameLimiter();
         this.Hud = new HudHider();
         this.Mode = new ModeController(this.Render, this.Limiter, this.Hud, this.Cpu);
-        this.afkWatcher = new AfkWatcher(this.Mode);
 
         // In-game checks: Dalamud's Self-Test window gets its own step instances; the dev runner builds fresh ones per run.
         // Dalamud unregisters them when the plugin unloads.
         Service.SelfTestRegistry.RegisterTestSteps(SelfTestCatalog.Create(this));
         this.SelfTests = new SelfTestRunner(this);
+        this.afkWatcher = new AfkWatcher(this.Mode, paused: () => this.SelfTests.IsRunning);
         this.selfTestTriggers = new SelfTestTriggers(this.SelfTests, this.Config);
         this.commands = new PluginCommands(this);
         this.debugCommands = new DebugCommands(this);

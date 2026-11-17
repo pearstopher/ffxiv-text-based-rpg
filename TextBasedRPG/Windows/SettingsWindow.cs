@@ -69,7 +69,8 @@ internal sealed class SettingsWindow : Window
 
         if (changed)
         {
-            this.plugin.ApplySettings();
+            // Applying touches framework-thread state (frame limiter, server info bar, AFK watcher); Draw may not be on it.
+            Service.Framework.RunOnFrameworkThread(this.plugin.ApplySettings);
             config.Save();
         }
 

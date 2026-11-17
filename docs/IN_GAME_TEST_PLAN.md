@@ -68,6 +68,7 @@ Tick each and note anything odd in the issue (or just tell Claude).
 - [ ] Mode on, log out: title screen normal; log back in: normal game, mode off.
 - [ ] Mode on, disable the plugin in `/xlplugins`: everything back.
 - [ ] Alt-tab away and back in the mode: nothing changes.
+- [ ] Tick **Turn on when I go AFK**, then `/afk`: the mode turns on with the "You're AFK" message. `/trpg` turns it off and it stays off while you're still AFK. Unticked (the default): `/afk` does nothing.
 - [ ] If you use AutoRetainer or Mini: both still work; turning our mode off doesn't turn 3D on while they want it off.
 
 ## 3. Reporting
