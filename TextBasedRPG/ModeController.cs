@@ -70,6 +70,7 @@ internal sealed class ModeController : IDisposable
         }
 
         this.cpu.ResetAverage();
+        this.cpu.SetMode(this.IsOn);
         Service.Log.Information($"Text-based RPG mode {(this.IsOn ? "on" : "off")}");
         return change;
     }
