@@ -57,6 +57,15 @@ public sealed class Plugin : IDalamudPlugin
         DisposeSafely(this.commands, "commands");
         DisposeSafely(this.selfTestTriggers, "self-test triggers");
         DisposeSafely(this.SelfTests, "self-test runner");
+        try
+        {
+            RenderDisableManager.Dispose(); // removes our 3D-off request, if any
+        }
+        catch (Exception ex)
+        {
+            Service.Log.Error(ex, "Failed to dispose the render disable manager");
+        }
+
         DisposeSafely(this.Cpu, "CPU monitor");
         Service.Log.Information($"{Service.PluginInterface.Manifest.Name} unloaded");
     }
