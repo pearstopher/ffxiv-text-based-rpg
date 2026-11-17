@@ -16,14 +16,14 @@ Run with `/trpgtest` or the **Run self-tests** button in `/trpg settings` (dev b
 | `measure-mode` | Measurement (~30 s): CPU %, GPU % and FPS for 10 s of normal play, then the full text-only mode (3 s settle, 15 s measured), then the mode off. Passes whenever it completes; the detail shows both periods and the saving. This is the number the plugin exists for. Skipped (pass) if you already have the mode on. Don't type during it. |
 <!-- self-tests:end -->
 
-After a run, chat shows the measured savings as a small table per measurement, in full-width characters so the columns line up in the game's chat font. Cells are padded with a full-width middle dot (・), because the game draws the full-width space narrower than the other full-width characters:
+After a run, chat shows the measured savings as a small table per measurement. **On** is the measured change applied (the mode, or 3D off), **Off** is normal play, **Difference** is On compared with Off. The columns are written in full-width letters and digits, which the game's chat font draws at one width, padded with the full-width full stop (．). The full-width space (U+3000), middle dot (・) and minus (－) are each a different width in the game font, so they're never used inside the columns:
 
 ```
-Ｔｅｘｔ－ｏｎｌｙ　ｍｏｄｅ
-・・・・Ｎｏｒｍａｌ・Ｍｏｄｅ・・・Ｃｈａｎｇｅ
-ＣＰＵ・４．４％・・・１．６％・・・－６４％
-ＧＰＵ・１１％・・・・１％・・・・・－９１％
-ＦＰＳ・３０・・・・・１０・・・・・－６７％
+Text-only mode
+．．．．Ｏｎ．．．．．Ｏｆｆ．．．．Ｄｉｆｆｅｒｅｎｃｅ
+ＣＰＵ．１．６％．．．４．４％．．．６４％　ｌｅｓｓ
+ＧＰＵ．１％．．．．．１１％．．．．９１％　ｌｅｓｓ
+ＦＰＳ．１０．．．．．３０．．．．．６７％　ｌｅｓｓ
 ```
 
 GPU % is this game's use of the GPU's 3D engine (the busiest one, as in Task Manager's GPU column), from Windows' "GPU Engine" performance counters. Where Windows doesn't provide them (e.g. Wine/Proton), the detail shows `GPU n/a` with the reason and the tests still pass.

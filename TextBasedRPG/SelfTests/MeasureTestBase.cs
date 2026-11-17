@@ -47,11 +47,9 @@ internal abstract unsafe class MeasureTestBase : GameSelfTest
     /// <summary>Short name of the measured state, e.g. "3D off".</summary>
     protected abstract string TestName { get; }
 
-    /// <summary>Title of the chat table, e.g. "3D world off only".</summary>
+    /// <summary>Plain-text title of the chat table, saying what "On" means, e.g. "Text-only mode".</summary>
     protected abstract string TableTitle { get; }
 
-    /// <summary>Header of the chat table's changed column (at most 6 characters), e.g. "3D-off".</summary>
-    protected abstract string TableColumn { get; }
 
     public override int TimeoutMs => (int)(this.MeasureFor.TotalMilliseconds + this.TestFor.TotalMilliseconds + this.SettleFor.TotalMilliseconds) + 20_000;
 
@@ -117,7 +115,7 @@ internal abstract unsafe class MeasureTestBase : GameSelfTest
                     + (this.gpuError is { } why ? $" ({why})" : string.Empty)
                     + (this.inBackground ? backgroundNote : string.Empty);
                 var title = this.TableTitle + (this.inBackground ? " (game not focused: not reliable)" : string.Empty);
-                this.SummaryLines = SavingsTable.Lines(title, this.TableColumn, this.baseline, test);
+                this.SummaryLines = SavingsTable.Lines(title, off: this.baseline, on: test);
                 return SelfTestStepResult.Waiting;
 
             default:
