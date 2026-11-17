@@ -87,7 +87,7 @@ internal sealed class SettingsWindow : Window
         var runner = this.plugin.SelfTests;
         using (ImRaii.Disabled(runner.IsRunning))
         {
-            if (ImGui.Button(runner.IsRunning ? "Tests running..." : "Run tests and measure savings"))
+            if (ImGui.Button(runner.IsRunning ? "Tests running..." : "Run tests"))
                 Service.Framework.RunOnFrameworkThread(() => runner.Start());
         }
 

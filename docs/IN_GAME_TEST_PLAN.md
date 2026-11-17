@@ -2,7 +2,7 @@
 
 ## 0. Self-tests
 
-Run with `/trpgtest` or the **Run tests and measure savings** button in `/trpg settings` (every build), or let them run after each load (dev builds). With the mode already on, the tests that need normal play (`restore-on-off`, `mode-cycle`, `measure-3d`, `measure-mode`) skip themselves and chat says so. **Keep the game window focused**: in the background the game limits its own frame rate and the measurements understate the saving (the measurement tests say so in their detail if it happened). Results: `%APPDATA%\XIVLauncher\pluginConfigs\TextBasedRPG\selftest-results.json`. They also appear in Dalamud's Self-Test window (`/xldev`).
+Run with `/trpgtest` or the **Run tests** button in `/trpg settings` (every build), or let them run after each load (dev builds). With the mode already on, the tests that need normal play (`restore-on-off`, `mode-cycle`, `measure-3d`, `measure-mode`) skip themselves and chat says so. **Keep the game window focused**: in the background the game limits its own frame rate and the measurements understate the saving (the measurement tests say so in their detail if it happened). Results: `%APPDATA%\XIVLauncher\pluginConfigs\TextBasedRPG\selftest-results.json`. They also appear in Dalamud's Self-Test window (`/xldev`).
 
 <!-- self-tests:start -->
 | Id | Checks |

@@ -67,7 +67,7 @@ Dev builds only, hidden from `/xlhelp`.
 
 ## 7. In-game self-tests
 
-The plugin's in-game checks are registered with Dalamud's own self-test system (`/xldev` → **Self-Test**). Every build has a **Run tests and measure savings** button in `/trpg settings`; dev builds can also run them by themselves:
+The plugin's in-game checks are registered with Dalamud's own self-test system (`/xldev` → **Self-Test**). Every build has a **Run tests** button in `/trpg settings`; dev builds can also run them by themselves:
 
 - `/trpgtest` or the button (every build) runs them all, prints a summary and the measured CPU/GPU savings in chat, and writes **`%APPDATA%\XIVLauncher\pluginConfigs\TextBasedRPG\selftest-results.json`**. Claude reads that file, so there's nothing to copy.
 - With **Run self-tests after each load** on (dev builds, default on), `dotnet build` → auto-reload → the tests run once you're logged in.
