@@ -22,6 +22,8 @@ public sealed class Plugin : IDalamudPlugin
 
     internal CpuMonitor Cpu { get; }
 
+    internal RenderController Render { get; }
+
     private readonly SelfTestTriggers selfTestTriggers;
     private readonly PluginCommands commands;
     private readonly DebugCommands debugCommands;
@@ -31,6 +33,7 @@ public sealed class Plugin : IDalamudPlugin
         Service.Initialize(pluginInterface);
         this.Config = Configuration.Load();
         this.Cpu = new CpuMonitor();
+        this.Render = new RenderController();
 
         // In-game checks: Dalamud's Self-Test window gets its own step instances; the dev runner builds fresh ones per run.
         // Dalamud unregisters them when the plugin unloads.
@@ -57,6 +60,7 @@ public sealed class Plugin : IDalamudPlugin
         DisposeSafely(this.commands, "commands");
         DisposeSafely(this.selfTestTriggers, "self-test triggers");
         DisposeSafely(this.SelfTests, "self-test runner");
+        DisposeSafely(this.Render, "render controller");
         try
         {
             RenderDisableManager.Dispose(); // removes our 3D-off request, if any
