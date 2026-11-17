@@ -2,7 +2,7 @@
 
 ## 0. Self-tests
 
-Run with `/trpgtest` (dev builds), or let them run after each load. Results: `%APPDATA%\XIVLauncher\pluginConfigs\TextBasedRPG\selftest-results.json`. They also appear in Dalamud's Self-Test window (`/xldev`).
+Run with `/trpgtest` or the **Run self-tests** button in `/trpg settings` (dev builds), or let them run after each load. **Keep the game window focused**: in the background the game limits its own frame rate and the measurements understate the saving (the measurement tests say so in their detail if it happened). Results: `%APPDATA%\XIVLauncher\pluginConfigs\TextBasedRPG\selftest-results.json`. They also appear in Dalamud's Self-Test window (`/xldev`).
 
 <!-- self-tests:start -->
 | Id | Checks |
@@ -15,6 +15,8 @@ Run with `/trpgtest` (dev builds), or let them run after each load. Results: `%A
 | `measure-3d` | Measurement (~25 s): CPU %, GPU % and FPS for 10 s with 3D on, then 3 s settle and 10 s with 3D off (render flag only), then 3D back on. Passes whenever it completes; the numbers and the saving are in the detail. Fails only if 3D can't be turned back on. Don't touch the game while it runs. |
 | `measure-mode` | Measurement (~30 s): CPU %, GPU % and FPS for 10 s of normal play, then the full text-only mode (3 s settle, 15 s measured), then the mode off. Passes whenever it completes; the detail shows both periods and the saving. This is the number the plugin exists for. Skipped (pass) if you already have the mode on. Don't type during it. |
 <!-- self-tests:end -->
+
+After a run, chat shows the measured savings, e.g. `text-only mode: CPU 4.4% → 1.6% (−64%), GPU 11% → 1% (−91%), 30 → 10 FPS`.
 
 GPU % is this game's use of the GPU's 3D engine (the busiest one, as in Task Manager's GPU column), from Windows' "GPU Engine" performance counters. Where Windows doesn't provide them (e.g. Wine/Proton), the detail shows `GPU n/a` with the reason and the tests still pass.
 

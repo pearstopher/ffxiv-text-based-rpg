@@ -7,7 +7,7 @@ internal sealed class Measure3DTest : MeasureTestBase
 
     public override string Id => "measure-3d";
 
-    public override string Description => "CPU, GPU and FPS: 3D on vs 3D off (10 s each)";
+    public override string Description => "CPU, GPU and FPS: 3D on vs 3D off (10 s each)" + FocusNote;
 
     protected override string TestName => "3D off";
 

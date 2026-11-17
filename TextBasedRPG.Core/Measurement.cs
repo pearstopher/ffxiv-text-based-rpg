@@ -74,6 +74,23 @@ public static class MeasurementText
         return text;
     }
 
+    /// <summary>
+    /// One line for the chat summary, e.g. <c>text-only mode: CPU 4.4% → 1.6% (−63%), GPU 11% → 1% (−94%), 30 → 10 FPS</c>.
+    /// GPU is left out when either period lacks it.
+    /// </summary>
+    public static string Summary(PhaseResult baseline, string testName, PhaseResult test)
+    {
+        var text = string.Create(
+            CultureInfo.InvariantCulture,
+            $"{testName}: CPU {baseline.CpuPercent:0.0}% → {test.CpuPercent:0.0}% ({Saving(baseline.CpuPercent, test.CpuPercent)})");
+        if (baseline.GpuPercent is { } before && test.GpuPercent is { } after)
+            text += string.Create(CultureInfo.InvariantCulture, $", GPU {before:0}% → {after:0}% ({Saving(before, after)})");
+        return text + string.Create(CultureInfo.InvariantCulture, $", {baseline.Fps:0} → {test.Fps:0} FPS");
+    }
+
+    private static string Saving(double before, double after)
+        => Signed(before > 0 ? (after - before) / before * 100 : 0, "0") + "%";
+
     private static string Period(PhaseResult r)
     {
         var gpu = r.GpuPercent is { } g ? g.ToString("0", CultureInfo.InvariantCulture) + "%" : "n/a";

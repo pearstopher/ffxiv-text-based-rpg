@@ -1,7 +1,9 @@
 using System.Numerics;
 using Dalamud.Bindings.ImGui;
+using Dalamud.Interface.Utility.Raii;
 using Dalamud.Interface.Windowing;
 using TextBasedRPG.Core;
+using TextBasedRPG.SelfTests;
 
 namespace TextBasedRPG.Windows;
 
@@ -65,5 +67,21 @@ internal sealed class SettingsWindow : Window
         ImGui.Separator();
         ImGui.TextUnformatted(this.plugin.Cpu.Describe());
         ImGui.TextUnformatted(this.plugin.Cpu.Saving ?? "Use the mode for a few seconds to see how much CPU it saves.");
+
+        if (SelfTestRunner.IsDevBuild)
+            this.DrawSelfTests();
+    }
+
+    private void DrawSelfTests()
+    {
+        ImGui.Separator();
+        var runner = this.plugin.SelfTests;
+        using (ImRaii.Disabled(runner.IsRunning))
+        {
+            if (ImGui.Button(runner.IsRunning ? "Self-tests running..." : "Run self-tests"))
+                Service.Framework.RunOnFrameworkThread(() => runner.Start());
+        }
+
+        ImGui.TextWrapped($"Dev builds only. Takes about 1½ minutes and measures how much CPU and GPU the mode saves.{SelfTestRunner.StartNote}");
     }
 }
