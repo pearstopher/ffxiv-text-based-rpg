@@ -7,8 +7,11 @@ namespace TextBasedRPG;
 /// <summary>Registers <c>/textrpg</c> and <c>/trpg</c> with Dalamud and dispatches their subcommands.</summary>
 internal sealed class PluginCommands : IDisposable
 {
-    internal PluginCommands()
+    private readonly Plugin plugin;
+
+    internal PluginCommands(Plugin plugin)
     {
+        this.plugin = plugin;
         Service.CommandManager.AddHandler(Commands.Main, new CommandInfo(this.OnCommand)
         {
             HelpMessage = "Turn text-based RPG mode on or off (only the chat stays, low CPU). /textrpg help for more.",
@@ -23,6 +26,18 @@ internal sealed class PluginCommands : IDisposable
     {
         switch (CommandParser.Parse(args))
         {
+            case CommandAction.Toggle:
+                this.Request(ModeRequest.Toggle);
+                break;
+            case CommandAction.On:
+                this.Request(ModeRequest.On);
+                break;
+            case CommandAction.Off:
+                this.Request(ModeRequest.Off);
+                break;
+            case CommandAction.Status:
+                Service.ChatGui.Print(this.plugin.StatusText());
+                break;
             case CommandAction.Help:
                 PrintUsage();
                 break;
@@ -31,9 +46,19 @@ internal sealed class PluginCommands : IDisposable
                 PrintUsage();
                 break;
             default:
-                Service.ChatGui.Print("Text-Based RPG: not implemented yet.");
+                Service.ChatGui.Print("Text-Based RPG: the settings window is coming soon.");
                 break;
         }
+    }
+
+    private void Request(ModeRequest request)
+    {
+        var change = this.plugin.Mode.Request(request);
+        var (text, isError) = ModeMessages.For(change, this.plugin.Mode.IsOn);
+        if (isError)
+            Service.ChatGui.PrintError(text);
+        else
+            Service.ChatGui.Print(text);
     }
 
     private static void PrintUsage()

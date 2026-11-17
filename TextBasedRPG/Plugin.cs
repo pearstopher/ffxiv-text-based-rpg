@@ -49,12 +49,22 @@ public sealed class Plugin : IDalamudPlugin
         Service.SelfTestRegistry.RegisterTestSteps(SelfTestCatalog.Create());
         this.SelfTests = new SelfTestRunner();
         this.selfTestTriggers = new SelfTestTriggers(this.SelfTests, this.Config);
-        this.commands = new PluginCommands();
+        this.commands = new PluginCommands(this);
         this.debugCommands = new DebugCommands(this);
 
         // Logs which build is running, so a stale or wrong-configuration build is obvious in /xllog.
         Service.Log.Information($"{Service.PluginInterface.Manifest.Name} loaded ({DescribeBuild()})");
     }
+
+    /// <summary>The <c>/trpg status</c> line: mode, 3D, FPS cap, hidden UI elements, CPU and FPS.</summary>
+    internal string StatusText()
+        => ModeMessages.Status(
+            this.Mode.IsOn,
+            this.Render.IsApplied,
+            this.Render.IsWaiting,
+            this.Limiter.TargetFps,
+            this.Hud.HiddenCount,
+            this.Cpu.Describe());
 
     /// <summary>E.g. "Debug build, built 2026-11-16 10:36:02, from C:\...\TextBasedRPG.dll".</summary>
     internal static string DescribeBuild()
