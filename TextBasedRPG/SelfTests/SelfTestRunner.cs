@@ -17,6 +17,7 @@ internal sealed class SelfTestRunner : IDisposable
 {
     internal const string ResultsFileName = "selftest-results.json";
 
+    private readonly Plugin plugin;
     private readonly Stopwatch clock = Stopwatch.StartNew();
     private readonly List<SelfTestResult> results = [];
     private List<GameSelfTest> steps = [];
@@ -29,6 +30,8 @@ internal sealed class SelfTestRunner : IDisposable
 
     internal static string ResultsPath => Path.Combine(Service.PluginInterface.GetPluginConfigDirectory(), ResultsFileName);
 
+    internal SelfTestRunner(Plugin plugin) => this.plugin = plugin;
+
     internal bool IsRunning { get; private set; }
 
     /// <summary>The last finished run, if any.</summary>
@@ -40,7 +43,7 @@ internal sealed class SelfTestRunner : IDisposable
         if (!IsDevBuild || this.IsRunning)
             return false;
 
-        this.steps = SelfTestCatalog.Create();
+        this.steps = SelfTestCatalog.Create(this.plugin);
         this.results.Clear();
         this.index = 0;
         this.stepClock = null;

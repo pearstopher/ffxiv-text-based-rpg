@@ -1,3 +1,4 @@
+using System;
 using TextBasedRPG.Core;
 
 namespace TextBasedRPG;
@@ -7,7 +8,7 @@ namespace TextBasedRPG;
 /// and HUD hidden except the chat (<see cref="HudHider"/>), all together. <see cref="ModeState"/> (Core) decides
 /// whether a request is allowed.
 /// </summary>
-internal sealed class ModeController
+internal sealed class ModeController : IDisposable
 {
     private readonly ModeState state = new();
     private readonly RenderController render;
@@ -21,6 +22,7 @@ internal sealed class ModeController
         this.limiter = limiter;
         this.hud = hud;
         this.cpu = cpu;
+        Service.ClientState.Logout += this.OnLogout;
     }
 
     /// <summary>True while the mode is on.</summary>
@@ -32,6 +34,19 @@ internal sealed class ModeController
 
     /// <summary>Turns the mode off because the character logged out.</summary>
     internal ModeChange LoggedOut() => this.Apply(this.state.LoggedOut());
+
+    private void OnLogout(int type, int code)
+    {
+        if (this.LoggedOut() == ModeChange.TurnedOff)
+            Service.Log.Information("Text-based RPG mode turned off because the character logged out");
+    }
+
+    /// <summary>Unload: stop listening and turn the mode off, so nothing stays hidden or capped.</summary>
+    public void Dispose()
+    {
+        Service.ClientState.Logout -= this.OnLogout;
+        this.Apply(this.state.Request(ModeRequest.Off, loggedIn: false));
+    }
 
     private ModeChange Apply(ModeChange change)
     {
