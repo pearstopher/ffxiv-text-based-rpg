@@ -134,7 +134,7 @@ internal sealed unsafe class HudHider : IDisposable
             return;
 
         addon->RootNode->ToggleVisibility(false);
-        this.hidden[(nint)addon] = args.AddonName;
+        this.hidden[(nint)addon] = args.AddonName; // overwrite, not TryAdd: the address may be a reused one with a stale name
     }
 
     /// <summary>Shows the root nodes this class hid, for addons that are still loaded under the same name.</summary>

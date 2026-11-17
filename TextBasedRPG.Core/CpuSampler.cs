@@ -34,7 +34,19 @@ public sealed class CpuSampler
     public double? Current { get; private set; }
 
     /// <summary>Average CPU % over the last <see cref="WindowSize"/> intervals, or null before the second sample.</summary>
-    public double? Average => this.filled == 0 ? null : this.window.Take(this.filled).Average();
+    public double? Average
+    {
+        get
+        {
+            // Read every frame while the settings window is open, so no LINQ here.
+            if (this.filled == 0)
+                return null;
+            var sum = 0.0;
+            for (var i = 0; i < this.filled; i++)
+                sum += this.window[i];
+            return sum / this.filled;
+        }
+    }
 
     /// <summary>Adds a sample: total processor time used by the process, and a monotonic wall-clock time.</summary>
     public void Add(TimeSpan processorTime, TimeSpan wallTime)
