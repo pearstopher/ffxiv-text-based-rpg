@@ -22,6 +22,9 @@ public sealed class Configuration : IPluginConfiguration
     /// <summary>Show the TRPG entry in the server info bar.</summary>
     public bool ShowDtrEntry { get; set; } = true;
 
+    /// <summary>Turn the mode on when the game marks you AFK (off by default).</summary>
+    public bool AutoOnWhenAfk { get; set; }
+
     /// <summary>Dev builds only: run the in-game self-tests once after each load, when a character is logged in.</summary>
     public bool DevRunSelfTestsOnLoad { get; set; } = true;
 
