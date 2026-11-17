@@ -16,6 +16,49 @@ Run with `/trpgtest` (dev builds), or let them run after each load. Results: `%A
 | `measure-mode` | Measurement (~30 s): CPU % and FPS for 10 s of normal play, then the full text-based RPG mode (3 s settle, 15 s measured), then the mode off. Passes whenever it completes; the detail shows both periods and the saving. This is the number the plugin exists for. Skipped (pass) if you already have the mode on. Don't type during it. |
 <!-- self-tests:end -->
 
-## 1. Manual checklist
+The whole run takes about 1½ minutes (most of it the two measurements). Stand somewhere quiet, logged in, and don't type or move while it runs. The screen will go blank and come back a few times; that's the tests.
 
-(Filled in by #40.)
+## 1. First session: setup
+
+1. Load the Debug DLL as a dev plugin ([DEVELOPMENT.md §3](../DEVELOPMENT.md#3-load-it-in-game-first-time-only)), with auto-reload on.
+2. `/xllog`, filter `TextBasedRPG`: check the `loaded (Debug build, built …)` line matches the latest build.
+3. Wait for the self-tests to finish by themselves (chat: `Text-Based RPG self-tests: N/N passed.`). Nothing to copy: Claude reads the results file.
+4. `/trpgdebug addons` once with your normal HUD (Claude uses `addons.json` to check the hiding rules).
+
+## 2. Manual checklist
+
+Tick each and note anything odd in the issue (or just tell Claude).
+
+**Phase 1 proof (3D off alone)**
+- [ ] `/trpgdebug 3d off`: world becomes a flat colour; HUD and chat still drawn. `/trpgdebug 3d on` brings it back.
+
+**Entering and leaving**
+- [ ] `/trpg`: world and all UI except the chat disappear; chat shows the "mode on" message.
+- [ ] `/trpg` again: everything back (hotbars, minimap, party list, nameplates, server info bar, world).
+- [ ] Click **TRPG** in the server info bar: mode on. `/trpg off`: back.
+- [ ] `/trpg status` with the mode on and off: sensible values.
+
+**Chatting in the mode**
+- [ ] Press Enter (or click the chat input) and type: text appears normally, without lag that bothers you.
+- [ ] Send in `/echo`, then a real channel with a friend (`/say`, `/fc`, `/tell`, linkshell).
+- [ ] Incoming messages appear while idle (10 FPS is enough to read).
+- [ ] Switch chat tabs, scroll the log, use auto-translate (Tab) if you use it. Note any pop-up that's missing.
+- [ ] Extra chat windows (if you use them) stay visible.
+
+**Settings and CPU**
+- [ ] `/trpg settings`: change idle/typing FPS; the feel changes; values are kept after a reload.
+- [ ] Untick "Show TRPG in the server info bar": entry disappears; tick: back.
+- [ ] After using the mode for a bit, the window shows `Normal: x% · Text mode: y%`. Compare with Task Manager if you like.
+
+**Edge cases**
+- [ ] Mode on, then teleport or enter a house: no crash; the mode stays on after the load (3D switches a few seconds after loads).
+- [ ] Mode on, log out: title screen normal; log back in: normal game, mode off.
+- [ ] Mode on, disable the plugin in `/xlplugins`: everything back.
+- [ ] Alt-tab away and back in the mode: nothing changes.
+- [ ] If you use AutoRetainer or Mini: both still work; turning our mode off doesn't turn 3D on while they want it off.
+
+## 3. Reporting
+
+- Self-test results are read from the results file automatically.
+- For manual checks, comment on the related issue (they carry the `needs-in-game-test` label: `gh issue list --label needs-in-game-test`) or tell Claude what you saw. A screenshot of anything odd helps.
+- Errors: `/xllog` red lines mentioning TextBasedRPG, or attach `%APPDATA%\XIVLauncher\dalamud.log`.
