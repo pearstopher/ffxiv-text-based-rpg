@@ -20,7 +20,8 @@ Each lands in its own issue; this table is updated as they're added.
 | `Service` | Dalamud services, injected by Dalamud. |
 | `Configuration` | Saved settings through Dalamud's config API. |
 | `RenderController` (planned) | Wants 3D on/off; applies it through `RenderDisableManager` when `TransitionGuard` allows. |
-| `RenderDisableManager` (planned) | Adapted from ECommons: cooperative requests for `Render.Manager.Is3DRenderingDisabled`. |
+| `RenderDisableManager` | Adapted from ECommons (MIT): cooperative requests for `Render.Manager.Is3DRenderingDisabled`, shared through Dalamud's `GetOrCreateData` with every ECommons plugin (AutoRetainer, Mini, …). 3D is off while any plugin has a request. |
+| `RenderFlag`, `GameState`, `UiAddons` | Small read helpers: the render flag (debug/self-tests), "zone load or cutscene in progress", loaded UI addons. |
 | `FrameLimiter` (planned) | Sleeps in `IFramework.Update` to cap the frame rate (ChillFrames technique, no busy-wait). |
 | `HudHider` (planned) | Hides the root node of every non-chat addon and restores exactly what it hid. |
 | `ModeController` (planned) | Switches the three parts together; turns everything off on logout and unload. |
