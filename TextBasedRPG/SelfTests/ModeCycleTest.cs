@@ -98,7 +98,8 @@ internal sealed class ModeCycleTest : GameSelfTest
         if (fps > cap * 1.5 + 1)
             problems.Add($"{fps:0.0} FPS is above the {cap} FPS cap");
 
-        this.inModeDetail = $"In mode: 3D off, {this.plugin.Hud.HiddenCount} UI elements hidden, chat drawn, {fps:0.0} FPS (cap {cap}).";
+        var guarded = this.plugin.Hud.Guarded.Count > 0 ? $" (re-hidden before each draw: {string.Join(", ", this.plugin.Hud.Guarded)})" : string.Empty;
+        this.inModeDetail = $"In mode: 3D off, {this.plugin.Hud.HiddenCount} UI elements hidden{guarded}, chat drawn, {fps:0.0} FPS (cap {cap}).";
 
         this.plugin.Mode.Request(ModeRequest.Off);
         this.turnedOn = false;
