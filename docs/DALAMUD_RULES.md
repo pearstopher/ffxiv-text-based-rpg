@@ -16,6 +16,7 @@ This plugin only changes what the client draws and how fast it runs. It never se
 | Feature | Follows the rules? | Notes |
 |---|---|---|
 | Load/unload build log line | ✅ Yes | Local log only. |
+| In-game self-tests (Dalamud Self-Test window; dev runner in dev builds) | ✅ Yes | Local checks only. Never send anything to the server; restore anything they change. |
 
 ## Adding a feature
 

@@ -7,6 +7,7 @@ Run with `/trpgtest` (dev builds), or let them run after each load. Results: `%A
 <!-- self-tests:start -->
 | Id | Checks |
 |---|---|
+| `env-loaded` | The plugin loaded; reports the running build and whether a character is logged in. Proves the self-test pipeline and results file work. |
 <!-- self-tests:end -->
 
 ## 1. Manual checklist
