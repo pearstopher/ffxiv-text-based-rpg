@@ -2,15 +2,19 @@
 
 | Command | What it does |
 |---|---|
-| `/textrpg` | Main command. See subcommands below. |
-| `/trpg` | Short alias of `/textrpg`. |
+| `/textrpg` | Main command. See the options below. |
+| `/trpg` | Short for `/textrpg`. |
 
-## Subcommands
+## Options
 
-| Subcommand | What it does |
+| Typed | What it does |
 |---|---|
-| `help` | Lists the commands. |
+| `/trpg` | Turns text-based RPG mode on or off. *(coming soon)* |
+| `/trpg on` / `/trpg off` | Turns the mode on / off. *(coming soon)* |
+| `/trpg status` | Shows the mode, frame rate cap and CPU use. *(coming soon)* |
+| `/trpg settings` (or `config`) | Opens the settings. *(coming soon)* |
+| `/trpg help` (or `?`) | Lists the commands. |
 
-(More subcommands are added as the mode is built.)
+Anything else prints the list of commands.
 
 Developer commands (dev builds only) are in [DEVELOPMENT.md](../DEVELOPMENT.md#6-debug-commands).
