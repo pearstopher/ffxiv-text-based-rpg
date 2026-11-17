@@ -58,6 +58,15 @@ internal sealed class SettingsWindow : Window
             changed = true;
         }
 
+        var autoAfk = config.AutoOnWhenAfk;
+        if (ImGui.Checkbox("Turn on when I go AFK", ref autoAfk))
+        {
+            config.AutoOnWhenAfk = autoAfk;
+            changed = true;
+        }
+
+        ImGui.TextDisabled($"When the game marks you AFK, the mode turns on by itself. It stays on until you type {Commands.Alias}.");
+
         if (changed)
         {
             this.plugin.ApplySettings();

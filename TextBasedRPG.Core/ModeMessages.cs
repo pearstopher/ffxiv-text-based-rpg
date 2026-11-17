@@ -3,6 +3,9 @@ namespace TextBasedRPG.Core;
 /// <summary>Chat messages for the mode, kept in one place so they're consistent and tested.</summary>
 public static class ModeMessages
 {
+    /// <summary>Printed when the "Turn on when AFK" setting turns the mode on.</summary>
+    public static string AutoOnAfk => $"You're AFK, so text-only mode is on. Only the chat is left. Type {Commands.Alias} to go back.";
+
     /// <summary>The message for a mode change, and whether it's an error.</summary>
     public static (string Text, bool IsError) For(ModeChange change, bool isOn) => change switch
     {

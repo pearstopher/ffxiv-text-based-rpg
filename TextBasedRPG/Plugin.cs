@@ -31,6 +31,7 @@ public sealed class Plugin : IDalamudPlugin
 
     internal ModeController Mode { get; }
 
+    private readonly AfkWatcher afkWatcher;
     private readonly SelfTestTriggers selfTestTriggers;
     private readonly PluginCommands commands;
     private readonly DebugCommands debugCommands;
@@ -47,6 +48,7 @@ public sealed class Plugin : IDalamudPlugin
         this.Limiter = new FrameLimiter();
         this.Hud = new HudHider();
         this.Mode = new ModeController(this.Render, this.Limiter, this.Hud, this.Cpu);
+        this.afkWatcher = new AfkWatcher(this.Mode);
 
         // In-game checks: Dalamud's Self-Test window gets its own step instances; the dev runner builds fresh ones per run.
         // Dalamud unregisters them when the plugin unloads.
@@ -70,6 +72,7 @@ public sealed class Plugin : IDalamudPlugin
         this.Limiter.IdleFps = this.Config.IdleFps;
         this.Limiter.TypingFps = this.Config.TypingFps;
         this.dtrEntry.Shown = this.Config.ShowDtrEntry;
+        this.afkWatcher.Enabled = this.Config.AutoOnWhenAfk;
     }
 
     /// <summary>The <c>/trpg status</c> line: mode, 3D, FPS cap, hidden UI elements, CPU and FPS.</summary>
@@ -97,6 +100,7 @@ public sealed class Plugin : IDalamudPlugin
         DisposeSafely(this.commands, "commands");
         DisposeSafely(this.selfTestTriggers, "self-test triggers");
         DisposeSafely(this.SelfTests, "self-test runner");
+        DisposeSafely(this.afkWatcher, "AFK watcher");
         DisposeSafely(this.Mode, "mode"); // turns the mode off first
         DisposeSafely(this.Hud, "HUD hider");
         DisposeSafely(this.Limiter, "frame limiter");

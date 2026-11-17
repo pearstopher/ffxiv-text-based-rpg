@@ -34,6 +34,7 @@ In the mode:
 - **Hidden:** the 3D world, and every UI element except the chat window (hotbars, map, party list, nameplates, the server info bar, pop-ups…).
 - **Still working:** your connection, the chat in every channel, sound.
 - **Frame rate:** capped at 10 FPS, or 30 FPS while you type (both adjustable).
+- **Optional:** turn it on automatically when the game marks you AFK (off by default; in `/trpg settings`).
 
 Type `/trpg` to come back. Logging out also turns the mode off, and it always starts off.
 
