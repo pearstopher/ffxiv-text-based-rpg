@@ -46,7 +46,7 @@ Full reference: [commands](docs/COMMANDS.md) · [settings](docs/SETTINGS.md).
 The plugin doesn't change the game's AFK timer. Typing in chat counts as activity, the same as when you play normally.
 
 **How much CPU does it save?**
-It depends on your PC. The settings window shows your own numbers after you've used the mode for a few seconds (`Normal: x% · Text mode: y%`). For a proper measurement, type `/trpgtest` or click **Run tests and measure savings** in `/trpg settings` (with the mode off): in about 1½ minutes it checks the mode works on your game and prints the game's CPU and GPU use before and after in chat. Keep the game window focused and don't type or move while it runs.
+It depends on your PC. The settings window shows your own numbers after you've used the mode for a few seconds (`Normal: x% · Text mode: y%`). For a proper measurement, type `/trpgtest` or click **Run tests** in `/trpg settings` (with the mode off): in about 1½ minutes it checks the mode works on your game and prints the game's CPU and GPU use before and after in chat. Keep the game window focused and don't type or move while it runs.
 
 **Other plugins' windows are still showing.**
 Dalamud plugin windows are drawn on top of the game, so they aren't hidden. Close them, or use the plugin's own hide option.
