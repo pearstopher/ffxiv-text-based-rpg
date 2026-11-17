@@ -12,5 +12,6 @@ internal static class SelfTestCatalog
     internal static List<GameSelfTest> Create() =>
     [
         new EnvLoadedTest(),
+        new RenderFlagTest(),
     ];
 }
