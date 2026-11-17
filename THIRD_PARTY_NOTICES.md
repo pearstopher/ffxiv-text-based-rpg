@@ -5,6 +5,7 @@ This plugin adapts code and techniques from the projects below. Each adapted fil
 | Project | License | Used for |
 |---|---|---|
 | [ECommons](https://github.com/NightmareXIV/ECommons) by NightmareXIV | MIT | `TextBasedRPG/RenderDisableManager.cs`: cooperative requests for the game's 3D render flag, shared with other ECommons plugins; unique instance id |
+| [XIV_HolyPlugin](https://github.com/AlexFlipnote/XIV_HolyPlugin) by AlexFlipnote | MIT | Technique only (no code copied): `TextBasedRPG.Core/TransitionGuard.cs` waits out zone loads/cutscenes plus 3 s before changing the render flag, as its `RenderingHandler` does |
 
 ## ECommons — MIT License
 
