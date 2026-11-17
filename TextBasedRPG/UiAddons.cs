@@ -38,6 +38,13 @@ internal static unsafe class UiAddons
         return result;
     }
 
+    /// <summary>Name and visibility of the first loaded addon called <paramref name="name"/> (Dalamud's lookup), or null.</summary>
+    internal static AddonInfo? Find(string name)
+    {
+        var addon = Service.GameGui.GetAddonByName<AtkUnitBase>(name);
+        return addon == null ? null : Describe(addon);
+    }
+
     /// <summary>Name and visibility of one addon.</summary>
     internal static AddonInfo Describe(AtkUnitBase* addon)
         => new(
