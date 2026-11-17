@@ -15,6 +15,7 @@ internal static class SelfTestCatalog
         new ChatVisibleTest(),
         new RenderFlagTest(),
         new RestoreOnOffTest(plugin),
+        new ModeCycleTest(plugin),
 
         // Measurements last: they take ~25 s each.
         new Measure3DTest(),
