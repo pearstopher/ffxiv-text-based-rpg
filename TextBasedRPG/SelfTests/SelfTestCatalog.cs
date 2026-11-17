@@ -19,5 +19,6 @@ internal static class SelfTestCatalog
 
         // Measurements last: they take ~25 s each.
         new Measure3DTest(),
+        new MeasureModeTest(plugin),
     ];
 }
