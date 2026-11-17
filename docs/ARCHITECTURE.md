@@ -19,7 +19,7 @@ Each lands in its own issue; this table is updated as they're added.
 | `Plugin` | Entry point. Creates everything, disposes everything (in reverse order, each part safely). |
 | `Service` | Dalamud services, injected by Dalamud. |
 | `Configuration` | Saved settings through Dalamud's config API. |
-| `RenderController` (planned) | Wants 3D on/off; applies it through `RenderDisableManager` when `TransitionGuard` allows. |
+| `RenderController` | `Want3DOff` set by the mode; each frame applies it through `RenderDisableManager` once `TransitionGuard` (Core) allows: never during a zone load/cutscene or within 3 s after. Holds the current state until then. |
 | `RenderDisableManager` | Adapted from ECommons (MIT): cooperative requests for `Render.Manager.Is3DRenderingDisabled`, shared through Dalamud's `GetOrCreateData` with every ECommons plugin (AutoRetainer, Mini, …). 3D is off while any plugin has a request. |
 | `RenderFlag`, `GameState`, `UiAddons` | Small read helpers: the render flag (debug/self-tests), "zone load or cutscene in progress", loaded UI addons. |
 | `FrameLimiter` (planned) | Sleeps in `IFramework.Update` to cap the frame rate (ChillFrames technique, no busy-wait). |
