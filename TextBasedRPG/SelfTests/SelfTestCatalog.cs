@@ -14,5 +14,8 @@ internal static class SelfTestCatalog
         new EnvLoadedTest(),
         new ChatVisibleTest(),
         new RenderFlagTest(),
+
+        // Measurements last: they take ~25 s each.
+        new Measure3DTest(),
     ];
 }
