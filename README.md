@@ -16,7 +16,7 @@ Type `/trpg` and the 3D world and the whole HUD disappear. Only the chat window 
    https://raw.githubusercontent.com/pearstopher/ffxiv-plugins/main/pluginmaster.json
    ```
    then click **+** and **Save and Close**.
-3. Open `/xlplugins`, search for **Text-Only Mode for FFXIV** and install it.
+3. Open `/xlplugins`, search for **Text-Only Mode** and install it.
 
 ## Use
 

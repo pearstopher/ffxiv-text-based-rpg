@@ -27,7 +27,7 @@ A good build ends with `0 Warning(s)` and `0 Error(s)`.
    ```
    C:\Users\<you>\Documents\VSCode\ffxiv-text-based-rpg\TextBasedRPG\bin\x64\Debug\TextBasedRPG.dll
    ```
-3. `/xlplugins` → **Dev Tools → Installed Dev Plugins** → enable **Text-Only Mode for FFXIV**.
+3. `/xlplugins` → **Dev Tools → Installed Dev Plugins** → enable **Text-Only Mode**.
 4. Recommended: in the dev plugin's settings, turn on **automatic reloading**. Dalamud then reloads the plugin shortly after the DLL changes, so `dotnet build` is enough.
 
 > Point the location at the **Debug** DLL. `dotnet build` only updates `bin\x64\Debug\`.
@@ -37,10 +37,10 @@ A good build ends with `0 Warning(s)` and `0 Error(s)`.
 `/xllog`, filter on `TextBasedRPG`. On every load the plugin logs:
 
 ```
-Text-Only Mode for FFXIV loaded (Debug build, built 2026-11-16 10:36:02, from C:\...\bin\x64\Debug\TextBasedRPG.dll)
+Text-Only Mode loaded (Debug build, built 2026-11-16 10:36:02, from C:\...\bin\x64\Debug\TextBasedRPG.dll)
 ```
 
-and `Text-Only Mode for FFXIV unloaded` when disabled. **Check this line each time you test.** If the build time is older than your last build, the game is running a stale DLL. Red `ERR` lines mentioning the plugin are bugs. The same log is in `%APPDATA%\XIVLauncher\dalamud.log`.
+and `Text-Only Mode unloaded` when disabled. **Check this line each time you test.** If the build time is older than your last build, the game is running a stale DLL. Red `ERR` lines mentioning the plugin are bugs. The same log is in `%APPDATA%\XIVLauncher\dalamud.log`.
 
 Settings file: `%APPDATA%\XIVLauncher\pluginConfigs\TextBasedRPG.json`. Delete it to start fresh. The plugin's other files (self-test results, debug dumps) are in `%APPDATA%\XIVLauncher\pluginConfigs\TextBasedRPG\`.
 
