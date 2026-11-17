@@ -53,9 +53,19 @@ public sealed class Plugin : IDalamudPlugin
         this.commands = new PluginCommands(this);
         this.debugCommands = new DebugCommands(this);
         this.dtrEntry = new DtrEntry(this);
+        this.ApplySettings();
 
         // Logs which build is running, so a stale or wrong-configuration build is obvious in /xllog.
         Service.Log.Information($"{Service.PluginInterface.Manifest.Name} loaded ({DescribeBuild()})");
+    }
+
+    /// <summary>Pushes the saved settings to the parts that use them (after load, and after the settings window changes them).</summary>
+    internal void ApplySettings()
+    {
+        this.Config.Clamp();
+        this.Limiter.IdleFps = this.Config.IdleFps;
+        this.Limiter.TypingFps = this.Config.TypingFps;
+        this.dtrEntry.Shown = this.Config.ShowDtrEntry;
     }
 
     /// <summary>The <c>/trpg status</c> line: mode, 3D, FPS cap, hidden UI elements, CPU and FPS.</summary>
