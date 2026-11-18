@@ -31,6 +31,7 @@ public sealed class Plugin : IDalamudPlugin
 
     internal ModeController Mode { get; }
 
+    private readonly Language language;
     private readonly AfkWatcher afkWatcher;
     private readonly SelfTestTriggers selfTestTriggers;
     private readonly PluginCommands commands;
@@ -42,6 +43,7 @@ public sealed class Plugin : IDalamudPlugin
     public Plugin(IDalamudPluginInterface pluginInterface)
     {
         Service.Initialize(pluginInterface);
+        this.language = new Language();
         this.Config = Configuration.Load();
         this.Cpu = new CpuMonitor();
         this.Render = new RenderController();
@@ -106,6 +108,7 @@ public sealed class Plugin : IDalamudPlugin
         DisposeSafely(this.Hud, "HUD hider");
         DisposeSafely(this.Limiter, "frame limiter");
         DisposeSafely(this.Render, "render controller");
+        DisposeSafely(this.language, "language");
         try
         {
             RenderDisableManager.Dispose(); // removes our 3D-off request, if any

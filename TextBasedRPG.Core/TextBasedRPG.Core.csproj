@@ -8,4 +8,9 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
 
+  <!-- English text: one file, shared with the plugin's Localization folder (other languages are loaded from there at run time). -->
+  <ItemGroup>
+    <EmbeddedResource Include="..\TextBasedRPG\Localization\en.json" LogicalName="en.json" />
+  </ItemGroup>
+
 </Project>

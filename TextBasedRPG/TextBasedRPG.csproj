@@ -3,6 +3,8 @@
 <Project Sdk="Dalamud.NET.Sdk">
   <ItemGroup>
     <ProjectReference Include="..\TextBasedRPG.Core\TextBasedRPG.Core.csproj" />
+    <!-- Dalamud's own localization library (ships with Dalamud, so not copied). -->
+    <Reference Include="CheapLoc" Private="false" />
   </ItemGroup>
   <PropertyGroup>
     <AssemblyName>TextBasedRPG</AssemblyName>
@@ -26,5 +28,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Visible>false</Visible>
     </Content>
+    <!-- Language files (en.json and, later, ja/de/fr...): copied next to the DLL and into the release zip. -->
+    <Content Include="Localization\*.json" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 </Project>
