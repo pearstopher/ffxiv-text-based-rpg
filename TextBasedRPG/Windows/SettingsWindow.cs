@@ -35,21 +35,35 @@ internal sealed class SettingsWindow : Window
         ImGui.Separator();
 
         var changed = false;
-        var idle = config.IdleFps;
-        if (ImGui.SliderInt("Frame rate when idle", ref idle, SettingLimits.IdleFpsMin, SettingLimits.IdleFpsMax))
+        var worldOnly = config.WorldOffOnly;
+        if (ImGui.Checkbox("3D world off only (HUD and frame rate unchanged)", ref worldOnly))
         {
-            config.IdleFps = idle;
+            config.WorldOffOnly = worldOnly;
             changed = true;
         }
 
-        var typing = config.TypingFps;
-        if (ImGui.SliderInt("Frame rate while typing", ref typing, SettingLimits.TypingFpsMin, SettingLimits.TypingFpsMax))
-        {
-            config.TypingFps = typing;
-            changed = true;
-        }
+        ImGui.TextDisabled("Unchecked (default) is full text-only mode. A change applies the next time you turn the mode on.");
+        ImGui.Separator();
 
-        ImGui.TextDisabled("Lower frame rates save more CPU. Typing uses the higher one (and for 3 s after).");
+        // The frame rates only matter in full mode.
+        using (ImRaii.Disabled(config.WorldOffOnly))
+        {
+            var idle = config.IdleFps;
+            if (ImGui.SliderInt("Frame rate when idle", ref idle, SettingLimits.IdleFpsMin, SettingLimits.IdleFpsMax))
+            {
+                config.IdleFps = idle;
+                changed = true;
+            }
+
+            var typing = config.TypingFps;
+            if (ImGui.SliderInt("Frame rate while typing", ref typing, SettingLimits.TypingFpsMin, SettingLimits.TypingFpsMax))
+            {
+                config.TypingFps = typing;
+                changed = true;
+            }
+
+            ImGui.TextDisabled("Lower frame rates save more CPU. Typing uses the higher one (and for 3 s after).");
+        }
 
         var showDtr = config.ShowDtrEntry;
         if (ImGui.Checkbox("Show TRPG in the server info bar", ref showDtr))
