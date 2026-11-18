@@ -15,6 +15,7 @@ internal sealed class ModeController : IDisposable
     private readonly FrameLimiter limiter;
     private readonly HudHider hud;
     private readonly CpuMonitor cpu;
+    private ModeParts active = ModeParts.Full;
 
     internal ModeController(RenderController render, FrameLimiter limiter, HudHider hud, CpuMonitor cpu)
     {
@@ -31,14 +32,23 @@ internal sealed class ModeController : IDisposable
     /// <summary>How many times the mode has been switched on or off (lets a part tell whether anyone else switched it).</summary>
     internal int Changes { get; private set; }
 
-    /// <summary>Applies a request (toggle/on/off) and returns what happened. Framework thread only.</summary>
-    internal ModeChange Request(ModeRequest request)
-        => this.Apply(this.state.Request(request, Service.ClientState.IsLoggedIn));
+    /// <summary>The "3D world off only" setting; read when the mode is turned on, so a change applies the next time.</summary>
+    internal bool WorldOffOnly { get; set; }
+
+    /// <summary>The parts applied by the current (or last) switch on.</summary>
+    internal ModeParts Parts => this.active;
+
+    /// <summary>
+    /// Applies a request (toggle/on/off) and returns what happened. Framework thread only.
+    /// <paramref name="parts"/> overrides the setting (self-tests always run the full mode).
+    /// </summary>
+    internal ModeChange Request(ModeRequest request, ModeParts? parts = null)
+        => this.Apply(this.state.Request(request, Service.ClientState.IsLoggedIn), parts);
 
     /// <summary>Applies a request and tells the player in chat what happened (commands, DTR entry, settings window).</summary>
     internal void RequestAndReport(ModeRequest request)
     {
-        var (text, isError) = ModeMessages.For(this.Request(request), this.IsOn);
+        var (text, isError) = ModeMessages.For(this.Request(request), this.IsOn, this.active);
         if (isError)
             Service.ChatGui.PrintError(text);
         else
@@ -61,14 +71,16 @@ internal sealed class ModeController : IDisposable
         this.Apply(this.state.Request(ModeRequest.Off, loggedIn: false));
     }
 
-    private ModeChange Apply(ModeChange change)
+    private ModeChange Apply(ModeChange change, ModeParts? parts = null)
     {
         switch (change)
         {
             case ModeChange.TurnedOn:
+                // The parts are remembered, so mode off undoes exactly what was applied.
+                this.active = parts ?? ModeParts.For(this.WorldOffOnly);
                 this.render.Want3DOff = true;
-                this.limiter.Active = true;
-                this.hud.Active = true;
+                this.limiter.Active = this.active.FrameCap;
+                this.hud.Active = this.active.HideHud;
                 break;
 
             case ModeChange.TurnedOff:

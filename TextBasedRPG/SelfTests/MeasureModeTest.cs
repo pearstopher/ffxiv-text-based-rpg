@@ -26,7 +26,7 @@ internal sealed class MeasureModeTest : MeasureTestBase
 
     protected override bool Apply()
     {
-        if (this.plugin.Mode.Request(ModeRequest.On) == ModeChange.TurnedOn)
+        if (this.plugin.Mode.Request(ModeRequest.On, ModeParts.Full) == ModeChange.TurnedOn)
             return true;
 
         this.Detail = "The mode didn't turn on.";

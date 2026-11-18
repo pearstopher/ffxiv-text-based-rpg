@@ -4,9 +4,14 @@ namespace TextBasedRPG.Core;
 public static class ModeMessages
 {
     /// <summary>The message for a mode change, and whether it's an error.</summary>
-    public static (string Text, bool IsError) For(ModeChange change, bool isOn) => change switch
+    /// <param name="change">What happened.</param>
+    /// <param name="isOn">Mode state.</param>
+    /// <param name="parts">The parts applied when the mode is on (full mode by default).</param>
+    public static (string Text, bool IsError) For(ModeChange change, bool isOn, ModeParts? parts = null) => change switch
     {
-        ModeChange.TurnedOn => ($"Text-only mode on. Only the chat is left. Type {Commands.Alias} to go back.", false),
+        ModeChange.TurnedOn => ((parts ?? ModeParts.Full).HideHud
+            ? $"Text-only mode on. Only the chat is left. Type {Commands.Alias} to go back."
+            : $"3D world off. The HUD and frame rate are unchanged. Type {Commands.Alias} to go back.", false),
         ModeChange.TurnedOff => ("Text-only mode off. Welcome back!", false),
         ModeChange.RefusedNotLoggedIn => ("Text-only mode needs a logged-in character.", true),
         _ => (isOn ? $"Text-only mode is already on. Type {Commands.Alias} off to go back." : "Text-only mode is already off.", false),

@@ -40,4 +40,18 @@ public class ModeMessagesTests
         Assert.Contains("3D on (changes after the loading screen)", text);
         Assert.Contains("no FPS cap", text);
     }
+
+    [Fact]
+    public void Turning_on_the_world_only_variant_does_not_claim_the_hud_is_gone()
+    {
+        var (text, isError) = ModeMessages.For(ModeChange.TurnedOn, isOn: true, ModeParts.WorldOnly);
+        Assert.DoesNotContain("Only the chat is left", text);
+        Assert.Contains("HUD and frame rate are unchanged", text);
+        Assert.Contains("/trpg", text);
+        Assert.False(isError);
+    }
+
+    [Fact]
+    public void Full_parts_keep_the_chat_only_message()
+        => Assert.Contains("Only the chat is left", ModeMessages.For(ModeChange.TurnedOn, true, ModeParts.Full).Text);
 }

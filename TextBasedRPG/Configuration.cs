@@ -25,6 +25,9 @@ public sealed class Configuration : IPluginConfiguration
     /// <summary>Turn the mode on while the game marks you AFK, and off again when you're back (off by default).</summary>
     public bool AutoOnWhenAfk { get; set; }
 
+    /// <summary>Only switch the 3D world off; keep the HUD and the frame rate as they are (off by default: full text-only mode).</summary>
+    public bool WorldOffOnly { get; set; }
+
     /// <summary>Dev builds only: run the in-game self-tests once after each load, when a character is logged in.</summary>
     public bool DevRunSelfTestsOnLoad { get; set; } = true;
 
