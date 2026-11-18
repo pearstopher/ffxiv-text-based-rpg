@@ -41,7 +41,7 @@ internal sealed class RestoreOnOffTest : GameSelfTest
                 }
 
                 this.drawnBefore = DrawnAddonNames();
-                if (this.plugin.Mode.Request(ModeRequest.On) != ModeChange.TurnedOn)
+                if (this.plugin.Mode.Request(ModeRequest.On, ModeParts.Full) != ModeChange.TurnedOn)
                     return this.Fail("The mode didn't turn on.");
                 this.turnedOn = true;
                 this.phase = 1;

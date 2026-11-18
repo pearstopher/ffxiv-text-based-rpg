@@ -46,7 +46,7 @@ internal sealed class ModeCycleTest : GameSelfTest
                     return SelfTestStepResult.Waiting;
                 }
 
-                if (this.plugin.Mode.Request(ModeRequest.On) != ModeChange.TurnedOn)
+                if (this.plugin.Mode.Request(ModeRequest.On, ModeParts.Full) != ModeChange.TurnedOn)
                     return this.Fail("The mode didn't turn on.");
                 this.turnedOn = true;
                 this.clock.Restart();

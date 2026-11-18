@@ -73,6 +73,7 @@ public sealed class Plugin : IDalamudPlugin
         this.Limiter.TypingFps = this.Config.TypingFps;
         this.dtrEntry.Shown = this.Config.ShowDtrEntry;
         this.afkWatcher.Enabled = this.Config.AutoOnWhenAfk;
+        this.Mode.WorldOffOnly = this.Config.WorldOffOnly;
     }
 
     /// <summary>The <c>/trpg status</c> line: mode, 3D, FPS cap, hidden UI elements, CPU and FPS.</summary>
