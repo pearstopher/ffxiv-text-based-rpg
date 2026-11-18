@@ -40,3 +40,15 @@ Dalamud's CheapLoc format. `description` is for translators; only `message` is s
 ## Adding text
 
 Add the key to `en.json` (with a `description`), then use `Strings.Get`. Tests fail if code uses a key that `en.json` lacks. Log messages stay English and are not localized. Don't look strings up per frame; look up when you need to show them.
+
+## What is not in the language files
+
+- Log messages (`/xllog`) and the developer-only debug commands (`/trpgdebug`).
+- Self-test step names and details (shown in Dalamud's Self-Test window and in `selftest-results.json`).
+- The aligned savings table: its "Before / After / Diff / CPU / GPU" cells are padded by exact character widths, so they stay in code (`SavingsTable` in Core) until a language needs them.
+- The plugin name (**Text-Only Mode**), command names, and the words players type after a command (`on`, `off`, `status`, `settings`, `help`).
+- The plugin name and description in Dalamud's plugin installer: they come from the manifest (`TextBasedRPG.csproj`), which has no per-language fields.
+
+## Editing the English text
+
+Edit `TextBasedRPG/Localization/en.json`. Only `message` is shown; `description` explains each `{0}`. Keep the keys and the `{0}` placeholders; the tests check them. Numbers formatted like `{0:0.0}` keep their format.

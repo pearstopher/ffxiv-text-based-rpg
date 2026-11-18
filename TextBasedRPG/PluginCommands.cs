@@ -14,11 +14,11 @@ internal sealed class PluginCommands : IDisposable
         this.plugin = plugin;
         Service.CommandManager.AddHandler(Commands.Main, new CommandInfo(this.OnCommand)
         {
-            HelpMessage = "Turn text-only mode on or off (only the chat stays, low CPU). /textmode help for more.",
+            HelpMessage = Strings.Get("command.help.main", Commands.Main),
         });
         Service.CommandManager.AddHandler(Commands.Alias, new CommandInfo(this.OnCommand)
         {
-            HelpMessage = $"Same as {Commands.Main}.",
+            HelpMessage = Strings.Get("command.help.alias", Commands.Main),
         });
     }
 
@@ -42,7 +42,7 @@ internal sealed class PluginCommands : IDisposable
                 PrintUsage();
                 break;
             case CommandAction.Unknown:
-                Service.ChatGui.PrintError($"Unknown option \"{args.Trim()}\".");
+                Service.ChatGui.PrintError(Strings.Get("command.unknown", args.Trim()));
                 PrintUsage();
                 break;
             case CommandAction.Settings:

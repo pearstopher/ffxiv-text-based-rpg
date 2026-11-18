@@ -25,61 +25,61 @@ internal sealed class SettingsWindow : Window
         var config = this.plugin.Config;
         var mode = this.plugin.Mode;
 
-        if (ImGui.Button(mode.IsOn ? "Leave text-only mode" : "Enter text-only mode"))
+        if (ImGui.Button(Strings.Get(mode.IsOn ? "settings.leave" : "settings.enter") + "###toggle"))
         {
             // Draw isn't guaranteed to run on the framework thread; the switch touches game UI memory.
             Service.Framework.RunOnFrameworkThread(() => mode.RequestAndReport(ModeRequest.Toggle));
         }
 
-        ImGui.TextWrapped($"Or type {Commands.Alias}. In the mode only the chat window stays, the 3D world and the rest of the HUD are hidden, and the frame rate is capped.");
+        ImGui.TextWrapped(Strings.Get("settings.intro", Commands.Alias));
         ImGui.Separator();
 
         var changed = false;
         var worldOnly = config.WorldOffOnly;
-        if (ImGui.Checkbox("3D world off only (HUD and frame rate unchanged)", ref worldOnly))
+        if (ImGui.Checkbox(Strings.Get("settings.worldOnly") + "###worldOnly", ref worldOnly))
         {
             config.WorldOffOnly = worldOnly;
             changed = true;
         }
 
-        ImGui.TextDisabled("Unchecked (default) is full text-only mode. A change applies the next time you turn the mode on.");
+        ImGui.TextDisabled(Strings.Get("settings.worldOnly.help"));
         ImGui.Separator();
 
         // The frame rates only matter in full mode.
         using (ImRaii.Disabled(config.WorldOffOnly))
         {
             var idle = config.IdleFps;
-            if (ImGui.SliderInt("Frame rate when idle", ref idle, SettingLimits.IdleFpsMin, SettingLimits.IdleFpsMax))
+            if (ImGui.SliderInt(Strings.Get("settings.idleFps") + "###idleFps", ref idle, SettingLimits.IdleFpsMin, SettingLimits.IdleFpsMax))
             {
                 config.IdleFps = idle;
                 changed = true;
             }
 
             var typing = config.TypingFps;
-            if (ImGui.SliderInt("Frame rate while typing", ref typing, SettingLimits.TypingFpsMin, SettingLimits.TypingFpsMax))
+            if (ImGui.SliderInt(Strings.Get("settings.typingFps") + "###typingFps", ref typing, SettingLimits.TypingFpsMin, SettingLimits.TypingFpsMax))
             {
                 config.TypingFps = typing;
                 changed = true;
             }
 
-            ImGui.TextDisabled("Lower frame rates save more CPU. Typing uses the higher one (and for 3 s after).");
+            ImGui.TextDisabled(Strings.Get("settings.fps.help"));
         }
 
         var showDtr = config.ShowDtrEntry;
-        if (ImGui.Checkbox("Show TRPG in the server info bar", ref showDtr))
+        if (ImGui.Checkbox(Strings.Get("settings.dtr") + "###dtr", ref showDtr))
         {
             config.ShowDtrEntry = showDtr;
             changed = true;
         }
 
         var autoAfk = config.AutoOnWhenAfk;
-        if (ImGui.Checkbox("Turn on when I go AFK", ref autoAfk))
+        if (ImGui.Checkbox(Strings.Get("settings.afk") + "###afk", ref autoAfk))
         {
             config.AutoOnWhenAfk = autoAfk;
             changed = true;
         }
 
-        ImGui.TextDisabled("When the game marks you AFK, the mode turns on, and off again when you're back. If it was already on, it stays on.");
+        ImGui.TextDisabled(Strings.Get("settings.afk.help"));
 
         if (changed)
         {
@@ -90,7 +90,7 @@ internal sealed class SettingsWindow : Window
 
         ImGui.Separator();
         ImGui.TextUnformatted(this.plugin.Cpu.Describe());
-        ImGui.TextUnformatted(this.plugin.Cpu.Saving ?? "Use the mode for a few seconds to see how much CPU it saves.");
+        ImGui.TextUnformatted(this.plugin.Cpu.Saving ?? Strings.Get("settings.saving.none"));
 
         this.DrawSelfTests();
     }
@@ -101,10 +101,10 @@ internal sealed class SettingsWindow : Window
         var runner = this.plugin.SelfTests;
         using (ImRaii.Disabled(runner.IsRunning))
         {
-            if (ImGui.Button(runner.IsRunning ? "Tests running..." : "Run tests"))
+            if (ImGui.Button(Strings.Get(runner.IsRunning ? "settings.tests.running" : "settings.tests.run") + "###runTests"))
                 Service.Framework.RunOnFrameworkThread(() => runner.Start());
         }
 
-        ImGui.TextWrapped($"Checks the mode works on your game and measures how much CPU and GPU it saves; the results appear in chat. Takes about 1½ minutes.{SelfTestRunner.StartNote}");
+        ImGui.TextWrapped(Strings.Get("settings.tests.help", SelfTestRunner.StartNote));
     }
 }

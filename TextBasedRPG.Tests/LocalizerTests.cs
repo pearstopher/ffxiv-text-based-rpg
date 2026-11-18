@@ -47,10 +47,7 @@ public partial class LocalizerTests
     {
         var english = English();
         var used = new List<string>();
-        foreach (var file in Directory.EnumerateFiles(Repo.Root, "*.cs", SearchOption.AllDirectories)
-                     .Where(f => !f.Contains($"{System.IO.Path.DirectorySeparatorChar}obj{System.IO.Path.DirectorySeparatorChar}")
-                                 && !f.Contains($"{System.IO.Path.DirectorySeparatorChar}bin{System.IO.Path.DirectorySeparatorChar}")
-                                 && !f.EndsWith("Tests.cs", StringComparison.Ordinal)))
+        foreach (var file in CodeFiles())
         {
             // Every key-shaped literal on a line that calls Strings.Get (a key may sit in a ternary).
             used.AddRange(File.ReadLines(file).Where(l => l.Contains("Strings.Get(", StringComparison.Ordinal))
@@ -59,6 +56,14 @@ public partial class LocalizerTests
 
         Assert.NotEmpty(used);
         Assert.Empty(used.Where(k => !english.ContainsKey(k)).Distinct());
+    }
+
+    [Fact]
+    public void Every_key_in_en_json_is_used_in_code()
+    {
+        var code = string.Join(" ", CodeFiles().SelectMany(File.ReadLines).Where(l => l.Contains("Strings.Get(", StringComparison.Ordinal)));
+        var unused = English().Keys.Where(k => !code.Contains($"\"{k}\"", StringComparison.Ordinal)).ToList();
+        Assert.True(unused.Count == 0, "Keys in en.json that no code uses: " + string.Join(", ", unused));
     }
 
     [Fact]
@@ -75,6 +80,13 @@ public partial class LocalizerTests
                 Assert.Equal(Localizer.Placeholders(english[key]), Localizer.Placeholders(message));
             }
         }
+    }
+
+    private static IEnumerable<string> CodeFiles()
+    {
+        var sep = System.IO.Path.DirectorySeparatorChar;
+        return Directory.EnumerateFiles(Repo.Root, "*.cs", SearchOption.AllDirectories)
+            .Where(f => !f.Contains($"{sep}obj{sep}") && !f.Contains($"{sep}bin{sep}") && !f.Contains($"{sep}TextBasedRPG.Tests{sep}"));
     }
 
     [GeneratedRegex(@"""([a-z][A-Za-z0-9]*(?:\.[A-Za-z0-9]+)+)""")]

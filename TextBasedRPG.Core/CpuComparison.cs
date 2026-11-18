@@ -58,13 +58,13 @@ public sealed class CpuComparison
         if (this.NormalAverage is not { } normal || this.ModeAverage is not { } mode)
             return null;
 
-        var text = string.Create(CultureInfo.InvariantCulture, $"Normal: {normal:0.0}% · Text mode: {mode:0.0}%");
+        var text = Strings.Get("cpu.compare", normal, mode);
         if (normal <= 0)
             return text;
 
         var change = (normal - mode) / normal * 100;
         return change >= 0
-            ? string.Create(CultureInfo.InvariantCulture, $"{text} ({change:0}% less)")
-            : string.Create(CultureInfo.InvariantCulture, $"{text} ({-change:0}% more)");
+            ? Strings.Get("cpu.compare.less", text, change)
+            : Strings.Get("cpu.compare.more", text, -change);
     }
 }
