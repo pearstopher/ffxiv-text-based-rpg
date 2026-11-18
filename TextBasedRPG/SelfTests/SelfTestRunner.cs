@@ -20,7 +20,7 @@ internal sealed class SelfTestRunner : IDisposable
     internal const string ResultsFileName = "selftest-results.json";
 
     /// <summary>Shown when a run starts and next to the run button: the measurements need a focused, idle game.</summary>
-    internal const string StartNote = " Keep the game window focused and don't type or move until they finish; the screen will go blank a few times.";
+    internal static string StartNote => Strings.Get("selftest.note");
 
     private readonly Plugin plugin;
     private readonly Stopwatch clock = Stopwatch.StartNew();
@@ -58,9 +58,9 @@ internal sealed class SelfTestRunner : IDisposable
         this.IsRunning = true;
         Service.Framework.Update += this.OnUpdate;
         Service.Log.Information($"Self-tests started ({this.steps.Count} steps)");
-        Service.ChatGui.Print($"Text-Only Mode self-tests started (about 1½ minutes).{StartNote}");
+        Service.ChatGui.Print(Strings.Get("selftest.started", StartNote));
         if (this.plugin.Mode.IsOn)
-            Service.ChatGui.Print($"Text-only mode is on, so the tests that need normal play (and the savings measurements) are skipped. For the full run, type {Commands.Alias} off first.");
+            Service.ChatGui.Print(Strings.Get("selftest.skipped", Commands.Alias));
         return true;
     }
 
@@ -125,7 +125,7 @@ internal sealed class SelfTestRunner : IDisposable
         }
 
         Service.Log.Information(report.ToText());
-        var summary = $"Text-Only Mode self-tests: {report.Summary}.";
+        var summary = Strings.Get("selftest.summary", report.Summary);
         if (report.AllPassed)
         {
             Service.ChatGui.Print(summary);
@@ -142,7 +142,7 @@ internal sealed class SelfTestRunner : IDisposable
 
         if (this.savings.Count > 0)
         {
-            Service.ChatGui.Print("Measured savings (the game's own CPU and GPU use):");
+            Service.ChatGui.Print(Strings.Get("selftest.savings"));
             foreach (var table in this.savings)
             {
                 Service.ChatGui.Print(table.Title);

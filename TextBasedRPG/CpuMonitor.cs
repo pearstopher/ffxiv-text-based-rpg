@@ -50,7 +50,7 @@ internal sealed class CpuMonitor : IDisposable
 
     /// <summary>E.g. "CPU 3.1% (avg 3.4%), FPS 10".</summary>
     internal string Describe()
-        => $"CPU {Format(this.CurrentCpu)} (avg {Format(this.AverageCpu)}), FPS {this.Fps:0}";
+        => Strings.Get("cpu.describe", Format(this.CurrentCpu), Format(this.AverageCpu), $"{this.Fps:0}");
 
     private static string Format(double? percent) => percent is { } p ? $"{p:0.0}%" : "–";
 

@@ -38,7 +38,7 @@ internal sealed class SelfTestTriggers : IDisposable
     private void OnCommand(string command, string args)
     {
         if (!this.runner.Start())
-            Service.ChatGui.PrintError("Text-Only Mode self-tests are already running.");
+            Service.ChatGui.PrintError(Strings.Get("selftest.alreadyRunning"));
     }
 
     private void OnUpdate(IFramework framework)

@@ -22,6 +22,9 @@ internal sealed class Language : IDisposable
         Service.PluginInterface.LanguageChanged += this.Apply;
     }
 
+    /// <summary>Raised after the language changed, so parts that keep their own text (the server info bar entry) can refresh it.</summary>
+    internal event Action? Changed;
+
     /// <summary>The language code in use.</summary>
     internal string Code { get; private set; } = "en";
 
@@ -35,6 +38,7 @@ internal sealed class Language : IDisposable
             if (code == "en" || !File.Exists(file))
             {
                 Strings.Current.Translation = null; // English only
+                this.Changed?.Invoke();
                 return;
             }
 
@@ -50,11 +54,14 @@ internal sealed class Language : IDisposable
             Strings.Current.Translation = null;
             Service.Log.Error(ex, $"Could not load the '{code}' language file; using English");
         }
+
+        this.Changed?.Invoke();
     }
 
     public void Dispose()
     {
         Service.PluginInterface.LanguageChanged -= this.Apply;
+        this.Changed = null;
         Strings.Current.Translation = null;
     }
 }

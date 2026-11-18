@@ -61,6 +61,7 @@ public sealed class Plugin : IDalamudPlugin
         this.debugCommands = new DebugCommands(this);
         this.dtrEntry = new DtrEntry(this);
         this.Ui = new PluginUi(this);
+        this.language.Changed += this.dtrEntry.Refresh;
         this.ApplySettings();
 
         // Logs which build is running, so a stale or wrong-configuration build is obvious in /xllog.

@@ -24,10 +24,10 @@ public static class ModeMessages
     /// <param name="cpu">Text for CPU use and FPS.</param>
     public static string Status(bool isOn, bool threeDOff, bool waitingForLoad, int fpsCap, int hiddenAddons, string cpu)
     {
-        var threeD = threeDOff ? "3D off" : "3D on";
+        var threeD = Strings.Get(threeDOff ? "status.3dOff" : "status.3dOn");
         if (waitingForLoad)
-            threeD += " (changes after the loading screen)";
-        var cap = fpsCap > 0 ? $"FPS cap {fpsCap}" : "no FPS cap";
-        return $"Text-only mode: {(isOn ? "on" : "off")} · {threeD} · {cap} · {hiddenAddons} UI elements hidden · {cpu}";
+            threeD += Strings.Get("status.3dWaiting");
+        var cap = fpsCap > 0 ? Strings.Get("status.fpsCap", fpsCap) : Strings.Get("status.noFpsCap");
+        return Strings.Get("status.line", Strings.Get(isOn ? "status.on" : "status.off"), threeD, cap, hiddenAddons, cpu);
     }
 }

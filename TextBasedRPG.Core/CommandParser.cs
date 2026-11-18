@@ -29,13 +29,13 @@ public enum CommandAction
 public static class CommandParser
 {
     /// <summary>Usage text, shown by <c>help</c> and for unknown input.</summary>
-    public static readonly IReadOnlyList<string> Usage =
+    public static IReadOnlyList<string> Usage =>
     [
-        $"{Commands.Alias} — turn text-only mode on or off",
-        $"{Commands.Alias} on | off — turn it on / off",
-        $"{Commands.Alias} status — show the mode, frame rate cap and CPU use",
-        $"{Commands.Alias} settings — open the settings",
-        $"{Commands.Alias} help — show this list ({Commands.Main} works too)",
+        Strings.Get("command.usage.toggle", Commands.Alias),
+        Strings.Get("command.usage.onOff", Commands.Alias),
+        Strings.Get("command.usage.status", Commands.Alias),
+        Strings.Get("command.usage.settings", Commands.Alias),
+        Strings.Get("command.usage.help", Commands.Alias, Commands.Main),
     ];
 
     /// <summary>Parses the argument string Dalamud passes to the command handler.</summary>

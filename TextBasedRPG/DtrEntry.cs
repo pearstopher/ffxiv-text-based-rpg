@@ -19,9 +19,15 @@ internal sealed class DtrEntry : IDisposable
     {
         this.plugin = plugin;
         this.entry = Service.DtrBar.Get(Title);
-        this.entry.Text = "TRPG";
-        this.entry.Tooltip = $"Text-Only Mode: click to hide everything but the chat and save CPU.\nType {Commands.Alias} to come back.";
         this.entry.OnClick = this.OnClick;
+        this.Refresh();
+    }
+
+    /// <summary>Sets the text and tooltip in the current language (at start, and when the language changes).</summary>
+    internal void Refresh()
+    {
+        this.entry.Text = Strings.Get("dtr.text");
+        this.entry.Tooltip = Strings.Get("dtr.tooltip", Commands.Alias);
     }
 
     /// <summary>Whether the entry is shown in the server info bar.</summary>

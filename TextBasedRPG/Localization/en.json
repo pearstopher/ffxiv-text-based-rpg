@@ -22,5 +22,177 @@
   "mode.alreadyOff": {
     "message": "Text-only mode is already off.",
     "description": "Shown when the mode is turned off while already off."
+  },
+  "command.help.main": {
+    "message": "Turn text-only mode on or off (only the chat stays, low CPU). {0} help for more.",
+    "description": "Help text of the main command in Dalamud's command list. {0} = the main command, /textmode."
+  },
+  "command.help.alias": {
+    "message": "Same as {0}.",
+    "description": "Help text of the short command. {0} = the main command."
+  },
+  "command.unknown": {
+    "message": "Unknown option \"{0}\".",
+    "description": "Chat error for a command option that doesn't exist. {0} = what the player typed."
+  },
+  "command.usage.toggle": {
+    "message": "{0} — turn text-only mode on or off",
+    "description": "Usage line. {0} = the short command, /trpg."
+  },
+  "command.usage.onOff": {
+    "message": "{0} on | off — turn it on / off",
+    "description": "Usage line. 'on' and 'off' are the words the player types and must stay as they are. {0} = the short command."
+  },
+  "command.usage.status": {
+    "message": "{0} status — show the mode, frame rate cap and CPU use",
+    "description": "Usage line. 'status' is typed by the player and must stay. {0} = the short command."
+  },
+  "command.usage.settings": {
+    "message": "{0} settings — open the settings",
+    "description": "Usage line. 'settings' is typed by the player and must stay. {0} = the short command."
+  },
+  "command.usage.help": {
+    "message": "{0} help — show this list ({1} works too)",
+    "description": "Usage line. 'help' is typed by the player and must stay. {0} = the short command, {1} = the main command."
+  },
+  "dtr.text": {
+    "message": "TRPG",
+    "description": "Short text of the entry in the server info bar."
+  },
+  "dtr.tooltip": {
+    "message": "Text-Only Mode: click to hide everything but the chat and save CPU.\nType {0} to come back.",
+    "description": "Tooltip of the server info bar entry. {0} = the short command."
+  },
+  "status.line": {
+    "message": "Text-only mode: {0} · {1} · {2} · {3} UI elements hidden · {4}",
+    "description": "The /trpg status line. {0} = on/off, {1} = the 3D part, {2} = the frame rate part, {3} = number of hidden UI elements, {4} = CPU and FPS text."
+  },
+  "status.on": {
+    "message": "on",
+    "description": "Mode state in the status line."
+  },
+  "status.off": {
+    "message": "off",
+    "description": "Mode state in the status line."
+  },
+  "status.3dOff": {
+    "message": "3D off",
+    "description": "3D part of the status line."
+  },
+  "status.3dOn": {
+    "message": "3D on",
+    "description": "3D part of the status line."
+  },
+  "status.3dWaiting": {
+    "message": " (changes after the loading screen)",
+    "description": "Appended to the 3D part while a change waits for a loading screen; keep the leading space."
+  },
+  "status.fpsCap": {
+    "message": "FPS cap {0}",
+    "description": "Frame rate part of the status line. {0} = frames per second."
+  },
+  "status.noFpsCap": {
+    "message": "no FPS cap",
+    "description": "Frame rate part of the status line when there is no cap."
+  },
+  "cpu.describe": {
+    "message": "CPU {0} (avg {1}), FPS {2}",
+    "description": "CPU and FPS text. {0} = current CPU %, {1} = average CPU %, {2} = frames per second."
+  },
+  "cpu.compare": {
+    "message": "Normal: {0:0.0}% · Text mode: {1:0.0}%",
+    "description": "Measured CPU use in normal play and in text-only mode. {0} and {1} are percentages with one decimal; keep the number formats."
+  },
+  "cpu.compare.less": {
+    "message": "{0} ({1:0}% less)",
+    "description": "Adds how much lower text-only mode was. {0} = the text above, {1} = percent."
+  },
+  "cpu.compare.more": {
+    "message": "{0} ({1:0}% more)",
+    "description": "Adds how much higher text-only mode was. {0} = the text above, {1} = percent."
+  },
+  "settings.enter": {
+    "message": "Enter text-only mode",
+    "description": "Settings window button."
+  },
+  "settings.leave": {
+    "message": "Leave text-only mode",
+    "description": "Settings window button."
+  },
+  "settings.intro": {
+    "message": "Or type {0}. In the mode only the chat window stays, the 3D world and the rest of the HUD are hidden, and the frame rate is capped.",
+    "description": "Settings window text. {0} = the short command."
+  },
+  "settings.worldOnly": {
+    "message": "3D world off only (HUD and frame rate unchanged)",
+    "description": "Checkbox label."
+  },
+  "settings.worldOnly.help": {
+    "message": "Unchecked (default) is full text-only mode. A change applies the next time you turn the mode on.",
+    "description": "Help text under the checkbox."
+  },
+  "settings.idleFps": {
+    "message": "Frame rate when idle",
+    "description": "Slider label."
+  },
+  "settings.typingFps": {
+    "message": "Frame rate while typing",
+    "description": "Slider label."
+  },
+  "settings.fps.help": {
+    "message": "Lower frame rates save more CPU. Typing uses the higher one (and for 3 s after).",
+    "description": "Help text under the sliders."
+  },
+  "settings.dtr": {
+    "message": "Show TRPG in the server info bar",
+    "description": "Checkbox label."
+  },
+  "settings.afk": {
+    "message": "Turn on when I go AFK",
+    "description": "Checkbox label."
+  },
+  "settings.afk.help": {
+    "message": "When the game marks you AFK, the mode turns on, and off again when you're back. If it was already on, it stays on.",
+    "description": "Help text under the AFK checkbox."
+  },
+  "settings.saving.none": {
+    "message": "Use the mode for a few seconds to see how much CPU it saves.",
+    "description": "Shown until the plugin has measured both normal play and the mode."
+  },
+  "settings.tests.running": {
+    "message": "Tests running...",
+    "description": "Button label while the tests run."
+  },
+  "settings.tests.run": {
+    "message": "Run tests",
+    "description": "Button label."
+  },
+  "settings.tests.help": {
+    "message": "Checks the mode works on your game and measures how much CPU and GPU it saves; the results appear in chat. Takes about 1½ minutes.{0}",
+    "description": "Help text under the test button. {0} = the note below (selftest.note)."
+  },
+  "selftest.note": {
+    "message": " Keep the game window focused and don't type or move until they finish; the screen will go blank a few times.",
+    "description": "Appended to the test start message and help; keep the leading space."
+  },
+  "selftest.started": {
+    "message": "Text-Only Mode self-tests started (about 1½ minutes).{0}",
+    "description": "Chat message. {0} = selftest.note."
+  },
+  "selftest.skipped": {
+    "message": "Text-only mode is on, so the tests that need normal play (and the savings measurements) are skipped. For the full run, type {0} off first.",
+    "description": "Chat message. {0} = the short command. 'off' is typed by the player and must stay."
+  },
+  "selftest.alreadyRunning": {
+    "message": "Text-Only Mode self-tests are already running.",
+    "description": "Chat error."
+  },
+  "selftest.summary": {
+    "message": "Text-Only Mode self-tests: {0}.",
+    "description": "Chat message. {0} = the result summary, e.g. '12 passed'."
+  },
+  "selftest.savings": {
+    "message": "Measured savings (the game's own CPU and GPU use):",
+    "description": "Chat heading above the savings table."
   }
 }

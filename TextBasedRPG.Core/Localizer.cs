@@ -25,7 +25,7 @@ public sealed partial class Localizer
         if (string.IsNullOrEmpty(text) && !this.english.TryGetValue(key, out text))
             return key; // unknown key: show it, so the mistake is visible
 
-        return args.Length == 0 ? text : string.Format(text, args);
+        return args.Length == 0 ? text : string.Format(System.Globalization.CultureInfo.InvariantCulture, text, args);
     }
 
     /// <summary>Reads a language file in CheapLoc's format (<c>{ "key": { "message": "…", "description": "…" } }</c>) into key → message.</summary>
