@@ -9,12 +9,10 @@ public static class ModeMessages
     /// <param name="parts">The parts applied when the mode is on (full mode by default).</param>
     public static (string Text, bool IsError) For(ModeChange change, bool isOn, ModeParts? parts = null) => change switch
     {
-        ModeChange.TurnedOn => ((parts ?? ModeParts.Full).HideHud
-            ? $"Text-only mode on. Only the chat is left. Type {Commands.Alias} to go back."
-            : $"3D world off. The HUD and frame rate are unchanged. Type {Commands.Alias} to go back.", false),
-        ModeChange.TurnedOff => ("Text-only mode off. Welcome back!", false),
-        ModeChange.RefusedNotLoggedIn => ("Text-only mode needs a logged-in character.", true),
-        _ => (isOn ? $"Text-only mode is already on. Type {Commands.Alias} off to go back." : "Text-only mode is already off.", false),
+        ModeChange.TurnedOn => (Strings.Get((parts ?? ModeParts.Full).HideHud ? "mode.on.full" : "mode.on.worldOnly", Commands.Alias), false),
+        ModeChange.TurnedOff => (Strings.Get("mode.off"), false),
+        ModeChange.RefusedNotLoggedIn => (Strings.Get("mode.notLoggedIn"), true),
+        _ => (isOn ? Strings.Get("mode.alreadyOn", Commands.Alias) : Strings.Get("mode.alreadyOff"), false),
     };
 
     /// <summary>Status line, e.g. "Text-only mode: on · 3D off · FPS cap 10 · 42 UI elements hidden · CPU 2.1%".</summary>

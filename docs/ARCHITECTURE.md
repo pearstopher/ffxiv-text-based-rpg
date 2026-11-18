@@ -25,6 +25,7 @@ Each lands in its own issue; this table is updated as they're added.
 | `FrameLimiter` | `TargetFps` (0 = off). Sleeps at the end of each `IFramework.Update` for `FramePacer.SleepMs` (Core) to cap the frame rate (ChillFrames technique, no busy-wait). |
 | `HudHider` | While active, hides the root node of every drawn addon that `HudVisibilityPolicy` (Core) says to hide (all but the chat), re-scanning every 250 ms; addons that turn themselves back on (job gauges) get an `IAddonLifecycle` PreDraw listener that re-hides them before each draw, removed on mode off; when turned off, shows exactly the nodes it hid that are still loaded under the same name. |
 | `ModeController` | Switches the parts together (on: 3D off, FPS cap, HUD hidden, or only 3D off with the `WorldOffOnly` setting, chosen by `ModeParts` (Core) when switched on; off: undoes what was applied, in reverse order) after `ModeState` (Core) allows the request; resets the CPU average on each switch. |
+| `Language` | Follows Dalamud's UI language (`UiLanguage`, `LanguageChanged`): loads `Localization\<code>.json` with CheapLoc and gives it to `Strings` (Core); English (embedded `en.json`) is the fallback. See [LOCALIZATION.md](LOCALIZATION.md). |
 | `CpuMonitor` | Counts frames and samples process CPU % once per second (`CpuSampler` in Core). |
 | Self-tests (planned) | `ISelfTestStep`s registered with Dalamud's `ISelfTestRegistry`, plus a dev runner that writes the results file. |
 

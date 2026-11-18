@@ -1,0 +1,26 @@
+{
+  "mode.on.full": {
+    "message": "Text-only mode on. Only the chat is left. Type {0} to go back.",
+    "description": "Chat message when the mode turns on. {0} = the short command, e.g. /trpg."
+  },
+  "mode.on.worldOnly": {
+    "message": "3D world off. The HUD and frame rate are unchanged. Type {0} to go back.",
+    "description": "Chat message when the mode turns on with the '3D world off only' setting. {0} = the short command."
+  },
+  "mode.off": {
+    "message": "Text-only mode off. Welcome back!",
+    "description": "Chat message when the mode turns off."
+  },
+  "mode.notLoggedIn": {
+    "message": "Text-only mode needs a logged-in character.",
+    "description": "Error shown when the mode is requested without a logged-in character."
+  },
+  "mode.alreadyOn": {
+    "message": "Text-only mode is already on. Type {0} off to go back.",
+    "description": "Shown when the mode is turned on while already on. {0} = the short command."
+  },
+  "mode.alreadyOff": {
+    "message": "Text-only mode is already off.",
+    "description": "Shown when the mode is turned off while already off."
+  }
+}

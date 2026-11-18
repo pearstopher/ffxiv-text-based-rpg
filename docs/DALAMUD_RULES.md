@@ -21,6 +21,7 @@ This plugin only changes what the client draws and how fast it runs. It never se
 | Debug commands (`/trpgdebug`, dev builds) | ✅ Yes | Local only: read CPU/FPS, change what the client draws. |
 | In-game self-tests (Dalamud Self-Test window; **Run tests** button for everyone; auto-run and `/trpgtest` in dev builds) | ✅ Yes | Local checks only. Never send anything to the server; restore anything they change. |
 | GPU measurement in the measurement self-tests | ✅ Yes | Reads this process's GPU use from Windows performance counters (read-only, local). Doesn't touch the game. |
+| Language files (localization) | ✅ Yes | Reads the plugin's own JSON files with Dalamud's CheapLoc and the UI language Dalamud reports. Local only; nothing sent anywhere. |
 
 ## Adding a feature
 
