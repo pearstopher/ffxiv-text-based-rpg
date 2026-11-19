@@ -45,13 +45,13 @@ public class ModeMessagesTests
     public void Turning_on_the_world_only_variant_does_not_claim_the_hud_is_gone()
     {
         var (text, isError) = ModeMessages.For(ModeChange.TurnedOn, isOn: true, ModeParts.WorldOnly);
-        Assert.DoesNotContain("Only the chat is left", text);
-        Assert.Contains("HUD and frame rate are unchanged", text);
+        Assert.DoesNotContain("Text-only mode is on", text);
+        Assert.Contains("UI-only mode is on", text);
         Assert.Contains("/trpg", text);
         Assert.False(isError);
     }
 
     [Fact]
     public void Full_parts_keep_the_chat_only_message()
-        => Assert.Contains("Only the chat is left", ModeMessages.For(ModeChange.TurnedOn, true, ModeParts.Full).Text);
+        => Assert.Contains("Text-only mode is on", ModeMessages.For(ModeChange.TurnedOn, true, ModeParts.Full).Text);
 }

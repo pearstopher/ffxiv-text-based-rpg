@@ -10,13 +10,13 @@
     <AssemblyName>TextBasedRPG</AssemblyName>
     <RootNamespace>TextBasedRPG</RootNamespace>
     <!-- The plugin version. Bump it in the release commit; release.yml fails if the tag doesn't match (v1.2.3 -> 1.2.3.0). -->
-    <Version>1.0.3.0</Version>
+    <Version>1.0.4.0</Version>
     <!-- Manifest fields (see https://github.com/goatcorp/DalamudPackager) -->
     <Author>Ane Mora</Author>
     <Name>Text-Only Mode</Name>
-    <Punchline>Turn off the graphics, keep the chat. A low-CPU chat-only mode.</Punchline>
+    <Punchline>Temporarily disable all 3D rendering. An extremely low-CPU mode for FFXIV.</Punchline>
     <!-- &#10;&#10; puts a blank line in the plugin installer. -->
-    <Description>Turns FFXIV into a text-based RPG. Type /trpg and the 3D world and the whole HUD disappear: only the chat window stays, and the frame rate drops, so the game barely uses your CPU while you're just chatting with friends.&#10;&#10;Your connection stays alive, you can keep talking in every chat channel, and sound keeps playing. Type /trpg again to go back to playing.</Description>
+    <Description>Turns FFXIV into a text-based RPG. Type /trpg and your view of Eorzea disappears until you type /trpg again. Choose between showing the full game UI or the chatbox only.</Description>
     <RepoUrl>https://github.com/pearstopher/ffxiv-text-based-rpg</RepoUrl>
     <IconUrl>https://raw.githubusercontent.com/pearstopher/ffxiv-text-based-rpg/master/images/icon.png</IconUrl>
     <Tags>chat;performance;cpu;fps;render;low power;afk;idle</Tags>

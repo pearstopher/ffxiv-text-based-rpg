@@ -1,14 +1,14 @@
 {
   "mode.on.full": {
-    "message": "Text-only mode on. Only the chat is left. Type {0} to go back.",
+    "message": "Text-only mode is on. Type {0} to go back.",
     "description": "Chat message when the mode turns on. {0} = the short command, e.g. /trpg."
   },
   "mode.on.worldOnly": {
-    "message": "3D world off. The HUD and frame rate are unchanged. Type {0} to go back.",
+    "message": "UI-only mode is on. Type {0} to go back.",
     "description": "Chat message when the mode turns on with the '3D world off only' setting. {0} = the short command."
   },
   "mode.off": {
-    "message": "Text-only mode off. Welcome back!",
+    "message": "Text-only mode is off. Welcome back!",
     "description": "Chat message when the mode turns off."
   },
   "mode.notLoggedIn": {
@@ -24,7 +24,7 @@
     "description": "Shown when the mode is turned off while already off."
   },
   "command.help.main": {
-    "message": "Turn text-only mode on or off (only the chat stays, low CPU). {0} help for more.",
+    "message": "Toggle text-only mode. {0} help for more.",
     "description": "Help text of the main command in Dalamud's command list. {0} = the main command, /textmode."
   },
   "command.help.alias": {
@@ -60,7 +60,7 @@
     "description": "Short text of the entry in the server info bar."
   },
   "dtr.tooltip": {
-    "message": "Text-Only Mode: click to hide everything but the chat and save CPU.\nType {0} to come back.",
+    "message": "Text-Only Mode: click to hide everything but the chat.\nType {0} to come back.",
     "description": "Tooltip of the server info bar entry. {0} = the short command."
   },
   "status.line": {
@@ -120,7 +120,7 @@
     "description": "Settings window button."
   },
   "settings.intro": {
-    "message": "Or type {0}. In the mode only the chat window stays, the 3D world and the rest of the HUD are hidden, and the frame rate is capped.",
+    "message": "Or type {0}.",
     "description": "Settings window text. {0} = the short command."
   },
   "settings.worldOnly": {
@@ -128,7 +128,7 @@
     "description": "Checkbox label."
   },
   "settings.worldOnly.help": {
-    "message": "Unchecked (default) is full text-only mode. A change applies the next time you turn the mode on.",
+    "message": "Unchecked (default) is full text-only mode. Changes apply the next time you turn the mode on.",
     "description": "Help text under the checkbox."
   },
   "settings.idleFps": {
@@ -140,7 +140,7 @@
     "description": "Slider label."
   },
   "settings.fps.help": {
-    "message": "Lower frame rates save more CPU. Typing uses the higher one (and for 3 s after).",
+    "message": "Lowering the frame rate saves extra CPU. The typing framerate lasts for 3s after a keystroke.",
     "description": "Help text under the sliders."
   },
   "settings.dtr": {
@@ -148,11 +148,11 @@
     "description": "Checkbox label."
   },
   "settings.afk": {
-    "message": "Turn on when I go AFK",
+    "message": "Turn TRPG on when I go AFK",
     "description": "Checkbox label."
   },
   "settings.afk.help": {
-    "message": "When the game marks you AFK, the mode turns on, and off again when you're back. If it was already on, it stays on.",
+    "message": "Turns text-only mode on and off automatically when you go afk and when you come back.",
     "description": "Help text under the AFK checkbox."
   },
   "settings.saving.none": {
@@ -168,15 +168,15 @@
     "description": "Button label."
   },
   "settings.tests.help": {
-    "message": "Checks the mode works on your game and measures how much CPU and GPU it saves; the results appear in chat. Takes about 1½ minutes.{0}",
+    "message": "Checks the mode works on your game and measures how much CPU and GPU it saves; the results appear in chat. Takes about a minute.{0}",
     "description": "Help text under the test button. {0} = the note below (selftest.note)."
   },
   "selftest.note": {
-    "message": " Keep the game window focused and don't type or move until they finish; the screen will go blank a few times.",
+    "message": " Keep the game window focused and don't type or move until the tests finish for the most accurate results. The screen will go blank a few times.",
     "description": "Appended to the test start message and help; keep the leading space."
   },
   "selftest.started": {
-    "message": "Text-Only Mode self-tests started (about 1½ minutes).{0}",
+    "message": "Text-Only Mode self-tests started (about a minute).{0}",
     "description": "Chat message. {0} = selftest.note."
   },
   "selftest.skipped": {
@@ -192,7 +192,7 @@
     "description": "Chat message. {0} = the result summary, e.g. '12 passed'."
   },
   "selftest.savings": {
-    "message": "Measured savings (the game's own CPU and GPU use):",
+    "message": "Testing results:",
     "description": "Chat heading above the savings table."
   }
 }
