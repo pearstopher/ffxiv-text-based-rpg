@@ -42,7 +42,7 @@ def colour_at(x, y):
     if in_round_rect(x, y, 300, 268, 330, 312, 6):
         return CURSOR
     # text lines inside the bubble
-    for (x0, x1, yc) in ((132, 380, 172), (132, 340, 222), (132, 282, 290)):
+    for (x0, x1, yc) in ((132, 380, 172), (132, 340, 231), (132, 282, 290)):
         if in_round_rect(x, y, x0, yc - 14, x1, yc + 14, 14):
             return INK
     # bubble body and tail
