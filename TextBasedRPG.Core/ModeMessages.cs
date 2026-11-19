@@ -9,10 +9,10 @@ public static class ModeMessages
     /// <param name="parts">The parts applied when the mode is on (full mode by default).</param>
     public static (string Text, bool IsError) For(ModeChange change, bool isOn, ModeParts? parts = null) => change switch
     {
-        ModeChange.TurnedOn => (Strings.Get((parts ?? ModeParts.Full).HideHud ? "mode.on.full" : "mode.on.worldOnly", Commands.Alias), false),
+        ModeChange.TurnedOn => (Strings.Get((parts ?? ModeParts.Full).HideHud ? "mode.on.full" : "mode.on.worldOnly", Commands.Main), false),
         ModeChange.TurnedOff => (Strings.Get("mode.off"), false),
         ModeChange.RefusedNotLoggedIn => (Strings.Get("mode.notLoggedIn"), true),
-        _ => (isOn ? Strings.Get("mode.alreadyOn", Commands.Alias) : Strings.Get("mode.alreadyOff"), false),
+        _ => (isOn ? Strings.Get("mode.alreadyOn", Commands.Main) : Strings.Get("mode.alreadyOff"), false),
     };
 
     /// <summary>Status line, e.g. "Text-only mode: on · 3D off · FPS cap 10 · 42 UI elements hidden · CPU 2.1%".</summary>

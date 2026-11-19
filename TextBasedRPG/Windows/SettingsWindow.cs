@@ -31,7 +31,7 @@ internal sealed class SettingsWindow : Window
             Service.Framework.RunOnFrameworkThread(() => mode.RequestAndReport(ModeRequest.Toggle));
         }
 
-        ImGui.TextWrapped(Strings.Get("settings.intro", Commands.Alias));
+        ImGui.TextWrapped(Strings.Get("settings.intro", Commands.Main));
         ImGui.Separator();
 
         var changed = false;

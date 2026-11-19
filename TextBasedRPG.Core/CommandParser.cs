@@ -25,17 +25,17 @@ public enum CommandAction
     Unknown,
 }
 
-/// <summary>Parses the arguments of <see cref="Commands.Main"/> / <see cref="Commands.Alias"/>.</summary>
+/// <summary>Parses the arguments of <see cref="Commands.Main"/>.</summary>
 public static class CommandParser
 {
     /// <summary>Usage text, shown by <c>help</c> and for unknown input.</summary>
     public static IReadOnlyList<string> Usage =>
     [
-        Strings.Get("command.usage.toggle", Commands.Alias),
-        Strings.Get("command.usage.onOff", Commands.Alias),
-        Strings.Get("command.usage.status", Commands.Alias),
-        Strings.Get("command.usage.settings", Commands.Alias),
-        Strings.Get("command.usage.help", Commands.Alias, Commands.Main),
+        Strings.Get("command.usage.toggle", Commands.Main),
+        Strings.Get("command.usage.onOff", Commands.Main),
+        Strings.Get("command.usage.status", Commands.Main),
+        Strings.Get("command.usage.settings", Commands.Main),
+        Strings.Get("command.usage.help", Commands.Main),
     ];
 
     /// <summary>Parses the argument string Dalamud passes to the command handler.</summary>

@@ -25,11 +25,11 @@
   },
   "command.help.main": {
     "message": "Toggle text-only mode. {0} help for more.",
-    "description": "Help text of the main command in Dalamud's command list. {0} = the main command, /textmode."
+    "description": "Help text of the main command in Dalamud's command list. {0} = the command, /trpg."
   },
-  "command.help.alias": {
-    "message": "Same as {0}.",
-    "description": "Help text of the short command. {0} = the main command."
+  "command.help.selftest": {
+    "message": "Run a performance test to see your CPU/GPU savings. Takes about a minute.",
+    "description": "Help text of the /trpgtest command in Dalamud's command list."
   },
   "command.unknown": {
     "message": "Unknown option \"{0}\".",
@@ -52,8 +52,8 @@
     "description": "Usage line. 'settings' is typed by the player and must stay. {0} = the short command."
   },
   "command.usage.help": {
-    "message": "{0} help — show this list ({1} works too)",
-    "description": "Usage line. 'help' is typed by the player and must stay. {0} = the short command, {1} = the main command."
+    "message": "{0} help — show this list",
+    "description": "Usage line. 'help' is typed by the player and must stay. {0} = the command."
   },
   "dtr.text": {
     "message": "TRPG",
@@ -168,11 +168,11 @@
     "description": "Button label."
   },
   "settings.tests.help": {
-    "message": "Checks the mode works on your game and measures how much CPU and GPU it saves; the results appear in chat. Takes about a minute.{0}",
+    "message": "Run a performance test to determine CPU and GPU savings. The results appear in chat. Takes about a minute.{0}",
     "description": "Help text under the test button. {0} = the note below (selftest.note)."
   },
   "selftest.note": {
-    "message": " Keep the game window focused and don't type or move until the tests finish for the most accurate results. The screen will go blank a few times.",
+    "message": " For the most accurate results, keep the game window focused while testing and don't do anything too crazy. The screen will go blank a few times.",
     "description": "Appended to the test start message and help; keep the leading space."
   },
   "selftest.started": {

@@ -60,7 +60,7 @@ internal sealed class SelfTestRunner : IDisposable
         Service.Log.Information($"Self-tests started ({this.steps.Count} steps)");
         Service.ChatGui.Print(Strings.Get("selftest.started", StartNote));
         if (this.plugin.Mode.IsOn)
-            Service.ChatGui.Print(Strings.Get("selftest.skipped", Commands.Alias));
+            Service.ChatGui.Print(Strings.Get("selftest.skipped", Commands.Main));
         return true;
     }
 

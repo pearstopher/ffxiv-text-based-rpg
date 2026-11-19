@@ -27,7 +27,7 @@ internal sealed class DtrEntry : IDisposable
     internal void Refresh()
     {
         this.entry.Text = Strings.Get("dtr.text");
-        this.entry.Tooltip = Strings.Get("dtr.tooltip", Commands.Alias);
+        this.entry.Tooltip = Strings.Get("dtr.tooltip", Commands.Main);
     }
 
     /// <summary>Whether the entry is shown in the server info bar.</summary>

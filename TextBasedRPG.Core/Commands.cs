@@ -7,10 +7,7 @@ namespace TextBasedRPG.Core;
 public static class Commands
 {
     /// <summary>Main command.</summary>
-    public const string Main = "/textmode";
-
-    /// <summary>Short alias of <see cref="Main"/>.</summary>
-    public const string Alias = "/trpg";
+    public const string Main = "/trpg";
 
     /// <summary>Runs the in-game self-tests and prints the measured savings (every build).</summary>
     public const string SelfTest = "/trpgtest";
@@ -19,7 +16,7 @@ public static class Commands
     public const string Debug = "/trpgdebug";
 
     /// <summary>Commands every player has; documented in docs/COMMANDS.md.</summary>
-    public static readonly IReadOnlyList<string> Player = [Main, Alias, SelfTest];
+    public static readonly IReadOnlyList<string> Player = [Main, SelfTest];
 
     /// <summary>Dev-build commands, hidden from /xlhelp; documented in DEVELOPMENT.md.</summary>
     public static readonly IReadOnlyList<string> Dev = [Debug];

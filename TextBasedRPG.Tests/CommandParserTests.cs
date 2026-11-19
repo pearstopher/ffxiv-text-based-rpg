@@ -25,17 +25,17 @@ public class CommandParserTests
     }
 
     [Fact]
-    public void Usage_mentions_every_subcommand_and_both_commands()
+    public void Usage_mentions_every_subcommand_and_the_command()
     {
         var usage = string.Join("\n", CommandParser.Usage);
-        foreach (var word in new[] { "on", "off", "status", "settings", "help", Commands.Main, Commands.Alias })
+        foreach (var word in new[] { "on", "off", "status", "settings", "help", Commands.Main })
             Assert.Contains(word, usage);
     }
 
     [Fact]
-    public void Player_commands_are_the_main_command_its_alias_and_the_tests()
+    public void Player_commands_are_the_main_command_and_the_tests()
     {
-        Assert.Equal(["/textmode", "/trpg", "/trpgtest"], Commands.Player);
+        Assert.Equal(["/trpg", "/trpgtest"], Commands.Player);
         Assert.Equal(["/trpgdebug"], Commands.Dev);
     }
 }

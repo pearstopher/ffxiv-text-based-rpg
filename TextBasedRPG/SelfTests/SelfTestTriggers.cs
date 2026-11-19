@@ -25,7 +25,7 @@ internal sealed class SelfTestTriggers : IDisposable
         this.runner = runner;
         Service.CommandManager.AddHandler(Commands.SelfTest, new CommandInfo(this.OnCommand)
         {
-            HelpMessage = "Run Text-Only Mode's tests and measure how much CPU and GPU the mode saves (about 1½ minutes).",
+            HelpMessage = Strings.Get("command.help.selftest"),
         });
 
         if (SelfTestRunner.IsDevBuild && config.DevRunSelfTestsOnLoad)

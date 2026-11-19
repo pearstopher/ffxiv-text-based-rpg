@@ -2,8 +2,7 @@
 
 | Command | What it does |
 |---|---|
-| `/textmode` | Main command. See the options below. |
-| `/trpg` | Same as `/textmode`. |
+| `/trpg` | Main command. See the options below. |
 | `/trpgtest` | Runs the plugin's tests and measures how much CPU and GPU the mode saves on your game (about 1½ minutes; results in chat). Keep the game window focused and don't type or move while it runs. Also a button in `/trpg settings`. Safe with the mode on, but then the tests that need normal play, and the savings, are skipped. |
 
 ## Options

@@ -4,7 +4,7 @@ using TextBasedRPG.Core;
 
 namespace TextBasedRPG;
 
-/// <summary>Registers <c>/textmode</c> and <c>/trpg</c> with Dalamud and dispatches their subcommands.</summary>
+/// <summary>Registers <c>/trpg</c> with Dalamud and dispatches its subcommands.</summary>
 internal sealed class PluginCommands : IDisposable
 {
     private readonly Plugin plugin;
@@ -15,10 +15,6 @@ internal sealed class PluginCommands : IDisposable
         Service.CommandManager.AddHandler(Commands.Main, new CommandInfo(this.OnCommand)
         {
             HelpMessage = Strings.Get("command.help.main", Commands.Main),
-        });
-        Service.CommandManager.AddHandler(Commands.Alias, new CommandInfo(this.OnCommand)
-        {
-            HelpMessage = Strings.Get("command.help.alias", Commands.Main),
         });
     }
 
@@ -61,7 +57,6 @@ internal sealed class PluginCommands : IDisposable
 
     public void Dispose()
     {
-        Service.CommandManager.RemoveHandler(Commands.Alias);
         Service.CommandManager.RemoveHandler(Commands.Main);
     }
 }
